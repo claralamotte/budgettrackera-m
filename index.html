@@ -156,34 +156,34 @@ function renderKPIs(){
 }
 
 var activeRefs=new Set(),mainChartInstance=null;
-// null = tous visibles, sinon Set des indices de datasets visibles
-var activeDs=null;
+// Set des indices visibles — par défaut tous les 3
+var activeDs=new Set([0,1,2]);
 
 function updateLegendItems(){
   document.querySelectorAll('.leg-toggle').forEach(function(el){
     var idx=parseInt(el.getAttribute('data-ds'));
-    var visible=(activeDs===null||activeDs.has(idx));
-    el.style.opacity=visible?'1':'0.3';
+    el.style.opacity=activeDs.has(idx)?'1':'0.3';
   });
 }
 
 function toggleDs(idx){
   if(!mainChartInstance)return;
-  if(activeDs===null){
-    // Première sélection : on n'affiche que celui-là
+  if(activeDs.size===3){
+    // Tout visible : on isole celui cliqué
     activeDs=new Set([idx]);
   } else if(activeDs.has(idx)&&activeDs.size===1){
-    // On reclique sur le seul actif : tout réafficher
-    activeDs=null;
+    // Seul actif recliqué : tout réafficher
+    activeDs=new Set([0,1,2]);
   } else {
-    activeDs=new Set([idx]);
+    // Multi-select : toggle
+    if(activeDs.has(idx)){if(activeDs.size>1)activeDs.delete(idx);}
+    else activeDs.add(idx);
   }
-  // Appliquer la visibilité sur les datasets
-  for(var i=0;i<3;i++){
-    mainChartInstance.data.datasets[i].hidden=(activeDs!==null&&!activeDs.has(i));
-  }
+  for(var i=0;i<3;i++){mainChartInstance.data.datasets[i].hidden=!activeDs.has(i);}
   mainChartInstance.update();
   updateLegendItems();
+  renderCumStrip(getFiltered().secM);
+  setTimeout(positionCumStrip,20);
 }
 
 document.addEventListener('DOMContentLoaded',function(){
@@ -205,20 +205,27 @@ function getFiltered(){
 
 function renderCumStrip(secM){
   var fm=getFiltered();
+  // Totaux avec undated flows
   var totalP=activeRefs.size>0?MANDATS.filter(function(m){return activeRefs.has(m.referent);}).reduce(function(s,m){return s+m.rev_proba;},0):totalProba;
   var totalS=activeRefs.size>0?MANDATS.filter(function(m){return activeRefs.has(m.referent);}).reduce(function(s,m){return s+m.rev_sec;},0):totalSec;
-  var probaMonthly=fm.probaM.slice();
-  var secMonthly=secM.slice();
-  var sumP=probaMonthly.reduce(function(a,b){return a+b;},0);
-  var sumS=secMonthly.reduce(function(a,b){return a+b;},0);
-  var diffP=totalP-sumP;
-  var diffS=totalS-sumS;
+  var totalMx=activeRefs.size>0?MANDATS.filter(function(m){return activeRefs.has(m.referent);}).reduce(function(s,m){return s+m.rev_max;},0):totalMax;
   function lastNonZero(arr){for(var i=11;i>=0;i--)if(arr[i]>0)return i;return 11;}
+  // Proba
+  var probaMonthly=fm.probaM.slice();
+  var diffP=totalP-probaMonthly.reduce(function(a,b){return a+b;},0);
   if(diffP>0.5)probaMonthly[lastNonZero(probaMonthly)]+=diffP;
+  // Sec
+  var secMonthly=secM.slice();
+  var diffS=totalS-secMonthly.reduce(function(a,b){return a+b;},0);
   if(diffS>0.5)secMonthly[lastNonZero(secMonthly)]+=diffS;
-  var cp=[],cs=[],rp=0,rs=0;
-  for(var i=0;i<12;i++){rp+=probaMonthly[i];rs+=secMonthly[i];cp.push(rp);cs.push(rs);}
-  window._cumData={cp:cp,cs:cs};
+  // Max
+  var maxMonthly=fm.maxM.slice();
+  var diffMx=totalMx-maxMonthly.reduce(function(a,b){return a+b;},0);
+  if(diffMx>0.5)maxMonthly[lastNonZero(maxMonthly)]+=diffMx;
+  // Cumulés
+  var cp=[],cs=[],cm=[],rp=0,rs=0,rm=0;
+  for(var i=0;i<12;i++){rp+=probaMonthly[i];rs+=secMonthly[i];rm+=maxMonthly[i];cp.push(rp);cs.push(rs);cm.push(rm);}
+  window._cumData={cp:cp,cs:cs,cm:cm};
 }
 
 function positionCumStrip(){
@@ -259,8 +266,9 @@ function positionCumStrip(){
       rowEl.appendChild(pill);
     });
   }
-  buildSection('Revenu probabilisé cumulé','#2DBEC9',cd.cp);
-  buildSection('Revenu sécurisé cumulé','#00C9A0',cd.cs);
+  if(activeDs.has(0))buildSection('Revenu sécurisé cumulé',C_SEC,cd.cs);
+  if(activeDs.has(1))buildSection('Revenu probabilisé cumulé',C_PROBA,cd.cp);
+  if(activeDs.has(2))buildSection('Revenu max cumulé',C_MAX,cd.cm);
 }
 
 var topLabelPlugin={id:'topLabel',afterDatasetsDraw:function(chart){
