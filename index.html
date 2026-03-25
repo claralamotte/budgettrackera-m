@@ -24,11 +24,11 @@ header{background:var(--deep);height:56px;padding:0 32px;display:flex;align-item
 
 /* KPI row */
 .kpi-row{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin-bottom:18px}
-.kpi{background:var(--glass);backdrop-filter:blur(12px);border:1px solid var(--glass-border);border-radius:12px;padding:14px 18px}
-.kpi-label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.14em;color:var(--muted);margin-bottom:5px}
-.kpi-value{font-size:20px;font-weight:700;color:var(--deep);line-height:1}
-.kpi-sub{font-size:11px;color:var(--muted);margin-top:3px}
-.kpi-badge{display:inline-block;font-size:10px;font-weight:600;padding:2px 8px;border-radius:20px;margin-top:5px}
+.kpi{background:var(--glass);backdrop-filter:blur(12px);border:1px solid var(--glass-border);border-radius:12px;padding:16px 18px;display:flex;flex-direction:column}
+.kpi-label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.14em;color:var(--muted);height:20px;display:flex;align-items:center}
+.kpi-value{font-size:26px;font-weight:700;color:var(--deep);line-height:1;height:36px;display:flex;align-items:center;margin:8px 0 8px}
+.kpi-sub{font-size:10px;color:var(--muted)}
+.kpi-badge{display:inline-block;font-size:10px;font-weight:600;padding:2px 8px;border-radius:20px;margin-top:0}
 .badge-g{background:#E8F8F0;color:#0B7A52}
 .badge-r{background:#FEF2F2;color:#B91C1C}
 .badge-a{background:#FFF7ED;color:#92400E}
@@ -163,7 +163,7 @@ header{background:var(--deep);height:56px;padding:0 32px;display:flex;align-item
         <div class="legend-item" style="font-size:12px"><div id="sq-proba" class="legend-sq" style="background:#2DBEC9;border-radius:3px;width:12px;height:12px"></div>Revenu probabilisé</div>
         <div class="legend-item" style="font-size:12px"><div id="sq-max" class="legend-sq" style="background:#0085CA;border-radius:3px;width:12px;height:12px"></div>Revenu max</div>
       </div>
-      <div id="referent-legend" style="display:flex;flex-wrap:wrap;justify-content:center;gap:6px;align-items:center"></div>
+      <div id="referent-legend" style="display:flex;flex-wrap:wrap;justify-content:center;gap:6px;align-items:center;margin-top:12px"></div>
     </div>
   </div>
 
@@ -302,10 +302,10 @@ function renderKPIs(){
       +'<div class="kpi-sub">'+desc+'</div></div>';
   }
   document.getElementById('kpi-row').innerHTML=
-    '<div class="kpi"><div class="kpi-label">Mandats en cours</div><div class="kpi-value">'+MANDATS.length+'</div><div style="display:flex;gap:6px;margin-top:6px"><div class="kpi-badge" style="background:#E6F1FB;color:#185FA5;border:1px solid #B5D4F4">'+sellCount+' sell-side</div><div class="kpi-badge" style="background:#EEEDFE;color:#534AB7;border:1px solid #CECBF6">'+buyCount+' buy-side</div></div></div>'+
-    '<div class="kpi"><div class="kpi-label">Objectif CA 2026B</div><div class="kpi-value">'+fmtK(BUDGET)+'</div></div>'+
+    '<div class="kpi"><div class="kpi-label">Mandats en cours</div><div style="display:flex;align-items:center;gap:16px;margin:8px 0 8px"><div class="kpi-value">'+MANDATS.length+'</div><div style="display:flex;flex-direction:column;gap:4px"><div class="kpi-badge" style="background:#E6F1FB;color:#185FA5;border:1px solid #B5D4F4">'+sellCount+' sell-side</div><div class="kpi-badge" style="background:#EEEDFE;color:#534AB7;border:1px solid #CECBF6">'+buyCount+' buy-side</div></div></div><div style="display:flex;flex-direction:column;gap:3px"><div class="kpi-sub">Mandats actifs</div></div></div>'+
+    '<div class="kpi"><div class="kpi-label">Objectif CA 2026B</div><div class="kpi-value">'+fmtK(BUDGET)+'</div><div style="display:flex;flex-direction:column;gap:3px"><div class="kpi-sub">Budget annuel fixé</div></div></div>'+
     kpiRev('Revenu max',totalMax,pctMax,'Tous les deals closent','#0085CA')+
-    kpiRev('Revenu probabilisé',totalProba,pctProba,'Deals probabilisés - complexité et contrat','#2DBEC9')+
+    kpiRev('Revenu probabilisé',totalProba,pctProba,'Deals probabilisés','#2DBEC9')+
     kpiRev('Revenu sécurisé',totalSec,pctSec,'Retainers + closings certains','#00C9A0');
 }
 
@@ -384,42 +384,53 @@ function renderCumStrip(secM){
 }
 
 function positionCumStrip(){
-  var chart = mainChartInstance;
-  var strip = document.getElementById('cum-strip');
-  if(!chart || !strip) return;
-  var cd = window._cumData;
+  var chart=mainChartInstance;
+  var strip=document.getElementById('cum-strip');
+  if(!chart||!strip) return;
+  var cd=window._cumData;
   if(!cd) return;
+  var leftPx=chart.chartArea.left;
+  var rightPx=chart.chartArea.right;
+  var usableW=rightPx-leftPx;
+  // pill half-width estimate for line gap
+  var GAP=26;
 
-  var ca = chart.chartArea;
-  var totalW = chart.width;
-  // left offset as % of total canvas width
-  var leftPx = ca.left;
-  var rightPx = ca.right;
-  var usableW = rightPx - leftPx;
+  function buildRow(label,color,values,top){
+    // label div
+    var lbl=document.createElement('div');
+    lbl.style.cssText='position:absolute;right:'+(strip.offsetWidth-leftPx+8)+'px;top:'+top+'px;text-align:right;max-width:'+(leftPx-8)+'px;line-height:1.3;pointer-events:none';
+    lbl.innerHTML='<span style="font-size:9.5px;font-weight:700;color:'+color+'">'+label+'</span>';
+    strip.appendChild(lbl);
 
-  function buildRow(label, color, values) {
-    var cells = values.map(function(v, i) {
-      // position each cell centered on bar x
-      var xPx = chart.scales.x.getPixelForValue(i);
-      var relX = xPx - leftPx;
-      var pct = (relX / usableW * 100).toFixed(2);
-      var inner = v > 0
-        ? '<span style="display:inline-flex;background:' + color + '14;border:1px solid ' + color + '50;border-radius:20px;padding:1px 6px;font-size:9px;font-weight:700;color:' + color + '">' + fmtK(v) + '</span>'
-        : '<span style="display:inline-flex;border:1px solid rgba(28,43,51,.07);border-radius:20px;padding:1px 6px;font-size:9px;color:rgba(28,43,51,.2)">-</span>';
-      return '<div style="position:absolute;left:' + pct + '%;transform:translateX(-50%)">' + inner + '</div>';
-    }).join('');
-    return '<div style="display:flex;align-items:center;margin-bottom:4px">'
-      + '<div style="width:' + leftPx + 'px;flex-shrink:0;text-align:right;padding-right:8px;font-size:8px;font-weight:600;color:' + color + ';white-space:nowrap;line-height:1.3">' + label + '</div>'
-      + '<div style="flex:1;position:relative;height:20px">'
-      + '<div style="position:absolute;left:0;right:0;top:50%;height:1px;background:rgba(28,43,51,.07);transform:translateY(-50%)"></div>'
-      + cells
-      + '</div></div>';
+    // draw line segments between pills
+    for(var si=0;si<=12;si++){
+      var xA=si===0?leftPx:chart.scales.x.getPixelForValue(si-1)+GAP;
+      var xB=si===12?rightPx:chart.scales.x.getPixelForValue(si)-GAP;
+      if(xB<=xA) continue;
+      var seg=document.createElement('div');
+      seg.style.cssText='position:absolute;top:'+(top+9)+'px;height:1px;background:rgba(28,43,51,.09);z-index:0;pointer-events:none';
+      seg.style.left=xA+'px'; seg.style.width=(xB-xA)+'px';
+      strip.appendChild(seg);
+    }
+
+    // pills
+    values.forEach(function(v,i){
+      var xPx=chart.scales.x.getPixelForValue(i);
+      var pill=document.createElement('div');
+      pill.style.cssText='position:absolute;transform:translateX(-50%);top:'+top+'px;z-index:1;pointer-events:none';
+      pill.style.left=xPx+'px';
+      pill.innerHTML=v>0
+        ?'<span style="display:inline-flex;background:'+color+'14;border:1px solid '+color+'55;border-radius:20px;padding:2px 7px;font-size:9.5px;font-weight:700;color:'+color+'">'+fmtK(v)+'</span>'
+        :'<span style="display:inline-flex;border:1px solid rgba(28,43,51,.07);border-radius:20px;padding:2px 7px;font-size:9px;color:rgba(28,43,51,.2)">-</span>';
+      strip.appendChild(pill);
+    });
   }
 
-  strip.innerHTML =
-    buildRow('Probabilisé cumulé', '#2DBEC9', cd.cumProba) +
-    buildRow('Sécurisé cumulé', '#00C9A0', cd.cumSec);
+  strip.innerHTML='';
+  buildRow('Probabilisé<br>mensuel cumulé','#2DBEC9',cd.cumProba,0);
+  buildRow('Sécurisé<br>mensuel cumulé','#00C9A0',cd.cumSec,26);
 }
+
 function renderChart(){
   var ctx=document.getElementById('mainChart').getContext('2d');
   var fm=getFilteredMonthly();
@@ -441,7 +452,7 @@ function renderChart(){
     },
     options:{
       responsive:true, maintainAspectRatio:false,
-      layout:{padding:{top:10}},
+      layout:{padding:{top:10,left:10}},
       plugins:{
         legend:{display:false},
         tooltip:{enabled:false},
@@ -540,8 +551,20 @@ Chart.register({
         tt.innerHTML=html;
         var rect=chart.canvas.getBoundingClientRect();
         // position top-right of chart
-        tt.style.left=(rect.right-310)+'px';
-        tt.style.top=(rect.top+8)+'px';
+        // Position tooltip near the hovered bar
+        var barX=evt.native.clientX;
+        var barY=evt.native.clientY;
+        var ttW=300;
+        var ttH=200;
+        var vw=window.innerWidth;
+        var vh=window.innerHeight;
+        var tx=barX+16;
+        var ty=barY-80;
+        if(tx+ttW>vw-10) tx=barX-ttW-16;
+        if(ty+ttH>vh-10) ty=vh-ttH-10;
+        if(ty<8) ty=8;
+        tt.style.left=tx+'px';
+        tt.style.top=ty+'px';
         tt.style.opacity='1';
       } else {
         tt.style.opacity='0';
