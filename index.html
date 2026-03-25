@@ -156,12 +156,12 @@ function renderKPIs(){
     '<div class="kpi"><div class="kpi-value" style="color:'+C_SEC+'">'+fmtK(Math.round(totalSec))+'</div><div style="font-size:12px;color:#8A9FAB;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;height:44px;line-height:1.4"><span>Revenu sécurisé</span><span style="font-size:11px">(retainers + closings certains)</span></div><div class="kpi-badge '+bg(pS)+'">'+pS+'% vs. budget</div></div>';
 }
 
-var activeRefs=new Set(),mainChartInstance=null;
+var activeRefs=[],mainChartInstance=null;
 
 function getFiltered(){
   var maxM=new Array(12).fill(0),probaM=new Array(12).fill(0),secM=new Array(12).fill(0);
   Object.keys(REF_DATA).forEach(function(r){
-    if(activeRefs.size>0&&!activeRefs.has(r))return;
+    if(activeRefs.length>0&&activeRefs.indexOf(r)<0)return;
     REF_DATA[r].maxM.forEach(function(v,i){maxM[i]+=v});
     REF_DATA[r].probaM.forEach(function(v,i){probaM[i]+=v});
     REF_DATA[r].secM.forEach(function(v,i){secM[i]+=v});
@@ -172,8 +172,8 @@ function getFiltered(){
 function renderCumStrip(secM){
   var fm=getFiltered();
   // Compute undated remainder vs KPI totals
-  var totalP=activeRefs.size>0?MANDATS.filter(function(m){return activeRefs.has(m.referent);}).reduce(function(s,m){return s+m.rev_proba;},0):totalProba;
-  var totalS=activeRefs.size>0?MANDATS.filter(function(m){return activeRefs.has(m.referent);}).reduce(function(s,m){return s+m.rev_sec;},0):totalSec;
+  var totalP=activeRefs.length>0?MANDATS.filter(function(m){return activeRefs.indexOf(m.referent)>=0;}).reduce(function(s,m){return s+m.rev_proba;},0):totalProba;
+  var totalS=activeRefs.length>0?MANDATS.filter(function(m){return activeRefs.indexOf(m.referent)>=0;}).reduce(function(s,m){return s+m.rev_sec;},0):totalSec;
   // Build monthly arrays with undated flows added to last month with data
   var probaMonthly=fm.probaM.slice();
   var secMonthly=secM.slice();
@@ -265,7 +265,7 @@ function buildTT(mi,dsLabel){
   var scMap={'Revenu sec':{label:'Revenu sécurisé',key:'secM',bk:'secByMonth',color:C_SEC},'Revenu proba':{label:'Revenu probabilisé',key:'probaM',bk:'probaByMonth',color:C_PROBA},'Revenu max':{label:'Revenu max',key:'maxM',bk:'maxByMonth',color:C_MAX}};
   var sc=scMap[dsLabel];if(!sc)return'';
   var total=0,refs=[];
-  Object.keys(REF_DATA).forEach(function(ref){if(activeRefs.size>0&&!activeRefs.has(ref))return;var v=REF_DATA[ref][sc.key][mi];if(v>0){total+=v;refs.push({ref:ref,v:v});}});
+  Object.keys(REF_DATA).forEach(function(ref){if(activeRefs.length>0&&activeRefs.indexOf(ref)<0)return;var v=REF_DATA[ref][sc.key][mi];if(v>0){total+=v;refs.push({ref:ref,v:v});}});
   if(!total)return'';
   var h='<div style="font-size:12px;font-weight:700;color:#1C2B33;margin-bottom:10px;display:flex;align-items:center;gap:7px"><div style="width:10px;height:10px;border-radius:3px;background:'+sc.color+'"></div>'+sc.label+' - '+MONTHS_FULL[mi]+'<span style="margin-left:auto;font-size:13px;color:'+sc.color+'">'+fmtK(total)+'</span></div>';
   refs.forEach(function(rl){
@@ -338,7 +338,7 @@ function updateRefPills(){
     var ref=pill.getAttribute('data-ref');
     var r=REFERENTS[ref];
     if(!r)return;
-    var isSel=activeRefs.has(ref),isActive=(activeRefs.size===0||isSel);
+    var isSel=activeRefs.indexOf(ref)>=0,isActive=(activeRefs.length===0||isSel);
     pill.style.background=isSel?r.color:'transparent';
     pill.style.color=isSel?'#fff':r.color;
     pill.style.opacity=isActive?'1':'0.35';
@@ -348,9 +348,9 @@ function updateRefPills(){
     if(tk)tk.style.opacity=isSel?'1':'0';
   });
   var lbl=document.getElementById('chart-mode-label');
-  if(activeRefs.size>0){
+  if(activeRefs.length>0){
     var parts=[];
-    activeRefs.forEach(function(ref){
+    activeRefs.forEach(function(ref,_){
       var rc=REFERENTS[ref]||{color:'#8A9FAB'};
       var ini=ref.split(' ').map(function(w){return w[0]}).join('').substring(0,3);
       parts.push('<span style="display:inline-flex;align-items:center;gap:4px;background:'+rc.color+'18;color:'+rc.color+';border:1px solid '+rc.color+'44;border-radius:20px;padding:2px 8px;font-size:10px;font-weight:600"><span style="width:16px;height:16px;border-radius:50%;background:'+rc.color+';color:#fff;font-size:7px;font-weight:700;display:inline-flex;align-items:center;justify-content:center">'+ini+'</span>'+(REAL_REFERENTS[ref]||ref)+'</span>');
@@ -362,11 +362,11 @@ function updateRefPills(){
 
 function showMonthModal(mi){
   var monthName=MONTHS_FULL[mi];
-  function getItems(bm){var it=bm[mi]||[];return activeRefs.size>0?it.filter(function(x){return activeRefs.has(x.referent)}):it;}
+  function getItems(bm){var it=bm[mi]||[];return activeRefs.length>0?it.filter(function(x){return activeRefs.indexOf(x.referent)>=0}):it;}
   var maxI=getItems(D.maxByMonth),probaI=getItems(D.probaByMonth),secI=getItems(D.secByMonth);
   function feeTag(t){var bg=t==='Retainer'?'#EFF6FF':'#F0FDF4',col=t==='Retainer'?'#1D4ED8':'#15803D',border=t==='Retainer'?'#BFDBFE':'#BBF7D0';return'<span style="font-size:9px;font-weight:600;padding:2px 8px;border-radius:12px;background:'+bg+';color:'+col+';border:1px solid '+border+'">'+t+'</span>';}
   function itemRow(item){
-    var rc=REFERENTS[item.referent]||{color:'#8A9FAB'};var showRef=(activeRefs.size===0);
+    var rc=REFERENTS[item.referent]||{color:'#8A9FAB'};var showRef=(activeRefs.length===0);
     return'<div class="mo-item" data-name="'+item.name.replace(/"/g,'&quot;')+'">'+'<div class="mo-item-logo">'+logoHTML(item.domain,item.name,26)+'</div>'+'<div style="flex:1;min-width:0"><div style="font-size:12px;font-weight:500;color:var(--deep);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+item.name+'</div>'+(showRef?'<div style="display:flex;align-items:center;gap:4px;margin-top:2px"><span style="width:5px;height:5px;border-radius:50%;background:'+rc.color+'"></span><span style="font-size:10px;color:#8A9FAB">'+(REAL_REFERENTS[item.referent]||item.referent)+'</span></div>':'')+'</div><div style="display:flex;align-items:center;gap:5px;flex-shrink:0">'+feeTag(item.revtype)+'<div style="font-size:12px;font-weight:700;color:var(--deep);min-width:40px;text-align:right">'+fmtK(item.amount)+'</div></div></div>';
   }
   function scenario(label,color,items){
@@ -376,7 +376,7 @@ function showMonthModal(mi){
     return'<div style="margin-bottom:14px"><div style="display:flex;align-items:center;justify-content:space-between;padding:5px 0;border-bottom:1px solid rgba(28,43,51,.06);margin-bottom:6px"><div style="display:flex;align-items:center;gap:6px"><div style="width:9px;height:9px;border-radius:2px;background:'+color+'"></div><span style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:'+color+'">'+label+'</span></div><span style="font-size:13px;font-weight:700;color:'+color+'">'+fmtK(total)+'</span></div>'+list.map(itemRow).join('')+'</div>';
   }
   var h='<div style="display:flex;align-items:baseline;justify-content:space-between;padding-right:36px;margin-bottom:4px"><div style="font-size:18px;font-weight:700;color:var(--deep)">'+monthName+' 2026</div>';
-  if(activeRefs.size>0){var refParts=[];activeRefs.forEach(function(ref){var rc=REFERENTS[ref]||{color:'#8A9FAB'};refParts.push('<span style="font-size:10px;font-weight:600;padding:2px 8px;border-radius:20px;background:'+rc.color+'18;color:'+rc.color+';border:1px solid '+rc.color+'33">'+(REAL_REFERENTS[ref]||ref)+'</span>');});h+=refParts.join('');}
+  if(activeRefs.length>0){var refParts=[];activeRefs.forEach(function(ref,_){var rc=REFERENTS[ref]||{color:'#8A9FAB'};refParts.push('<span style="font-size:10px;font-weight:600;padding:2px 8px;border-radius:20px;background:'+rc.color+'18;color:'+rc.color+';border:1px solid '+rc.color+'33">'+(REAL_REFERENTS[ref]||ref)+'</span>');});h+=refParts.join('');}
   h+='</div><div style="font-size:11px;color:#8A9FAB;margin-bottom:16px">Cliquez sur une entreprise pour le détail</div>';
   h+=scenario('Revenu sécurisé',C_SEC,secI)+scenario('Revenu probabilisé',C_PROBA,probaI)+scenario('Revenu max',C_MAX,maxI);
   if(!h.includes('mo-item'))h+='<div style="text-align:center;padding:24px;color:#8A9FAB;font-size:12px">Aucun flux ce mois</div>';
@@ -488,12 +488,12 @@ function renderKPIs(){
     '<div class="kpi"><div class="kpi-value" style="color:'+C_SEC+'">'+fmtK(Math.round(totalSec))+'</div><div style="font-size:12px;color:#8A9FAB;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;height:44px;line-height:1.4"><span>Revenu sécurisé</span><span style="font-size:11px">(retainers + closings certains)</span></div><div class="kpi-badge '+bg(pS)+'">'+pS+'% vs. budget</div></div>';
 }
 
-var activeRefs=new Set(),mainChartInstance=null;
+var activeRefs=[],mainChartInstance=null;
 
 function getFiltered(){
   var maxM=new Array(12).fill(0),probaM=new Array(12).fill(0),secM=new Array(12).fill(0);
   Object.keys(REF_DATA).forEach(function(r){
-    if(activeRefs.size>0&&!activeRefs.has(r))return;
+    if(activeRefs.length>0&&activeRefs.indexOf(r)<0)return;
     REF_DATA[r].maxM.forEach(function(v,i){maxM[i]+=v});
     REF_DATA[r].probaM.forEach(function(v,i){probaM[i]+=v});
     REF_DATA[r].secM.forEach(function(v,i){secM[i]+=v});
@@ -505,8 +505,8 @@ function renderCumStrip(secM){
   var fm=getFiltered();var cp=[],cs=[],rp=0,rs=0;
   for(var i=0;i<12;i++){rp+=fm.probaM[i];rs+=secM[i];cp.push(rp);cs.push(rs);}
   // Add undated flows to last non-zero month so totals match KPI boxes
-  var totalP=activeRefs.size>0?MANDATS.filter(function(m){return activeRefs.has(m.referent);}).reduce(function(s,m){return s+m.rev_proba;},0):totalProba;
-  var totalS=activeRefs.size>0?MANDATS.filter(function(m){return activeRefs.has(m.referent);}).reduce(function(s,m){return s+m.rev_sec;},0):totalSec;
+  var totalP=activeRefs.length>0?MANDATS.filter(function(m){return activeRefs.indexOf(m.referent)>=0;}).reduce(function(s,m){return s+m.rev_proba;},0):totalProba;
+  var totalS=activeRefs.length>0?MANDATS.filter(function(m){return activeRefs.indexOf(m.referent)>=0;}).reduce(function(s,m){return s+m.rev_sec;},0):totalSec;
   // Find last month with data and add remainder there
   var lastP=-1,lastS=-1;
   for(var i=11;i>=0;i--){if(fm.probaM[i]>0&&lastP<0)lastP=i;if(secM[i]>0&&lastS<0)lastS=i;}
@@ -603,7 +603,7 @@ function buildTT(mi,dsLabel){
   var scMap={'Revenu sec':{label:'Revenu sécurisé',key:'secM',bk:'secByMonth',color:C_SEC},'Revenu proba':{label:'Revenu probabilisé',key:'probaM',bk:'probaByMonth',color:C_PROBA},'Revenu max':{label:'Revenu max',key:'maxM',bk:'maxByMonth',color:C_MAX}};
   var sc=scMap[dsLabel];if(!sc)return'';
   var total=0,refs=[];
-  Object.keys(REF_DATA).forEach(function(ref){if(activeRefs.size>0&&!activeRefs.has(ref))return;var v=REF_DATA[ref][sc.key][mi];if(v>0){total+=v;refs.push({ref:ref,v:v});}});
+  Object.keys(REF_DATA).forEach(function(ref){if(activeRefs.length>0&&activeRefs.indexOf(ref)<0)return;var v=REF_DATA[ref][sc.key][mi];if(v>0){total+=v;refs.push({ref:ref,v:v});}});
   if(!total)return'';
   var h='<div style="font-size:12px;font-weight:700;color:#1C2B33;margin-bottom:10px;display:flex;align-items:center;gap:7px"><div style="width:10px;height:10px;border-radius:3px;background:'+sc.color+'"></div>'+sc.label+' - '+MONTHS_FULL[mi]+'<span style="margin-left:auto;font-size:13px;color:'+sc.color+'">'+fmtK(total)+'</span></div>';
   refs.forEach(function(rl){
@@ -681,7 +681,7 @@ function renderReferentLegend(){
     pill.textContent=dn;
     (function(n){
       pill.onclick=function(){
-        if(activeRefs.has(n))activeRefs.delete(n);else activeRefs.add(n);
+        var idx=activeRefs.indexOf(n);if(idx>=0)activeRefs.splice(idx,1);else activeRefs.push(n);
         updateChart();
       };
     })(name);
@@ -693,7 +693,7 @@ function updateRefPills(){
     var ref=pill.getAttribute('data-ref');
     var r=REFERENTS[ref];
     if(!r)return;
-    var isSel=activeRefs.has(ref),isActive=(activeRefs.size===0||isSel);
+    var isSel=activeRefs.indexOf(ref)>=0,isActive=(activeRefs.length===0||isSel);
     pill.style.background=isSel?r.color:'transparent';
     pill.style.color=isSel?'#fff':r.color;
     pill.style.opacity=isActive?'1':'0.35';
@@ -703,9 +703,9 @@ function updateRefPills(){
     if(tk)tk.style.opacity=isSel?'1':'0';
   });
   var lbl=document.getElementById('chart-mode-label');
-  if(activeRefs.size>0){
+  if(activeRefs.length>0){
     var parts=[];
-    activeRefs.forEach(function(ref){
+    activeRefs.forEach(function(ref,_){
       var rc=REFERENTS[ref]||{color:'#8A9FAB'};
       var ini=ref.split(' ').map(function(w){return w[0]}).join('').substring(0,3);
       parts.push('<span style="display:inline-flex;align-items:center;gap:4px;background:'+rc.color+'18;color:'+rc.color+';border:1px solid '+rc.color+'44;border-radius:20px;padding:2px 8px;font-size:10px;font-weight:600"><span style="width:16px;height:16px;border-radius:50%;background:'+rc.color+';color:#fff;font-size:7px;font-weight:700;display:inline-flex;align-items:center;justify-content:center">'+ini+'</span>'+(REAL_REFERENTS[ref]||ref)+'</span>');
@@ -717,11 +717,11 @@ function updateRefPills(){
 
 function showMonthModal(mi){
   var monthName=MONTHS_FULL[mi];
-  function getItems(bm){var it=bm[mi]||[];return activeRefs.size>0?it.filter(function(x){return activeRefs.has(x.referent)}):it;}
+  function getItems(bm){var it=bm[mi]||[];return activeRefs.length>0?it.filter(function(x){return activeRefs.indexOf(x.referent)>=0}):it;}
   var maxI=getItems(D.maxByMonth),probaI=getItems(D.probaByMonth),secI=getItems(D.secByMonth);
   function feeTag(t){var bg=t==='Retainer'?'#EFF6FF':'#F0FDF4',col=t==='Retainer'?'#1D4ED8':'#15803D',border=t==='Retainer'?'#BFDBFE':'#BBF7D0';return'<span style="font-size:9px;font-weight:600;padding:2px 8px;border-radius:12px;background:'+bg+';color:'+col+';border:1px solid '+border+'">'+t+'</span>';}
   function itemRow(item){
-    var rc=REFERENTS[item.referent]||{color:'#8A9FAB'};var showRef=(activeRefs.size===0);
+    var rc=REFERENTS[item.referent]||{color:'#8A9FAB'};var showRef=(activeRefs.length===0);
     return'<div class="mo-item" data-name="'+item.name.replace(/"/g,'&quot;')+'">'+'<div class="mo-item-logo">'+logoHTML(item.domain,item.name,26)+'</div>'+'<div style="flex:1;min-width:0"><div style="font-size:12px;font-weight:500;color:var(--deep);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+item.name+'</div>'+(showRef?'<div style="display:flex;align-items:center;gap:4px;margin-top:2px"><span style="width:5px;height:5px;border-radius:50%;background:'+rc.color+'"></span><span style="font-size:10px;color:#8A9FAB">'+(REAL_REFERENTS[item.referent]||item.referent)+'</span></div>':'')+'</div><div style="display:flex;align-items:center;gap:5px;flex-shrink:0">'+feeTag(item.revtype)+'<div style="font-size:12px;font-weight:700;color:var(--deep);min-width:40px;text-align:right">'+fmtK(item.amount)+'</div></div></div>';
   }
   function scenario(label,color,items){
@@ -731,7 +731,7 @@ function showMonthModal(mi){
     return'<div style="margin-bottom:14px"><div style="display:flex;align-items:center;justify-content:space-between;padding:5px 0;border-bottom:1px solid rgba(28,43,51,.06);margin-bottom:6px"><div style="display:flex;align-items:center;gap:6px"><div style="width:9px;height:9px;border-radius:2px;background:'+color+'"></div><span style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:'+color+'">'+label+'</span></div><span style="font-size:13px;font-weight:700;color:'+color+'">'+fmtK(total)+'</span></div>'+list.map(itemRow).join('')+'</div>';
   }
   var h='<div style="display:flex;align-items:baseline;justify-content:space-between;padding-right:36px;margin-bottom:4px"><div style="font-size:18px;font-weight:700;color:var(--deep)">'+monthName+' 2026</div>';
-  if(activeRefs.size>0){var refParts=[];activeRefs.forEach(function(ref){var rc=REFERENTS[ref]||{color:'#8A9FAB'};refParts.push('<span style="font-size:10px;font-weight:600;padding:2px 8px;border-radius:20px;background:'+rc.color+'18;color:'+rc.color+';border:1px solid '+rc.color+'33">'+(REAL_REFERENTS[ref]||ref)+'</span>');});h+=refParts.join('');}
+  if(activeRefs.length>0){var refParts=[];activeRefs.forEach(function(ref,_){var rc=REFERENTS[ref]||{color:'#8A9FAB'};refParts.push('<span style="font-size:10px;font-weight:600;padding:2px 8px;border-radius:20px;background:'+rc.color+'18;color:'+rc.color+';border:1px solid '+rc.color+'33">'+(REAL_REFERENTS[ref]||ref)+'</span>');});h+=refParts.join('');}
   h+='</div><div style="font-size:11px;color:#8A9FAB;margin-bottom:16px">Cliquez sur une entreprise pour le détail</div>';
   h+=scenario('Revenu sécurisé',C_SEC,secI)+scenario('Revenu probabilisé',C_PROBA,probaI)+scenario('Revenu max',C_MAX,maxI);
   if(!h.includes('mo-item'))h+='<div style="text-align:center;padding:24px;color:#8A9FAB;font-size:12px">Aucun flux ce mois</div>';
