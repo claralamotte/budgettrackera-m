@@ -8,60 +8,34 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'DM Sans',sans-serif;background:#EEF2F5;color:#1A2E38;font-size:14px;min-height:100vh}
-:root{
-  --deep:#1C2B33;--border:rgba(28,43,51,.08);--muted:#8A9FAB;--bg:#F7F9FB;
-  --glass:rgba(255,255,255,.62);--glass-border:rgba(255,255,255,.75);
-  --c1:#1C2B33;
-  --ref-HT:#185FA5;--ref-MW:#1D9E75;--ref-FM:#D85A30;--ref-PMB:#D4537E;--ref-SC:#7F77DD;--ref-EC:#BA7517;
-}
+:root{--deep:#1C2B33;--border:rgba(28,43,51,.08);--muted:#8A9FAB;--glass:rgba(255,255,255,.62);--glass-border:rgba(255,255,255,.75)}
 header{background:var(--deep);height:56px;padding:0 32px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;box-shadow:0 2px 16px rgba(28,43,51,.18)}
 .logo-text h1{color:#fff;font-size:16px;font-weight:600;letter-spacing:-.01em}
-.header-r{display:flex;align-items:center;gap:8px}
 .hbtn{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.65);font-family:inherit;font-size:11px;font-weight:500;padding:5px 13px;border-radius:6px;cursor:pointer;transition:all .18s}
 .hbtn:hover{background:rgba(255,255,255,.13);color:#fff}
-
 .main{padding:22px 32px 48px}
-
-/* KPI row */
 .kpi-row{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin-bottom:18px}
-.kpi{background:var(--glass);backdrop-filter:blur(12px);border:1px solid var(--glass-border);border-radius:12px;padding:20px 16px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:6px}
-.kpi-value{font-size:28px;font-weight:700;line-height:1}
-.kpi-sub{font-size:12px;color:var(--muted);line-height:1.3}
+.kpi{background:var(--glass);backdrop-filter:blur(12px);border:1px solid var(--glass-border);border-radius:12px;padding:20px 16px;display:grid;grid-template-rows:40px 44px auto;align-items:center;text-align:center;justify-items:center}
+.kpi-value{font-size:28px;font-weight:700;line-height:1;display:flex;align-items:center;justify-content:center;height:40px}
 .kpi-badge{display:inline-block;font-size:10px;font-weight:600;padding:2px 9px;border-radius:20px}
 .badge-g{background:#E8F8F0;color:#0B7A52}
 .badge-r{background:#FEF2F2;color:#B91C1C}
-.badge-a{background:#FFF7ED;color:#92400E}
-
-/* Chart card */
 .card{background:var(--glass);backdrop-filter:blur(12px);border:1px solid var(--glass-border);border-radius:14px;padding:20px 22px;margin-bottom:18px}
+.chart-card{background:#fff;border:1px solid rgba(28,43,51,.1);border-radius:14px;padding:20px 22px;margin-bottom:18px}
 .sec-head{display:flex;align-items:center;gap:12px;margin-bottom:16px}
 .sec-lbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.16em;color:var(--deep);white-space:nowrap}
 .sec-line{flex:1;height:1px;background:var(--border)}
-
-.legend-row{display:flex;flex-wrap:wrap;gap:16px;margin-bottom:14px}
-.legend-item{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--muted)}
-.legend-sq{width:11px;height:11px;border-radius:3px;flex-shrink:0}
-.legend-ln{width:18px;height:3px;flex-shrink:0;border-radius:2px}
-.legend-ln.dashed{background:repeating-linear-gradient(90deg,#BA7517 0,#BA7517 4px,transparent 4px,transparent 7px)}
-
+.legend-item{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted)}
 .chart-outer{position:relative;width:100%;height:260px}
-
-.referent-legend{display:flex;flex-wrap:wrap;gap:12px;margin-top:14px;padding-top:12px;border-top:1px solid var(--border)}
-.ref-item{display:flex;align-items:center;gap:5px;font-size:10px;color:var(--muted)}
-.ref-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
-
-/* Pipeline tracker */
 .stages-grid{display:grid;gap:0;align-items:stretch}
 .stage-col{display:flex;flex-direction:column;border-right:1px solid rgba(28,43,51,.1)}
 .stage-col:last-child{border-right:none}
-.stage-hdr{padding:10px 10px 9px;display:flex;flex-direction:column;align-items:flex-start;gap:4px;border-bottom:1px solid rgba(255,255,255,.15)}
+.stage-hdr{padding:10px 10px 9px;display:flex;flex-direction:column;gap:4px;border-bottom:1px solid rgba(255,255,255,.15)}
 .stage-hdr-top{display:flex;align-items:center;justify-content:space-between;width:100%;gap:6px}
 .stage-hdr-name{font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.09em;color:#fff;line-height:1.3;flex:1}
 .stage-count-badge{font-size:11px;font-weight:600;color:rgba(255,255,255,.85);background:rgba(255,255,255,.18);padding:1px 7px;border-radius:10px;white-space:nowrap;flex-shrink:0}
 .stage-bar{height:1.5px;border-radius:1px;width:100%;background:rgba(255,255,255,.2)}
 .stage-body{padding:10px 8px;display:flex;flex-direction:column;gap:6px;flex:1;background:rgba(255,255,255,.45)}
-.stage-empty{font-size:10px;color:var(--muted);text-align:center;padding:12px 4px;opacity:.4;font-style:italic}
-
 .logo-chip{display:flex;align-items:center;gap:7px;padding:6px 8px;background:rgba(255,255,255,.8);border:1px solid rgba(255,255,255,.9);border-radius:8px;cursor:pointer;transition:all .16s}
 .logo-chip:hover{background:#fff;border-color:rgba(28,43,51,.15);transform:translateY(-1px);box-shadow:0 4px 14px rgba(28,43,51,.1)}
 .chip-logo{width:26px;height:18px;display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden}
@@ -69,244 +43,378 @@ header{background:var(--deep);height:56px;padding:0 32px;display:flex;align-item
 .chip-logo .init{font-size:8px;font-weight:700;color:#fff;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center}
 .chip-name{font-size:10px;font-weight:500;color:var(--deep);flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .chip-proba{font-size:9px;font-weight:700;color:var(--muted);flex-shrink:0;background:rgba(28,43,51,.06);padding:1px 5px;border-radius:10px}
-.chip-ref-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0}
-
-/* Modals */
 .mo{position:fixed;inset:0;background:rgba(28,43,51,.42);backdrop-filter:blur(8px);z-index:200;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .2s}
 .mo.open{opacity:1;pointer-events:all}
 .md{background:#fff;border-radius:18px;width:100%;padding:26px;position:relative;box-shadow:0 24px 60px rgba(28,43,51,.14);transform:scale(.97) translateY(6px);transition:transform .22s cubic-bezier(.34,1.56,.64,1);max-height:88vh;overflow-y:auto}
 .mo.open .md{transform:scale(1) translateY(0)}
-.md-x{position:absolute;top:14px;right:14px;background:#F7F9FB;border:1px solid var(--border);color:var(--muted);cursor:pointer;width:28px;height:28px;border-radius:50%;font-size:13px;display:flex;align-items:center;justify-content:center;z-index:2;transition:background .15s}
-.md-x:hover{background:#EEF2F5}
-
-/* Month modal */
+.md-x{position:absolute;top:14px;right:14px;background:#F7F9FB;border:1px solid var(--border);color:var(--muted);cursor:pointer;width:28px;height:28px;border-radius:50%;font-size:13px;display:flex;align-items:center;justify-content:center;z-index:2}
 .month-modal .md{max-width:480px}
-.month-modal .md-title{font-size:18px;font-weight:700;color:var(--deep);margin-bottom:4px;padding-right:36px}
-.month-modal .md-sub{font-size:11px;color:var(--muted);margin-bottom:16px}
-.mo-totals{display:flex;gap:10px;margin-bottom:16px}
-.mo-total{flex:1;background:#F7F9FB;border-radius:10px;padding:10px 12px}
-.mo-total-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:3px}
-.mo-total-val{font-size:15px;font-weight:700;color:var(--deep)}
-.mo-divider{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);padding:10px 0 6px;border-top:1px solid var(--border);margin-top:10px}
-.mo-divider:first-of-type{border-top:none;padding-top:0}
-
-.mo-item{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid rgba(28,43,51,.04)}
-.mo-item:last-child{border-bottom:none}
-.mo-item-logo{width:36px;height:26px;display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0}
-.mo-item-logo img{max-width:100%;max-height:100%;object-fit:contain}
-.mo-item-logo .init{font-size:10px;font-weight:700;color:#fff;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center}
-.mo-item-info{flex:1;min-width:0}
-.mo-item-name{font-size:13px;font-weight:500;color:var(--deep)}
-.mo-item-type{font-size:10px;color:var(--muted)}
-.tag{display:inline-flex;align-items:center;font-size:9px;font-weight:700;padding:3px 8px;border-radius:20px;text-transform:uppercase;letter-spacing:.04em;white-space:nowrap;margin-left:auto;flex-shrink:0}
-.mo-amount{font-size:12px;font-weight:600;color:var(--deep);white-space:nowrap;flex-shrink:0}
-
-/* Company detail modal */
 .company-modal .md{max-width:460px}
-.cm-top{display:flex;align-items:center;gap:14px;margin-bottom:16px;padding-right:36px}
+.mo-item{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid rgba(28,43,51,.04);cursor:pointer}
+.mo-item:last-child{border-bottom:none}
+.mo-item:hover{opacity:.8}
+.mo-item-logo{width:34px;height:24px;display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0}
+.mo-item-logo img{max-width:100%;max-height:100%;object-fit:contain}
+.mo-item-logo .init{font-size:9px;font-weight:700;color:#fff;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center}
 .cm-logo{width:52px;height:52px;background:#EEF2F5;border:1px solid var(--border);border-radius:12px;display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0}
 .cm-logo img{max-width:44px;max-height:36px;object-fit:contain}
 .cm-logo .init{font-size:16px;font-weight:700}
-.cm-name{font-size:20px;font-weight:700;color:var(--deep)}
-.cm-type{font-size:11px;color:var(--muted);margin-top:2px}
-.cm-referent{font-size:11px;margin-top:3px;display:flex;align-items:center;gap:5px}
-.chips-row{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
-.chip{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:500;padding:5px 11px;border-radius:20px;border:1px solid}
-.chip-ok{background:#E8F8F0;color:#0B7A52;border-color:#B6E8D4}
-.chip-no{background:#FEF2F2;color:#B91C1C;border-color:#FECACA}
-.chip-neutral{background:#F1F5F9;color:#475569;border-color:#E2E8F0}
-.chip-warn{background:#FFF7ED;color:#92400E;border-color:#FED7AA}
-.cm-section{margin-bottom:14px}
-.cm-section-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);margin-bottom:8px}
-.cm-proba-breakdown{background:#F7F9FB;border-radius:10px;padding:12px}
-.proba-row{display:flex;justify-content:space-between;align-items:center;padding:4px 0;font-size:12px}
-.proba-row+.proba-row{border-top:1px solid var(--border)}
-.proba-row-lbl{color:var(--muted)}
-.proba-row-val{font-weight:600;color:var(--deep)}
-.proba-total{display:flex;justify-content:space-between;align-items:center;padding:8px 0 0;margin-top:6px;border-top:1.5px solid var(--deep);font-size:13px;font-weight:700;color:var(--deep)}
-.cm-fin{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:10px}
-.cm-fin-item{background:#F7F9FB;border-radius:8px;padding:9px 11px}
-.cm-fin-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:4px}
-.cm-fin-val{font-size:14px;font-weight:700;color:var(--deep)}
-.cm-dates{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
-.cm-date-item{background:#F7F9FB;border-radius:8px;padding:8px 10px}
-.cm-date-lbl{font-size:9px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.08em;margin-bottom:3px}
-.cm-date-val{font-size:12px;font-weight:600;color:var(--deep)}
 </style>
 </head>
 <body>
-
 <header>
   <div class="logo-text"><h1>Corporate Finance Paris - Suivi des mandats 2026</h1></div>
-  <div class="header-r">
-    <button class="hbtn" onclick="window.print()">&#9113; Export PDF</button>
-  </div>
+  <div><button class="hbtn" onclick="window.print()">&#9113; Export PDF</button></div>
 </header>
-
 <div class="main">
-
-  <!-- KPI Row -->
   <div class="kpi-row" id="kpi-row"></div>
-
-  <!-- Chart -->
-  <div class="card">
+  <div class="chart-card">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;gap:12px;flex-wrap:wrap">
-      <div class="sec-head" style="margin-bottom:0;flex:1"><div class="sec-lbl" style="font-size:12px;letter-spacing:.12em">Revenus mensuels 2026</div><div class="sec-line"></div></div>
-      <div id="chart-mode-label" style="font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;min-height:0;display:none"></div>
+      <div class="sec-head" style="margin-bottom:0;flex:1"><div class="sec-lbl">Revenus mensuels 2026</div><div class="sec-line"></div></div>
+      <div id="chart-mode-label" style="font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;display:none"></div>
     </div>
-    <div id="cum-strip" style="margin-bottom:8px"></div>
-    <div class="chart-outer" id="chart-outer-el"><canvas id="mainChart"></canvas></div>
-    <div style="margin-top:16px;padding-top:14px">
-      <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:16px;align-items:center;margin-bottom:10px">
-        <div class="legend-item" style="font-size:12px"><div id="sq-sec" class="legend-sq" style="background:#00C9A0;border-radius:3px;width:12px;height:12px"></div>Revenu sécurisé</div>
-        <div class="legend-item" style="font-size:12px"><div id="sq-proba" class="legend-sq" style="background:#2DBEC9;border-radius:3px;width:12px;height:12px"></div>Revenu probabilisé</div>
-        <div class="legend-item" style="font-size:12px"><div id="sq-max" class="legend-sq" style="background:#0085CA;border-radius:3px;width:12px;height:12px"></div>Revenu max</div>
+<div style="margin-bottom:14px">
+      <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:center;margin-bottom:8px">
+        <span style="font-size:12px;font-weight:500;color:#8A9FAB;white-space:nowrap">Légende :</span>
+        <div class="legend-item"><div style="width:12px;height:12px;border-radius:3px;background:#00C9A0;flex-shrink:0" id="sq-sec"></div>Revenu sécurisé</div>
+        <div class="legend-item"><div style="width:12px;height:12px;border-radius:3px;background:#2DBEC9;flex-shrink:0" id="sq-proba"></div>Revenu probabilisé</div>
+        <div class="legend-item"><div style="width:12px;height:12px;border-radius:3px;background:#0085CA;flex-shrink:0" id="sq-max"></div>Revenu max</div>
       </div>
-      <div id="referent-legend" style="display:flex;flex-wrap:wrap;justify-content:center;gap:6px;align-items:center;margin-top:12px"></div>
+      <div id="referent-legend" style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:6px"></div>
     </div>
   </div>
-
-  <!-- Pipeline -->
+    <div class="chart-outer"><canvas id="mainChart"></canvas></div>
+    <div id="cum-strip" style="margin-top:8px;position:relative;height:56px"></div>
+    
   <div class="card">
-    <div class="sec-head"><div class="sec-lbl">Détail des mandats par étape</div><div class="sec-line"></div></div>
-    <div style="border:1px solid var(--border);border-radius:14px;overflow:hidden;background:rgba(255,255,255,.5);backdrop-filter:blur(16px);box-shadow:0 2px 12px rgba(28,43,51,.06)"><div class="stages-grid" id="stages-grid"></div></div>
+    <div class="sec-head"><div class="sec-lbl">Detail des mandats par etape</div><div class="sec-line"></div></div>
+    <div style="border:1px solid var(--border);border-radius:14px;overflow:hidden;background:rgba(255,255,255,.5);backdrop-filter:blur(16px)"><div class="stages-grid" id="stages-grid"></div></div>
   </div>
-
 </div>
-
-<!-- Month modal -->
 <div class="mo month-modal" id="mo-month" onclick="if(event.target===this)this.classList.remove('open')">
-  <div class="md">
-    <button class="md-x" onclick="document.getElementById('mo-month').classList.remove('open')">&#10005;</button>
-    <div id="mo-month-body"></div>
-  </div>
+  <div class="md"><button class="md-x" onclick="document.getElementById('mo-month').classList.remove('open')">&#10005;</button><div id="mo-month-body"></div></div>
 </div>
-
-<!-- Company modal -->
 <div class="mo company-modal" id="mo-company" onclick="if(event.target===this)this.classList.remove('open')">
-  <div class="md">
-    <button class="md-x" onclick="document.getElementById('mo-company').classList.remove('open')">&#10005;</button>
-    <div id="mo-company-body"></div>
-  </div>
+  <div class="md"><button class="md-x" onclick="document.getElementById('mo-company').classList.remove('open')">&#10005;</button><div id="mo-company-body"></div></div>
 </div>
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script>
-var TK = 'pk_bYWEonUXSpa1_O-4n_OaKQ';
-var BUDGET = 5000000;
-
-var REFERENTS = {
-  'Hubert Tuillier':   {initials:'HT', color:'#185FA5'},
-  'Mark Wyatt':        {initials:'MW', color:'#1D9E75'},
-  'Frédéric Meyer':    {initials:'FM', color:'#D85A30'},
-  'Pierre Marie Blois':{initials:'PMB',color:'#D4537E'},
-  'Sandra Crochemore': {initials:'SC', color:'#7F77DD'},
-  'Emmanuel Clerc':    {initials:'EC', color:'#BA7517'}
-};
-
-var STAGES_ORDER = [
-  {k:'Signé / Onboarding', color:'#263c47'},
-  {k:'Préparation (IM, BP)', color:'#1b4f63'},
-  {k:'Outreach', color:'#007499'},
-  {k:'Intérêt confirmé', color:'#0085CA'},
-  {k:'LOI', color:'#009ebc'},
-  {k:'Exclusivité / Due Diligence', color:'#00a3be'},
-  {k:'Signing', color:'#00c9a0'},
-  {k:'Closing', color:'#00e07e'}
-];
-
-var MANDATS = [{"name":"Clermont Foot","domain":"clermontfoot.com","referent":"Hubert Tuillier","type_mandat":"Sell-side M&A","lm_signee":"Oui","typologie":"Signé","stade":"Intérêt confirmé","complexite":"Moyenne","retainer":15000,"success":250000,"coef_complexite":0.95,"coef_contractuel":1.0,"proba_brute":0.95,"rev_max":265000,"rev_proba":252500,"rev_sec":15000,"sec_ret_month":2,"sec_clos_month":null,"prob_ret_month":2,"prob_clos_month":6,"max_ret_month":2,"max_clos_month":6,"ret_date_str":"28/02/2026","clos_date_str":"30/06/2026"},{"name":"Ride Out","domain":"","referent":"Hubert Tuillier","type_mandat":"Sell-side M&A","lm_signee":"Oui","typologie":"Signé","stade":"Outreach","complexite":"Très élevée","retainer":15000,"success":1200000,"coef_complexite":0.0,"coef_contractuel":1.0,"proba_brute":0.0,"rev_max":1215000,"rev_proba":15000,"rev_sec":15000,"sec_ret_month":3,"sec_clos_month":null,"prob_ret_month":3,"prob_clos_month":10,"max_ret_month":3,"max_clos_month":10,"ret_date_str":"30/03/2026","clos_date_str":"31/10/2027"},{"name":"GEG","domain":"geg.asia","referent":"Hubert Tuillier","type_mandat":"Sell-side M&A","lm_signee":"Oui","typologie":"Signé","stade":"Préparation (IM, BP)","complexite":"Élevée","retainer":120000,"success":1200000,"coef_complexite":0.85,"coef_contractuel":1.0,"proba_brute":0.85,"rev_max":1320000,"rev_proba":1140000,"rev_sec":120000,"sec_ret_month":4,"sec_clos_month":null,"prob_ret_month":4,"prob_clos_month":10,"max_ret_month":4,"max_clos_month":10,"ret_date_str":"20/04/2026","clos_date_str":"31/10/2026"},{"name":"FC Metz","domain":"fcmetz.com","referent":"Hubert Tuillier","type_mandat":"Sell-side M&A","lm_signee":"Oui","typologie":"Signé","stade":"Intérêt confirmé","complexite":"Élevée","retainer":0,"success":1300000,"coef_complexite":0.85,"coef_contractuel":1.0,"proba_brute":0.85,"rev_max":1300000,"rev_proba":1105000,"rev_sec":0,"sec_ret_month":null,"sec_clos_month":null,"prob_ret_month":null,"prob_clos_month":6,"max_ret_month":null,"max_clos_month":6,"ret_date_str":"TBD","clos_date_str":"30/06/2026"},{"name":"Hurricane Group","domain":"hurcn.com","referent":"Hubert Tuillier","type_mandat":"Sell-side M&A","lm_signee":"Oui","typologie":"Signé","stade":"Exclusivité / Due Diligence","complexite":"Élevée","retainer":15000,"success":250000,"coef_complexite":0.85,"coef_contractuel":1.0,"proba_brute":1.0,"rev_max":265000,"rev_proba":265000,"rev_sec":15000,"sec_ret_month":5,"sec_clos_month":null,"prob_ret_month":5,"prob_clos_month":5,"max_ret_month":5,"max_clos_month":5,"ret_date_str":"30/05/2026","clos_date_str":"30/05/2026"},{"name":"EA Guingamp","domain":"eaguingamp.com","referent":"Hubert Tuillier","type_mandat":"Sell-side M&A","lm_signee":"Non","typologie":"Verbal","stade":"Préparation (IM, BP)","complexite":"Élevée","retainer":15000,"success":250000,"coef_complexite":0.85,"coef_contractuel":0.0,"proba_brute":0.0,"rev_max":265000,"rev_proba":15000,"rev_sec":15000,"sec_ret_month":6,"sec_clos_month":null,"prob_ret_month":6,"prob_clos_month":6,"max_ret_month":6,"max_clos_month":6,"ret_date_str":"30/06/2026","clos_date_str":"30/06/2026"},{"name":"OSE (Ecotrail)","domain":"ose-event.com","referent":"Hubert Tuillier","type_mandat":"Buy-side M&A","lm_signee":"Oui","typologie":"Signé","stade":"LOI","complexite":"Moyenne","retainer":10000,"success":100000,"coef_complexite":0.95,"coef_contractuel":1.0,"proba_brute":1.0,"rev_max":110000,"rev_proba":110000,"rev_sec":10000,"sec_ret_month":null,"sec_clos_month":null,"prob_ret_month":null,"prob_clos_month":5,"max_ret_month":null,"max_clos_month":5,"ret_date_str":"TBD","clos_date_str":"30/05/2026"},{"name":"Rodez Foot","domain":"rodezaveyronfootball.com","referent":"Hubert Tuillier","type_mandat":"Sell-side M&A","lm_signee":"Non","typologie":"Verbal","stade":"Intérêt confirmé","complexite":"Élevée","retainer":0,"success":250000,"coef_complexite":0.85,"coef_contractuel":0.0,"proba_brute":0.0,"rev_max":250000,"rev_proba":0,"rev_sec":0,"sec_ret_month":null,"sec_clos_month":null,"prob_ret_month":null,"prob_clos_month":6,"max_ret_month":null,"max_clos_month":6,"ret_date_str":"TBD","clos_date_str":"30/06/2026"},{"name":"Auraé Impact","domain":"auraeimpact.com","referent":"Hubert Tuillier","type_mandat":"Buy-side M&A","lm_signee":"Oui","typologie":"Signé","stade":"Outreach","complexite":"Élevée","retainer":30000,"success":150000,"coef_complexite":0.85,"coef_contractuel":1.0,"proba_brute":0.85,"rev_max":180000,"rev_proba":157500,"rev_sec":180000,"sec_ret_month":null,"sec_clos_month":null,"prob_ret_month":null,"prob_clos_month":null,"max_ret_month":null,"max_clos_month":null,"ret_date_str":"TBD","clos_date_str":"TBD"},{"name":"Golf Up","domain":"golfup.fr","referent":"Hubert Tuillier","type_mandat":"Sell-side M&A","lm_signee":"Oui","typologie":"Signé","stade":"Outreach","complexite":"Très élevée","retainer":15000,"success":350000,"coef_complexite":0.0,"coef_contractuel":1.0,"proba_brute":0.0,"rev_max":365000,"rev_proba":15000,"rev_sec":15000,"sec_ret_month":6,"sec_clos_month":null,"prob_ret_month":6,"prob_clos_month":6,"max_ret_month":6,"max_clos_month":6,"ret_date_str":"30/06/2026","clos_date_str":"30/06/2026"},{"name":"Bomb Squad","domain":"bombsquad.games","referent":"Hubert Tuillier","type_mandat":"Sell-side M&A","lm_signee":"Oui","typologie":"Signé","stade":"Intérêt confirmé","complexite":"Moyenne","retainer":0,"success":200000,"coef_complexite":0.95,"coef_contractuel":1.0,"proba_brute":0.95,"rev_max":200000,"rev_proba":190000,"rev_sec":0,"sec_ret_month":null,"sec_clos_month":null,"prob_ret_month":null,"prob_clos_month":6,"max_ret_month":null,"max_clos_month":6,"ret_date_str":"TBD","clos_date_str":"30/06/2026"},{"name":"Nic Impex","domain":"nicimpex.com","referent":"Hubert Tuillier","type_mandat":"Buy-side M&A","lm_signee":"Oui","typologie":"Signé","stade":"Intérêt confirmé","complexite":"Moyenne","retainer":0,"success":90000,"coef_complexite":0.95,"coef_contractuel":1.0,"proba_brute":0.95,"rev_max":90000,"rev_proba":85500,"rev_sec":0,"sec_ret_month":null,"sec_clos_month":null,"prob_ret_month":null,"prob_clos_month":6,"max_ret_month":null,"max_clos_month":6,"ret_date_str":"TBD","clos_date_str":"30/06/2026"},{"name":"Montpellier Foot","domain":"mhscfoot.com","referent":"Hubert Tuillier","type_mandat":"Buy-side M&A","lm_signee":"Non","typologie":"Opportunité","stade":"Outreach","complexite":"Moyenne","retainer":0,"success":290000,"coef_complexite":0.95,"coef_contractuel":0.0,"proba_brute":0.0,"rev_max":290000,"rev_proba":0,"rev_sec":0,"sec_ret_month":null,"sec_clos_month":null,"prob_ret_month":null,"prob_clos_month":6,"max_ret_month":null,"max_clos_month":6,"ret_date_str":"30/06/2026","clos_date_str":"30/06/2026"},{"name":"EVA Gaming","domain":"eva.gg","referent":"Hubert Tuillier","type_mandat":"Buy-side M&A","lm_signee":"Oui","typologie":"Signé","stade":"Closing","complexite":"Faible","retainer":0,"success":250000,"coef_complexite":1.0,"coef_contractuel":1.0,"proba_brute":1.0,"rev_max":250000,"rev_proba":250000,"rev_sec":250000,"sec_ret_month":null,"sec_clos_month":2,"prob_ret_month":null,"prob_clos_month":2,"max_ret_month":null,"max_clos_month":2,"ret_date_str":"28/02/2026","clos_date_str":"28/02/2026"},{"name":"Sodex","domain":"sodex.fr","referent":"Hubert Tuillier","type_mandat":"Sell-side M&A","lm_signee":"Oui","typologie":"Signé","stade":"Closing","complexite":"Faible","retainer":0,"success":150000,"coef_complexite":1.0,"coef_contractuel":1.0,"proba_brute":1.0,"rev_max":150000,"rev_proba":150000,"rev_sec":150000,"sec_ret_month":null,"sec_clos_month":3,"prob_ret_month":null,"prob_clos_month":3,"max_ret_month":null,"max_clos_month":3,"ret_date_str":"26/03/2026","clos_date_str":"26/03/2026"},{"name":"Folie Douce Val Thorens","domain":"lafoliedouce.com","referent":"Mark Wyatt","type_mandat":"Buy-side M&A","lm_signee":"Oui","typologie":"Signé","stade":"LOI","complexite":"Moyenne","retainer":25000,"success":350000,"coef_complexite":0.95,"coef_contractuel":1.0,"proba_brute":1.0,"rev_max":375000,"rev_proba":375000,"rev_sec":25000,"sec_ret_month":5,"sec_clos_month":null,"prob_ret_month":5,"prob_clos_month":6,"max_ret_month":5,"max_clos_month":6,"ret_date_str":"01/05/2026","clos_date_str":"30/06/2026"},{"name":"Cross Pharm","domain":"crosspharm.com","referent":"Frédéric Meyer","type_mandat":"Sell-side M&A","lm_signee":"Oui","typologie":"Signé","stade":"Intérêt confirmé","complexite":"Moyenne","retainer":0,"success":300000,"coef_complexite":0.95,"coef_contractuel":1.0,"proba_brute":0.95,"rev_max":300000,"rev_proba":285000,"rev_sec":0,"sec_ret_month":null,"sec_clos_month":null,"prob_ret_month":null,"prob_clos_month":7,"max_ret_month":null,"max_clos_month":7,"ret_date_str":"01/06/2026","clos_date_str":"31/07/2026"},{"name":"Pension Bee","domain":"pensionbee.com","referent":"Pierre Marie Blois","type_mandat":"Sell-side M&A","lm_signee":"Oui","typologie":"Signé","stade":"Closing","complexite":"Faible","retainer":15000,"success":500000,"coef_complexite":1.0,"coef_contractuel":1.0,"proba_brute":1.0,"rev_max":515000,"rev_proba":515000,"rev_sec":515000,"sec_ret_month":1,"sec_clos_month":4,"prob_ret_month":1,"prob_clos_month":4,"max_ret_month":1,"max_clos_month":4,"ret_date_str":"29/01/2026","clos_date_str":"30/04/2026"},{"name":"Imadol","domain":"imadol.com","referent":"Sandra Crochemore","type_mandat":"Buy-side M&A","lm_signee":"Non","typologie":"Opportunité","stade":"Préparation (IM, BP)","complexite":"Très élevée","retainer":30000,"success":275000,"coef_complexite":0.0,"coef_contractuel":0.0,"proba_brute":0.0,"rev_max":305000,"rev_proba":30000,"rev_sec":30000,"sec_ret_month":7,"sec_clos_month":null,"prob_ret_month":7,"prob_clos_month":8,"max_ret_month":7,"max_clos_month":8,"ret_date_str":"01/07/2026","clos_date_str":"31/08/2026"},{"name":"Largo","domain":"largo.ai","referent":"Emmanuel Clerc","type_mandat":"Sell-side M&A","lm_signee":"Non","typologie":"Verbal","stade":"Signing","complexite":"Élevée","retainer":10000,"success":180000,"coef_complexite":0.85,"coef_contractuel":0.0,"proba_brute":1.0,"rev_max":190000,"rev_proba":190000,"rev_sec":190000,"sec_ret_month":3,"sec_clos_month":5,"prob_ret_month":3,"prob_clos_month":5,"max_ret_month":3,"max_clos_month":5,"ret_date_str":"01/03/2026","clos_date_str":"31/05/2026"}];
-
-var MONTHS = ['Jan','Fév','Mar','Avr','Mai','Jun','Jul','Aoû','Sep','Oct','Nov','Déc'];
-var MONTHS_FULL = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
-
-function fmtK(v){
-  if(!v||v===0) return '€0';
-  if(v>=1000000) return '€'+(v/1000000).toFixed(1)+'m';
-  if(v>=1000) return '€'+Math.round(v/1000)+'k';
-  return '€'+Math.round(v);
+var TK='pk_bYWEonUXSpa1_O-4n_OaKQ',BUDGET=5000000;
+var C_MAX='#0085CA',C_PROBA='#2DBEC9',C_SEC='#00C9A0';
+var REFERENTS={'Hubert Tuillier':{color:'#185FA5'},'Mark Wyatt':{color:'#1D9E75'},'Frédéric Meyer':{color:'#D85A30'},'Pierre Marie Blois':{color:'#D4537E'},'Sandra Crochemore':{color:'#7F77DD'},'Emmanuel Clerc':{color:'#BA7517'}};
+var REAL_REFERENTS={'Hubert Tuillier':'Hubert Tuillier','Mark Wyatt':'Mark Wyatt','Frédéric Meyer':'Frédéric Meyer','Pierre Marie Blois':'Pierre Marie Blois','Sandra Crochemore':'Sandra Crochemore','Emmanuel Clerc':'Emmanuel Clerc'};
+var STAGES_ORDER=[{k:'Signé / Onboarding',color:'#263c47'},{k:'Préparation (IM, BP)',color:'#1b4f63'},{k:'Outreach',color:'#007499'},{k:'Intérêt confirmé',color:'#0085CA'},{k:'LOI',color:'#009ebc'},{k:'Exclusivité / Due Diligence',color:'#00a3be'},{k:'Signing',color:'#00c9a0'},{k:'Closing',color:'#00e07e'}];
+var MONTHS=['Jan','Fév','Mar','Avr','Mai','Jun','Jul','Aoû','Sep','Oct','Nov','Déc'];
+var MONTHS_FULL=['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+function fmtK(v){if(!v||v===0)return'€0';if(v>=1000000)return'€'+(v/1000000).toFixed(1)+'m';if(v>=1000)return'€'+Math.round(v/1000)+'k';return'€'+Math.round(v)}
+function initials(n){var w=n.trim().split(/\s+/);return w.length===1?w[0].substring(0,2).toUpperCase():(w[0][0]+w[w.length-1][0]).toUpperCase()}
+function logoUrl(d){return'https://img.logo.dev/'+d+'?token='+TK+'&format=png&size=120&theme=light'}
+function logoHTML(domain,name,size){
+  size=size||28;
+  var rk=Object.keys(REFERENTS).find(function(k){return REAL_REFERENTS[k]===name||k===name})||null;
+  var rc=rk?REFERENTS[rk].color:'#8A9FAB';
+  var ini=initials(name);
+  if(domain&&domain!==''&&domain!=='n.a.'){
+    return'<img src="'+logoUrl(domain)+'" style="max-width:'+size+'px;max-height:'+(size*.75)+'px;object-fit:contain" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'">'+'<div class="init" style="display:none;background:'+rc+';font-size:'+Math.round(size*.35)+'px;width:'+size+'px;height:'+size+'px;border-radius:50%;color:#fff;align-items:center;justify-content:center;font-weight:700">'+ini+'</div>';
+  }
+  return'<div class="init" style="display:flex;background:'+rc+';font-size:'+Math.round(size*.35)+'px;width:'+size+'px;height:'+size+'px;border-radius:50%;color:#fff;align-items:center;justify-content:center;font-weight:700">'+ini+'</div>';
 }
-function fmtFull(v){
-  if(!v||v===0) return '€0';
-  if(v>=1000000) return '€'+(v/1000000).toFixed(1)+'m';
-  if(v>=1000) return '€'+Math.round(v/1000)+'k';
-  return '€'+Math.round(v);
-}
-function pct(v,total){if(!total)return '0%';return Math.round(v/total*100)+'%'}
-function logoUrl(domain){return'https://img.logo.dev/'+domain+'?token='+TK+'&format=png&size=120&theme=light'}
-function initials(name){var w=name.trim().split(/\s+/);return w.length===1?w[0].substring(0,2).toUpperCase():(w[0][0]+w[w.length-1][0]).toUpperCase()}
 
-// Build monthly arrays
+var MANDATS=[{"name":"Clermont Foot","domain":"clermontfoot.com","referent":"Hubert Tuillier","type_mandat":"Sell-side M&A","lm_signee":"Oui","typologie":"Signé","stade":"Intérêt confirmé","complexite":"Moyenne","retainer":15000,"success":250000,"coef_complexite":0.95,"coef_contractuel":1.0,"proba_brute":0.95,"rev_max":265000,"rev_proba":252500,"rev_sec":15000,"sec_ret_month":2,"sec_clos_month":null,"prob_ret_month":2,"prob_clos_month":6,"max_ret_month":2,"max_clos_month":6,"ret_date_str":"28/02/2026","clos_date_str":"30/06/2026"},{"name":"Ride Out","domain":"","referent":"Hubert Tuillier","type_mandat":"Sell-side M&A","lm_signee":"Oui","typologie":"Signé","stade":"Outreach","complexite":"Très élevée","retainer":15000,"success":1200000,"coef_complexite":0.0,"coef_contractuel":1.0,"proba_brute":0.0,"rev_max":1215000,"rev_proba":15000,"rev_sec":15000,"sec_ret_month":3,"sec_clos_month":null,"prob_ret_month":3,"prob_clos_month":10,"max_ret_month":3,"max_clos_month":10,"ret_date_str":"30/03/2026","clos_date_str":"31/10/2027"},{"name":"GEG","domain":"geg.asia","referent":"Hubert Tuillier","type_mandat":"Sell-side M&A","lm_signee":"Oui","typologie":"Signé","stade":"Préparation (IM, BP)","complexite":"Élevée","retainer":120000,"success":1200000,"coef_complexite":0.85,"coef_contractuel":1.0,"proba_brute":0.85,"rev_max":1320000,"rev_proba":1140000,"rev_sec":120000,"sec_ret_month":4,"sec_clos_month":null,"prob_ret_month":4,"prob_clos_month":10,"max_ret_month":4,"max_clos_month":10,"ret_date_str":"20/04/2026","clos_date_str":"31/10/2026"},{"name":"FC Metz","domain":"fcmetz.com","referent":"Hubert Tuillier","type_mandat":"Sell-side M&A","lm_signee":"Oui","typologie":"Signé","stade":"Intérêt confirmé","complexite":"Élevée","retainer":0,"success":1300000,"coef_complexite":0.85,"coef_contractuel":1.0,"proba_brute":0.85,"rev_max":1300000,"rev_proba":1105000,"rev_sec":0,"sec_ret_month":null,"sec_clos_month":null,"prob_ret_month":null,"prob_clos_month":6,"max_ret_month":null,"max_clos_month":6,"ret_date_str":"TBD","clos_date_str":"30/06/2026"},{"name":"Hurricane Group","domain":"hurcn.com","referent":"Hubert Tuillier","type_mandat":"Sell-side M&A","lm_signee":"Oui","typologie":"Signé","stade":"Exclusivité / Due Diligence","complexite":"Élevée","retainer":15000,"success":250000,"coef_complexite":0.85,"coef_contractuel":1.0,"proba_brute":1.0,"rev_max":265000,"rev_proba":265000,"rev_sec":15000,"sec_ret_month":5,"sec_clos_month":null,"prob_ret_month":5,"prob_clos_month":5,"max_ret_month":5,"max_clos_month":5,"ret_date_str":"30/05/2026","clos_date_str":"30/05/2026"},{"name":"EA Guingamp","domain":"eaguingamp.com","referent":"Hubert Tuillier","type_mandat":"Sell-side M&A","lm_signee":"Non","typologie":"Verbal","stade":"Préparation (IM, BP)","complexite":"Élevée","retainer":15000,"success":250000,"coef_complexite":0.85,"coef_contractuel":0.0,"proba_brute":0.0,"rev_max":265000,"rev_proba":15000,"rev_sec":15000,"sec_ret_month":6,"sec_clos_month":null,"prob_ret_month":6,"prob_clos_month":6,"max_ret_month":6,"max_clos_month":6,"ret_date_str":"30/06/2026","clos_date_str":"30/06/2026"},{"name":"OSE (Ecotrail)","domain":"ose-event.com","referent":"Hubert Tuillier","type_mandat":"Buy-side M&A","lm_signee":"Oui","typologie":"Signé","stade":"LOI","complexite":"Moyenne","retainer":10000,"success":100000,"coef_complexite":0.95,"coef_contractuel":1.0,"proba_brute":1.0,"rev_max":110000,"rev_proba":110000,"rev_sec":10000,"sec_ret_month":null,"sec_clos_month":null,"prob_ret_month":null,"prob_clos_month":5,"max_ret_month":null,"max_clos_month":5,"ret_date_str":"TBD","clos_date_str":"30/05/2026"},{"name":"Rodez Foot","domain":"rodezaveyronfootball.com","referent":"Hubert Tuillier","type_mandat":"Sell-side M&A","lm_signee":"Non","typologie":"Verbal","stade":"Intérêt confirmé","complexite":"Élevée","retainer":0,"success":250000,"coef_complexite":0.85,"coef_contractuel":0.0,"proba_brute":0.0,"rev_max":250000,"rev_proba":0,"rev_sec":0,"sec_ret_month":null,"sec_clos_month":null,"prob_ret_month":null,"prob_clos_month":6,"max_ret_month":null,"max_clos_month":6,"ret_date_str":"TBD","clos_date_str":"30/06/2026"},{"name":"Auraé Impact","domain":"auraeimpact.com","referent":"Hubert Tuillier","type_mandat":"Buy-side M&A","lm_signee":"Oui","typologie":"Signé","stade":"Outreach","complexite":"Élevée","retainer":30000,"success":150000,"coef_complexite":0.85,"coef_contractuel":1.0,"proba_brute":0.85,"rev_max":180000,"rev_proba":157500,"rev_sec":180000,"sec_ret_month":null,"sec_clos_month":null,"prob_ret_month":null,"prob_clos_month":null,"max_ret_month":null,"max_clos_month":null,"ret_date_str":"TBD","clos_date_str":"TBD"},{"name":"Golf Up","domain":"golfup.fr","referent":"Hubert Tuillier","type_mandat":"Sell-side M&A","lm_signee":"Oui","typologie":"Signé","stade":"Outreach","complexite":"Très élevée","retainer":15000,"success":350000,"coef_complexite":0.0,"coef_contractuel":1.0,"proba_brute":0.0,"rev_max":365000,"rev_proba":15000,"rev_sec":15000,"sec_ret_month":6,"sec_clos_month":null,"prob_ret_month":6,"prob_clos_month":6,"max_ret_month":6,"max_clos_month":6,"ret_date_str":"30/06/2026","clos_date_str":"30/06/2026"},{"name":"Bomb Squad","domain":"bombsquad.games","referent":"Hubert Tuillier","type_mandat":"Sell-side M&A","lm_signee":"Oui","typologie":"Signé","stade":"Intérêt confirmé","complexite":"Moyenne","retainer":0,"success":200000,"coef_complexite":0.95,"coef_contractuel":1.0,"proba_brute":0.95,"rev_max":200000,"rev_proba":190000,"rev_sec":0,"sec_ret_month":null,"sec_clos_month":null,"prob_ret_month":null,"prob_clos_month":6,"max_ret_month":null,"max_clos_month":6,"ret_date_str":"TBD","clos_date_str":"30/06/2026"},{"name":"Nic Impex","domain":"nicimpex.com","referent":"Hubert Tuillier","type_mandat":"Buy-side M&A","lm_signee":"Oui","typologie":"Signé","stade":"Intérêt confirmé","complexite":"Moyenne","retainer":0,"success":90000,"coef_complexite":0.95,"coef_contractuel":1.0,"proba_brute":0.95,"rev_max":90000,"rev_proba":85500,"rev_sec":0,"sec_ret_month":null,"sec_clos_month":null,"prob_ret_month":null,"prob_clos_month":6,"max_ret_month":null,"max_clos_month":6,"ret_date_str":"TBD","clos_date_str":"30/06/2026"},{"name":"Montpellier Foot","domain":"mhscfoot.com","referent":"Hubert Tuillier","type_mandat":"Buy-side M&A","lm_signee":"Non","typologie":"Opportunité","stade":"Outreach","complexite":"Moyenne","retainer":0,"success":290000,"coef_complexite":0.95,"coef_contractuel":0.0,"proba_brute":0.0,"rev_max":290000,"rev_proba":0,"rev_sec":0,"sec_ret_month":null,"sec_clos_month":null,"prob_ret_month":null,"prob_clos_month":6,"max_ret_month":null,"max_clos_month":6,"ret_date_str":"30/06/2026","clos_date_str":"30/06/2026"},{"name":"EVA Gaming","domain":"eva.gg","referent":"Hubert Tuillier","type_mandat":"Buy-side M&A","lm_signee":"Oui","typologie":"Signé","stade":"Closing","complexite":"Faible","retainer":0,"success":250000,"coef_complexite":1.0,"coef_contractuel":1.0,"proba_brute":1.0,"rev_max":250000,"rev_proba":250000,"rev_sec":250000,"sec_ret_month":null,"sec_clos_month":2,"prob_ret_month":null,"prob_clos_month":2,"max_ret_month":null,"max_clos_month":2,"ret_date_str":"28/02/2026","clos_date_str":"28/02/2026"},{"name":"Sodex","domain":"sodex.fr","referent":"Hubert Tuillier","type_mandat":"Sell-side M&A","lm_signee":"Oui","typologie":"Signé","stade":"Closing","complexite":"Faible","retainer":0,"success":150000,"coef_complexite":1.0,"coef_contractuel":1.0,"proba_brute":1.0,"rev_max":150000,"rev_proba":150000,"rev_sec":150000,"sec_ret_month":null,"sec_clos_month":3,"prob_ret_month":null,"prob_clos_month":3,"max_ret_month":null,"max_clos_month":3,"ret_date_str":"26/03/2026","clos_date_str":"26/03/2026"},{"name":"Folie Douce Val Thorens","domain":"lafoliedouce.com","referent":"Mark Wyatt","type_mandat":"Buy-side M&A","lm_signee":"Oui","typologie":"Signé","stade":"LOI","complexite":"Moyenne","retainer":25000,"success":350000,"coef_complexite":0.95,"coef_contractuel":1.0,"proba_brute":1.0,"rev_max":375000,"rev_proba":375000,"rev_sec":25000,"sec_ret_month":5,"sec_clos_month":null,"prob_ret_month":5,"prob_clos_month":6,"max_ret_month":5,"max_clos_month":6,"ret_date_str":"01/05/2026","clos_date_str":"30/06/2026"},{"name":"Cross Pharm","domain":"crosspharm.com","referent":"Frédéric Meyer","type_mandat":"Sell-side M&A","lm_signee":"Oui","typologie":"Signé","stade":"Intérêt confirmé","complexite":"Moyenne","retainer":0,"success":300000,"coef_complexite":0.95,"coef_contractuel":1.0,"proba_brute":0.95,"rev_max":300000,"rev_proba":285000,"rev_sec":0,"sec_ret_month":null,"sec_clos_month":null,"prob_ret_month":null,"prob_clos_month":7,"max_ret_month":null,"max_clos_month":7,"ret_date_str":"01/06/2026","clos_date_str":"31/07/2026"},{"name":"Pension Bee","domain":"pensionbee.com","referent":"Pierre Marie Blois","type_mandat":"Sell-side M&A","lm_signee":"Oui","typologie":"Signé","stade":"Closing","complexite":"Faible","retainer":15000,"success":500000,"coef_complexite":1.0,"coef_contractuel":1.0,"proba_brute":1.0,"rev_max":515000,"rev_proba":515000,"rev_sec":515000,"sec_ret_month":1,"sec_clos_month":4,"prob_ret_month":1,"prob_clos_month":4,"max_ret_month":1,"max_clos_month":4,"ret_date_str":"29/01/2026","clos_date_str":"30/04/2026"},{"name":"Imadol","domain":"imadol.com","referent":"Sandra Crochemore","type_mandat":"Buy-side M&A","lm_signee":"Non","typologie":"Opportunité","stade":"Préparation (IM, BP)","complexite":"Très élevée","retainer":30000,"success":275000,"coef_complexite":0.0,"coef_contractuel":0.0,"proba_brute":0.0,"rev_max":305000,"rev_proba":30000,"rev_sec":30000,"sec_ret_month":7,"sec_clos_month":null,"prob_ret_month":7,"prob_clos_month":8,"max_ret_month":7,"max_clos_month":8,"ret_date_str":"01/07/2026","clos_date_str":"31/08/2026"},{"name":"Largo","domain":"largo.ai","referent":"Emmanuel Clerc","type_mandat":"Sell-side M&A","lm_signee":"Non","typologie":"Verbal","stade":"Signing","complexite":"Élevée","retainer":10000,"success":180000,"coef_complexite":0.85,"coef_contractuel":0.0,"proba_brute":1.0,"rev_max":190000,"rev_proba":190000,"rev_sec":190000,"sec_ret_month":3,"sec_clos_month":5,"prob_ret_month":3,"prob_clos_month":5,"max_ret_month":3,"max_clos_month":5,"ret_date_str":"01/03/2026","clos_date_str":"31/05/2026"}];
+
+var REF_DATA={"Hubert Tuillier":{"maxM":[0,265000,165000,120000,365000,3010000,0,0,0,2400000,0,0],"probaM":[0,265000,165000,120000,365000,1648000,0,0,0,1020000,0,0],"secM":[0,265000,165000,120000,15000,30000,0,0,0,0,0,0]},"Mark Wyatt":{"maxM":[0,0,0,0,25000,350000,0,0,0,0,0,0],"probaM":[0,0,0,0,25000,350000,0,0,0,0,0,0],"secM":[0,0,0,0,25000,0,0,0,0,0,0,0]},"Frédéric Meyer":{"maxM":[0,0,0,0,0,0,300000,0,0,0,0,0],"probaM":[0,0,0,0,0,0,285000,0,0,0,0,0],"secM":[0,0,0,0,0,0,0,0,0,0,0,0]},"Pierre Marie Blois":{"maxM":[15000,0,0,500000,0,0,0,0,0,0,0,0],"probaM":[15000,0,0,500000,0,0,0,0,0,0,0,0],"secM":[15000,0,0,500000,0,0,0,0,0,0,0,0]},"Sandra Crochemore":{"maxM":[0,0,0,0,0,0,30000,275000,0,0,0,0],"probaM":[0,0,0,0,0,0,30000,0,0,0,0,0],"secM":[0,0,0,0,0,0,30000,0,0,0,0,0]},"Emmanuel Clerc":{"maxM":[0,0,10000,0,180000,0,0,0,0,0,0,0],"probaM":[0,0,10000,0,180000,0,0,0,0,0,0,0],"secM":[0,0,10000,0,180000,0,0,0,0,0,0,0]}};
+
 function buildMonthly(){
-  var maxM=new Array(12).fill(0), probaM=new Array(12).fill(0), secM=new Array(12).fill(0);
-  var maxByMonth=Array.from({length:12},function(){return[]}),
-      probaByMonth=Array.from({length:12},function(){return[]}),
-      secByMonth=Array.from({length:12},function(){return[]});
-
+  var maxM=new Array(12).fill(0),probaM=new Array(12).fill(0),secM=new Array(12).fill(0);
+  var maxBM=Array.from({length:12},function(){return[]}),probaBM=Array.from({length:12},function(){return[]}),secBM=Array.from({length:12},function(){return[]});
   MANDATS.forEach(function(m){
-    // MAX
-    if(m.max_ret_month&&m.max_ret_month>=1&&m.max_ret_month<=12&&m.retainer>0){
-      var mi=m.max_ret_month-1;maxM[mi]+=m.retainer;
-      maxByMonth[mi].push({name:m.name,domain:m.domain,referent:m.referent,amount:m.retainer,revtype:'Retainer',proba_brute:m.proba_brute,type_mandat:m.type_mandat});
-    }
-    if(m.max_clos_month&&m.max_clos_month>=1&&m.max_clos_month<=12&&m.success>0){
-      var mi=m.max_clos_month-1;maxM[mi]+=m.success;
-      maxByMonth[mi].push({name:m.name,domain:m.domain,referent:m.referent,amount:m.success,revtype:'Success fee',proba_brute:m.proba_brute,type_mandat:m.type_mandat});
-    }
-    // PROBA
-    if(m.prob_ret_month&&m.prob_ret_month>=1&&m.prob_ret_month<=12&&m.retainer>0){
-      var mi=m.prob_ret_month-1;probaM[mi]+=m.retainer;
-      probaByMonth[mi].push({name:m.name,domain:m.domain,referent:m.referent,amount:m.retainer,revtype:'Retainer',proba_brute:m.proba_brute,type_mandat:m.type_mandat});
-    }
-    if(m.prob_clos_month&&m.prob_clos_month>=1&&m.prob_clos_month<=12&&m.success>0){
-      var mi=m.prob_clos_month-1;var amt=m.success*m.proba_brute;probaM[mi]+=amt;
-      probaByMonth[mi].push({name:m.name,domain:m.domain,referent:m.referent,amount:amt,revtype:'Success fee',proba_brute:m.proba_brute,type_mandat:m.type_mandat});
-    }
-    // SEC
-    if(m.sec_ret_month&&m.sec_ret_month>=1&&m.sec_ret_month<=12&&m.retainer>0){
-      var mi=m.sec_ret_month-1;secM[mi]+=m.retainer;
-      secByMonth[mi].push({name:m.name,domain:m.domain,referent:m.referent,amount:m.retainer,revtype:'Retainer',proba_brute:m.proba_brute,type_mandat:m.type_mandat});
-    }
-    if(m.sec_clos_month&&m.sec_clos_month>=1&&m.sec_clos_month<=12&&m.success>0){
-      var mi=m.sec_clos_month-1;secM[mi]+=m.success;
-      secByMonth[mi].push({name:m.name,domain:m.domain,referent:m.referent,amount:m.success,revtype:'Success fee',proba_brute:m.proba_brute,type_mandat:m.type_mandat});
-    }
+    if(m.max_ret_month&&m.max_ret_month<=12&&m.retainer>0){var i=m.max_ret_month-1;maxM[i]+=m.retainer;maxBM[i].push({name:m.name,domain:m.domain,referent:m.referent,amount:m.retainer,revtype:'Retainer'})}
+    if(m.max_clos_month&&m.max_clos_month<=12&&m.success>0){var i=m.max_clos_month-1;maxM[i]+=m.success;maxBM[i].push({name:m.name,domain:m.domain,referent:m.referent,amount:m.success,revtype:'Success fee'})}
+    if(m.prob_ret_month&&m.prob_ret_month<=12&&m.retainer>0){var i=m.prob_ret_month-1;probaM[i]+=m.retainer;probaBM[i].push({name:m.name,domain:m.domain,referent:m.referent,amount:m.retainer,revtype:'Retainer'})}
+    if(m.prob_clos_month&&m.prob_clos_month<=12&&m.success>0){var i=m.prob_clos_month-1;var a=m.success*m.proba_brute;probaM[i]+=a;probaBM[i].push({name:m.name,domain:m.domain,referent:m.referent,amount:a,revtype:'Success fee'})}
+    if(m.sec_ret_month&&m.sec_ret_month<=12&&m.retainer>0){var i=m.sec_ret_month-1;secM[i]+=m.retainer;secBM[i].push({name:m.name,domain:m.domain,referent:m.referent,amount:m.retainer,revtype:'Retainer'})}
+    if(m.sec_clos_month&&m.sec_clos_month<=12&&m.success>0){var i=m.sec_clos_month-1;secM[i]+=m.success;secBM[i].push({name:m.name,domain:m.domain,referent:m.referent,amount:m.success,revtype:'Success fee'})}
   });
-  return{maxM:maxM,probaM:probaM,secM:secM,maxByMonth:maxByMonth,probaByMonth:probaByMonth,secByMonth:secByMonth};
+  return{maxM:maxM,probaM:probaM,secM:secM,maxByMonth:maxBM,probaByMonth:probaBM,secByMonth:secBM};
 }
-
 var D=buildMonthly();
-// KPI totals taken directly from sheet columns W/X/Y (not recomputed monthly)
 var totalMax=MANDATS.reduce(function(s,m){return s+m.rev_max},0);
 var totalProba=MANDATS.reduce(function(s,m){return s+m.rev_proba},0);
 var totalSec=MANDATS.reduce(function(s,m){return s+m.rev_sec},0);
 var sellCount=MANDATS.filter(function(m){return m.type_mandat==='Sell-side M&A'}).length;
 var buyCount=MANDATS.filter(function(m){return m.type_mandat==='Buy-side M&A'}).length;
 
-// KPI row
+// KPIs - no titles, just numbers
 function renderKPIs(){
-  var pctMax=Math.round(totalMax/BUDGET*100);
-  var pctProba=Math.round(totalProba/BUDGET*100);
-  var pctSec=Math.round(totalSec/BUDGET*100);
-  function badgeClass(p){return p>=100?'badge-g':'badge-r'}
-  function badgeLabel(p){return p+'% vs. budget'}
+  var pM=Math.round(totalMax/BUDGET*100),pP=Math.round(totalProba/BUDGET*100),pS=Math.round(totalSec/BUDGET*100);
+  function bg(p){return p>=100?'badge-g':'badge-r'}
+  document.getElementById('kpi-row').innerHTML=
+    '<div class="kpi"><div class="kpi-value" style="color:var(--deep)">'+MANDATS.length+'</div><div style="font-size:12px;color:#8A9FAB;display:flex;align-items:center;justify-content:center;height:44px">mandats en cours</div><div style="display:flex;gap:6px;justify-content:center;align-items:flex-start"><div class="kpi-badge" style="background:#E6F1FB;color:#185FA5;border:1px solid #B5D4F4">'+sellCount+' sell-side</div><div class="kpi-badge" style="background:#EEEDFE;color:#534AB7;border:1px solid #CECBF6">'+buyCount+' buy-side</div></div></div>'+
+    '<div class="kpi"><div class="kpi-value" style="color:var(--deep)">'+fmtK(BUDGET)+'</div><div style="font-size:12px;color:#8A9FAB;display:flex;align-items:center;justify-content:center;height:44px">Objectif de CA 2026B</div><div></div></div>'+
+    '<div class="kpi"><div class="kpi-value" style="color:'+C_MAX+'">'+fmtK(Math.round(totalMax))+'</div><div style="font-size:12px;color:#8A9FAB;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;height:44px;line-height:1.4"><span>Revenu max</span><span style="font-size:11px">(tous les deals closent)</span></div><div class="kpi-badge '+bg(pM)+'">'+pM+'% vs. budget</div></div>'+
+    '<div class="kpi"><div class="kpi-value" style="color:'+C_PROBA+'">'+fmtK(Math.round(totalProba))+'</div><div style="font-size:12px;color:#8A9FAB;display:flex;align-items:center;justify-content:center;height:44px">Revenu probabilisé</div><div class="kpi-badge '+bg(pP)+'">'+pP+'% vs. budget</div></div>'+
+    '<div class="kpi"><div class="kpi-value" style="color:'+C_SEC+'">'+fmtK(Math.round(totalSec))+'</div><div style="font-size:12px;color:#8A9FAB;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;height:44px;line-height:1.4"><span>Revenu sécurisé</span><span style="font-size:11px">(retainers + closings certains)</span></div><div class="kpi-badge '+bg(pS)+'">'+pS+'% vs. budget</div></div>';
+}
 
-  function kpiRev(lbl,val,pct,desc,c1){
-    var cl=pct>=100?'badge-g':'badge-r';
-    return '<div class="kpi"><div class="kpi-label">'+lbl+'</div>'
-      +'<div style="display:flex;align-items:baseline;justify-content:space-between;gap:8px">'
-      +'<div class="kpi-value" style="color:'+c1+'">'+fmtK(Math.round(val))+'</div>'
-      +'<div class="kpi-badge '+cl+'" style="white-space:nowrap">'+pct+'% vs. budget</div>'
-      +'</div>'
-      +'<div class="kpi-sub">'+desc+'</div></div>';
+var activeRef=null,mainChartInstance=null;
+
+function getFiltered(){
+  var maxM=new Array(12).fill(0),probaM=new Array(12).fill(0),secM=new Array(12).fill(0);
+  Object.keys(REF_DATA).forEach(function(r){
+    if(activeRef&&activeRef!==r)return;
+    REF_DATA[r].maxM.forEach(function(v,i){maxM[i]+=v});
+    REF_DATA[r].probaM.forEach(function(v,i){probaM[i]+=v});
+    REF_DATA[r].secM.forEach(function(v,i){secM[i]+=v});
+  });
+  return{maxM:maxM,probaM:probaM,secM:secM};
+}
+
+function renderCumStrip(secM){
+  var fm=getFiltered();var cp=[],cs=[],rp=0,rs=0;
+  for(var i=0;i<12;i++){rp+=fm.probaM[i];rs+=secM[i];cp.push(rp);cs.push(rs);}
+  window._cumData={cp:cp,cs:cs};
+}
+
+function positionCumStrip(){
+  var chart=mainChartInstance,strip=document.getElementById('cum-strip');
+  if(!chart||!strip||!window._cumData||!chart.scales||!chart.scales.x)return;
+  var cd=window._cumData;
+  var caLeft=chart.chartArea.left,caRight=chart.chartArea.right;
+
+  // Build as two flex rows — label outside, pills positioned absolutely over pill-zone
+  strip.innerHTML='';
+  strip.style.position='relative';
+  strip.style.height='56px';
+
+  // Pill zone: a container div that sits exactly over the chart bars area
+  var GAP=28;
+
+  function buildRow(label,color,values,top){
+    // Label — sits to the left of caLeft, right-aligned
+    var lbl=document.createElement('div');
+    lbl.style.cssText=[
+      'position:absolute',
+      'right:'+(strip.offsetWidth-caLeft+6)+'px',
+      'top:'+top+'px',
+      'width:90px',
+      'text-align:right',
+      'font-size:9px',
+      'font-weight:700',
+      'color:'+color,
+      'line-height:1.35',
+      'pointer-events:none'
+    ].join(';');
+    lbl.innerHTML=label;
+    strip.appendChild(lbl);
+
+    // Line segments between pills
+    for(var si=0;si<=12;si++){
+      var xA=si===0?caLeft:(chart.scales.x.getPixelForValue(si-1)+GAP);
+      var xB=si===12?caRight:(chart.scales.x.getPixelForValue(si)-GAP);
+      if(xB>xA){
+        var seg=document.createElement('div');
+        seg.style.cssText='position:absolute;height:1px;background:rgba(28,43,51,.18);top:'+(top+9)+'px;pointer-events:none';
+        seg.style.left=xA+'px';seg.style.width=(xB-xA)+'px';
+        strip.appendChild(seg);
+      }
+    }
+
+    // Pills
+    values.forEach(function(v,i){
+      var xPx=chart.scales.x.getPixelForValue(i);
+      var pill=document.createElement('div');
+      pill.style.cssText='position:absolute;transform:translateX(-50%);top:'+top+'px;pointer-events:none';
+      pill.style.left=xPx+'px';
+      pill.innerHTML=v>0
+        ?'<span style="display:inline-flex;justify-content:center;min-width:44px;background:'+color+'14;border:1px solid '+color+'55;border-radius:20px;padding:2px 8px;font-size:9.5px;font-weight:700;color:'+color+'">'+fmtK(v)+'</span>'
+        :'<span style="display:inline-flex;justify-content:center;min-width:44px;border:1px solid rgba(28,43,51,.1);border-radius:20px;padding:2px 8px;font-size:9.5px;color:rgba(28,43,51,.25)">-</span>';
+      strip.appendChild(pill);
+    });
   }
-    document.getElementById('kpi-row').innerHTML=
-    '<div class="kpi"><div class="kpi-value" style="color:var(--deep)">' +MANDATS.length+ '</div><div style="display:flex;gap:8px;justify-content:center;margin-top:6px"><div class="kpi-badge" style="background:#E6F1FB;color:#185FA5;border:1px solid #B5D4F4">' +sellCount+ ' sell-side</div><div class="kpi-badge" style="background:#EEEDFE;color:#534AB7;border:1px solid #CECBF6">' +buyCount+ ' buy-side</div></div></div>'
-    +'<div class="kpi"><div class="kpi-value" style="color:var(--deep)">' +fmtK(BUDGET)+ '</div></div>'
-    +'<div class="kpi"><div class="kpi-value" style="color:#0085CA">' +fmtK(Math.round(totalMax))+ '</div><div class="kpi-badge ' +(pctMax>=100?'badge-g':'badge-r')+ '" style="margin-top:6px">' +pctMax+ '% vs. budget</div></div>'
-    +'<div class="kpi"><div class="kpi-value" style="color:#2DBEC9">' +fmtK(Math.round(totalProba))+ '</div><div class="kpi-badge ' +(pctProba>=100?'badge-g':'badge-r')+ '" style="margin-top:6px">' +pctProba+ '% vs. budget</div></div>'
-    +'<div class="kpi"><div class="kpi-value" style="color:#00C9A0">' +fmtK(Math.round(totalSec))+ '</div><div class="kpi-badge ' +(pctSec>=100?'badge-g':'badge-r')+ '" style="margin-top:6px">' +pctSec+ '% vs. budget</div></div>';<!DOCTYPE html>
-<html lang="fr">
+
+  buildRow('Proba<br>cumulé','#2DBEC9',cd.cp,0);
+  buildRow('Sécu<br>cumulé','#00C9A0',cd.cs,28);
+}
+
+var topLabelPlugin={id:'topLabel',afterDatasetsDraw:function(chart){
+  var ctx=chart.ctx,ds=chart.data.datasets;
+  var metas=[chart.getDatasetMeta(0),chart.getDatasetMeta(1),chart.getDatasetMeta(2)];
+  if(!metas[0].data.length)return;ctx.save();
+  for(var i=0;i<12;i++){metas.forEach(function(meta,bi){
+    var bar=meta.data[i],val=ds[bi].data[i];
+    if(!bar||!val||val===0)return;
+    var txt=fmtK(val),pw=ctx.measureText(txt).width+12,ph=16,bx=bar.x-pw/2,by=bar.y-ph-5;
+    ctx.fillStyle='rgba(255,255,255,.9)';ctx.beginPath();ctx.roundRect(bx,by,pw,ph,4);ctx.fill();
+    ctx.font='600 10px DM Sans, sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';
+    ctx.fillStyle=[C_SEC,C_PROBA,C_MAX][bi];ctx.fillText(txt,bar.x,by+ph/2);
+  });}ctx.restore();
+}};
+
+var ttDiv=null;
+function getTT(){if(!ttDiv){ttDiv=document.createElement('div');ttDiv.style.cssText='position:fixed;background:#fff;border:1px solid rgba(28,43,51,.12);border-radius:16px;padding:14px 16px;box-shadow:0 12px 40px rgba(28,43,51,.18);pointer-events:none;z-index:999;min-width:220px;max-width:300px;opacity:0;transition:opacity .12s;font-family:DM Sans,sans-serif';document.body.appendChild(ttDiv);}return ttDiv;}
+
+function buildTT(mi,dsLabel){
+  var scMap={'Revenu sec':{label:'Revenu sécurisé',key:'secM',bk:'secByMonth',color:C_SEC},'Revenu proba':{label:'Revenu probabilisé',key:'probaM',bk:'probaByMonth',color:C_PROBA},'Revenu max':{label:'Revenu max',key:'maxM',bk:'maxByMonth',color:C_MAX}};
+  var sc=scMap[dsLabel];if(!sc)return'';
+  var total=0,refs=[];
+  Object.keys(REF_DATA).forEach(function(ref){if(activeRef&&activeRef!==ref)return;var v=REF_DATA[ref][sc.key][mi];if(v>0){total+=v;refs.push({ref:ref,v:v});}});
+  if(!total)return'';
+  var h='<div style="font-size:12px;font-weight:700;color:#1C2B33;margin-bottom:10px;display:flex;align-items:center;gap:7px"><div style="width:10px;height:10px;border-radius:3px;background:'+sc.color+'"></div>'+sc.label+' - '+MONTHS_FULL[mi]+'<span style="margin-left:auto;font-size:13px;color:'+sc.color+'">'+fmtK(total)+'</span></div>';
+  refs.forEach(function(rl){
+    var rc=REFERENTS[rl.ref]||{color:'#8A9FAB'};var ini=rl.ref.split(' ').map(function(w){return w[0]}).join('').substring(0,3);
+    var items=(D[sc.bk]&&D[sc.bk][mi]||[]).filter(function(it){return it.referent===rl.ref&&it.amount>0});
+    var dn=REAL_REFERENTS[rl.ref]||rl.ref;
+    h+='<div style="padding:5px 0;border-bottom:1px solid rgba(28,43,51,.05)"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:'+(items.length?'5':'0')+'px"><div style="display:flex;align-items:center;gap:6px"><div style="width:20px;height:20px;border-radius:50%;background:'+rc.color+';display:flex;align-items:center;justify-content:center;font-size:7px;font-weight:700;color:#fff">'+ini+'</div><span style="font-size:11px;font-weight:600;color:#1C2B33">'+dn+'</span></div><span style="font-size:11px;font-weight:700;color:'+sc.color+'">'+fmtK(rl.v)+'</span></div>';
+    items.forEach(function(it){h+='<div style="display:flex;justify-content:space-between;padding:2px 0 2px 26px"><span style="font-size:10px;color:#6B7B86">'+it.name+'</span><span style="font-size:10px;font-weight:500;color:#1C2B33">'+fmtK(it.amount)+'</span></div>';});
+    h+='</div>';
+  });
+  h+='<div style="margin-top:8px;font-size:10px;color:#8A9FAB;text-align:center">Cliquez pour le détail</div>';
+  return h;
+}
+
+Chart.register({id:'customTT',afterEvent:function(chart,args){
+  var evt=args.event,tt=getTT();
+  if(evt.type==='mousemove'){
+    var pts=chart.getElementsAtEventForMode(evt.native,'nearest',{intersect:true},true);
+    if(pts.length){
+      var mi=pts[0].index,ds=chart.data.datasets[pts[0].datasetIndex];
+      var html=buildTT(mi,ds.label);if(!html){tt.style.opacity='0';return;}
+      tt.innerHTML=html;
+      var x=evt.native.clientX+16,y=evt.native.clientY-80;
+      if(x+300>window.innerWidth)x=evt.native.clientX-316;if(y<8)y=8;
+      tt.style.left=x+'px';tt.style.top=y+'px';tt.style.opacity='1';
+    }else tt.style.opacity='0';
+  }else if(evt.type==='mouseout')tt.style.opacity='0';
+}});
+
+
+function renderChart(){
+  var ctx=document.getElementById('mainChart').getContext('2d');
+  var fm=getFiltered();renderCumStrip(fm.secM);
+  var BR={topLeft:6,topRight:6,bottomLeft:0,bottomRight:0};
+  mainChartInstance=new Chart(ctx,{type:'bar',plugins:[topLabelPlugin],
+    data:{labels:MONTHS_FULL,datasets:[
+      {label:'Revenu sec',  data:fm.secM,   backgroundColor:C_SEC,   borderRadius:BR,borderSkipped:false,barPercentage:0.78,categoryPercentage:0.78},
+      {label:'Revenu proba',data:fm.probaM, backgroundColor:C_PROBA, borderRadius:BR,borderSkipped:false,barPercentage:0.78,categoryPercentage:0.78},
+      {label:'Revenu max',  data:fm.maxM,   backgroundColor:C_MAX,   borderRadius:BR,borderSkipped:false,barPercentage:0.78,categoryPercentage:0.78}
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:8}},
+      plugins:{legend:{display:false},tooltip:{enabled:false},hover:{mode:'nearest',intersect:true}},
+      onClick:function(evt,items){if(!items.length)return;showMonthModal(items[0].index);},
+      scales:{
+        x:{ticks:{font:{size:11,family:'DM Sans'},color:'#8A9FAB',autoSkip:false},grid:{display:false},border:{display:true,color:'rgba(28,43,51,.1)',width:1}},
+        y:{display:false,grid:{display:false},border:{display:false}}
+      }
+    }
+  });
+  setTimeout(positionCumStrip,60);
+}
+
+function updateChart(){
+  if(!mainChartInstance)return;updateRefPills();
+  var fm=getFiltered();
+  mainChartInstance.data.datasets[0].data=fm.secM;mainChartInstance.data.datasets[1].data=fm.probaM;mainChartInstance.data.datasets[2].data=fm.maxM;
+  mainChartInstance.update();renderCumStrip(fm.secM);setTimeout(positionCumStrip,20);
+}
+
+function renderReferentLegend(){
+  var el=document.getElementById('referent-legend'),h='<span style="font-size:12px;font-weight:500;color:#8A9FAB;align-self:center;white-space:nowrap">Filtrer par référent :</span>';
+  Object.keys(REFERENTS).forEach(function(name){
+    var r=REFERENTS[name];var dn=REAL_REFERENTS[name]||name;
+    h+='<div class="ref-pill" data-ref="'+name+'" style="display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:500;padding:4px 11px 4px 7px;border-radius:20px;cursor:pointer;border:1px solid '+r.color+';color:'+r.color+';background:transparent;transition:all .15s"><span class="pill-check" style="width:15px;height:15px;border-radius:4px;border:1.5px solid '+r.color+';display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden"><svg class="pill-tick" width="9" height="7" viewBox="0 0 9 7" fill="none" style="opacity:0;transition:opacity .15s"><path d="M1 3.5L3.5 6L8 1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>'+dn+'</div>';
+  });
+  el.innerHTML=h;
+  el.querySelectorAll('.ref-pill').forEach(function(pill){pill.addEventListener('click',function(){var ref=pill.getAttribute('data-ref');activeRef=activeRef===ref?null:ref;updateChart();});});
+}
+
+function updateRefPills(){
+  document.querySelectorAll('.ref-pill').forEach(function(pill){
+    var ref=pill.getAttribute('data-ref'),r=REFERENTS[ref];
+    var ck=pill.querySelector('.pill-check'),tk=pill.querySelector('.pill-tick');
+    var isSel=(activeRef===ref),isActive=(activeRef===null||isSel);
+    pill.style.background=isSel?r.color:'transparent';pill.style.color=isSel?'#fff':r.color;pill.style.opacity=isActive?'1':'0.35';
+    if(ck){ck.style.background=isSel?'rgba(255,255,255,.22)':'transparent';ck.style.borderColor=isSel?'rgba(255,255,255,.5)':r.color;ck.style.color=isSel?'#fff':r.color;}
+    if(tk)tk.style.opacity=isSel?'1':'0';
+  });
+  var lbl=document.getElementById('chart-mode-label');
+  if(activeRef){var rc=REFERENTS[activeRef]||{color:'#8A9FAB'};var ini=activeRef.split(' ').map(function(w){return w[0]}).join('').substring(0,3);lbl.style.cssText='font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;display:inline-flex;align-items:center;gap:5px;background:'+rc.color+'18;color:'+rc.color+';border:1px solid '+rc.color+'44';lbl.innerHTML='<span style="width:18px;height:18px;border-radius:50%;background:'+rc.color+';color:#fff;font-size:7px;font-weight:700;display:inline-flex;align-items:center;justify-content:center">'+ini+'</span>'+(REAL_REFERENTS[activeRef]||activeRef);}
+  else{lbl.style.display='none';lbl.innerHTML='';}
+}
+
+function showMonthModal(mi){
+  var monthName=MONTHS_FULL[mi];
+  function getItems(bm){var it=bm[mi]||[];return activeRef?it.filter(function(x){return x.referent===activeRef}):it;}
+  var maxI=getItems(D.maxByMonth),probaI=getItems(D.probaByMonth),secI=getItems(D.secByMonth);
+  function feeTag(t){var bg=t==='Retainer'?'#EFF6FF':'#F0FDF4',col=t==='Retainer'?'#1D4ED8':'#15803D',border=t==='Retainer'?'#BFDBFE':'#BBF7D0';return'<span style="font-size:9px;font-weight:600;padding:2px 8px;border-radius:12px;background:'+bg+';color:'+col+';border:1px solid '+border+'">'+t+'</span>';}
+  function itemRow(item){
+    var rc=REFERENTS[item.referent]||{color:'#8A9FAB'};var showRef=!activeRef;
+    return'<div class="mo-item" data-name="'+item.name.replace(/"/g,'&quot;')+'">'+'<div class="mo-item-logo">'+logoHTML(item.domain,item.name,26)+'</div>'+'<div style="flex:1;min-width:0"><div style="font-size:12px;font-weight:500;color:var(--deep);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+item.name+'</div>'+(showRef?'<div style="display:flex;align-items:center;gap:4px;margin-top:2px"><span style="width:5px;height:5px;border-radius:50%;background:'+rc.color+'"></span><span style="font-size:10px;color:#8A9FAB">'+(REAL_REFERENTS[item.referent]||item.referent)+'</span></div>':'')+'</div><div style="display:flex;align-items:center;gap:5px;flex-shrink:0">'+feeTag(item.revtype)+'<div style="font-size:12px;font-weight:700;color:var(--deep);min-width:40px;text-align:right">'+fmtK(item.amount)+'</div></div></div>';
+  }
+  function scenario(label,color,items){
+    var deduped={};items.forEach(function(it){if(it.amount>0)deduped[it.name+it.revtype]=it;});
+    var list=Object.values(deduped),total=list.reduce(function(s,it){return s+it.amount},0);
+    if(!list.length||!total)return'';
+    return'<div style="margin-bottom:14px"><div style="display:flex;align-items:center;justify-content:space-between;padding:5px 0;border-bottom:1px solid rgba(28,43,51,.06);margin-bottom:6px"><div style="display:flex;align-items:center;gap:6px"><div style="width:9px;height:9px;border-radius:2px;background:'+color+'"></div><span style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:'+color+'">'+label+'</span></div><span style="font-size:13px;font-weight:700;color:'+color+'">'+fmtK(total)+'</span></div>'+list.map(itemRow).join('')+'</div>';
+  }
+  var h='<div style="display:flex;align-items:baseline;justify-content:space-between;padding-right:36px;margin-bottom:4px"><div style="font-size:18px;font-weight:700;color:var(--deep)">'+monthName+' 2026</div>';
+  if(activeRef){var rc=REFERENTS[activeRef]||{color:'#8A9FAB'};h+='<span style="font-size:10px;font-weight:600;padding:3px 10px;border-radius:20px;background:'+rc.color+'18;color:'+rc.color+';border:1px solid '+rc.color+'33">'+(REAL_REFERENTS[activeRef]||activeRef)+'</span>';}
+  h+='</div><div style="font-size:11px;color:#8A9FAB;margin-bottom:16px">Cliquez sur une entreprise pour le détail</div>';
+  h+=scenario('Revenu sécurisé',C_SEC,secI)+scenario('Revenu probabilisé',C_PROBA,probaI)+scenario('Revenu max',C_MAX,maxI);
+  if(!h.includes('mo-item'))h+='<div style="text-align:center;padding:24px;color:#8A9FAB;font-size:12px">Aucun flux ce mois</div>';
+  document.getElementById('mo-month-body').innerHTML=h;
+  document.getElementById('mo-month').classList.add('open');
+  document.getElementById('mo-month-body').querySelectorAll('.mo-item').forEach(function(el){el.addEventListener('click',function(){var n=el.getAttribute('data-name');if(!n)return;document.getElementById('mo-month').classList.remove('open');showCompanyModal(n);});});
+}
+
+function showCompanyModal(name){
+  var m=null;for(var i=0;i<MANDATS.length;i++)if(MANDATS[i].name===name){m=MANDATS[i];break;}if(!m)return;
+  var ref=REFERENTS[m.referent]||{color:'#8A9FAB'};var dn=REAL_REFERENTS[m.referent]||m.referent;
+  var STEPS=[{k:'Signé / Onboarding',s:'Onboarding',c:'#263c47'},{k:'Préparation (IM, BP)',s:'Prépa',c:'#1b4f63'},{k:'Outreach',s:'Outreach',c:'#007499'},{k:'Intérêt confirmé',s:'Intérêt',c:'#0085CA'},{k:'LOI',s:'LOI',c:'#009ebc'},{k:'Exclusivité / Due Diligence',s:'Exclu/DD',c:'#00a3be'},{k:'Signing',s:'Signing',c:'#00c9a0'},{k:'Closing',s:'Closing',c:'#00e07e'}];
+  var ci=-1;STEPS.forEach(function(st,i){if(m.stade&&(m.stade===st.k||m.stade.indexOf(st.k.split('/')[0].trim())>=0||st.k.indexOf(m.stade.split('(')[0].trim())>=0))ci=i;});
+  var spm={'Signé / Onboarding':0.1,'Préparation (IM, BP)':0.15,'Outreach':0.2,'Intérêt confirmé':0.3,'LOI':0.5,'Exclusivité / Due Diligence':0.8,'Signing':0.9,'Closing':1.0};
+  var sp=spm[m.stade]||0;
+  var h='<div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;padding-right:36px"><div class="cm-logo">'+logoHTML(m.domain,m.name,40)+'</div><div style="flex:1;min-width:0"><div style="font-size:18px;font-weight:700;color:var(--deep)">'+m.name+'</div><div style="font-size:11px;color:#8A9FAB;margin-top:2px">'+m.type_mandat+'</div></div><span style="font-size:10px;font-weight:600;padding:3px 10px;border-radius:20px;background:'+ref.color+'18;color:'+ref.color+';border:1px solid '+ref.color+'33;white-space:nowrap;flex-shrink:0">'+dn+'</span></div>';
+  h+='<div style="margin-bottom:16px"><div style="display:flex;gap:3px">';
+  STEPS.forEach(function(st,i){var isA=(i===ci),isP=(i<ci),op=isP||isA?'1':'0.2';h+='<div style="flex:1" title="'+st.k+'"><div style="height:5px;border-radius:2px;background:'+st.c+';opacity:'+op+'"></div><div style="font-size:7.5px;text-align:center;margin-top:3px;font-weight:'+(isA?'700':'400')+';color:'+(isA?st.c:isP?st.c:'#8A9FAB')+';opacity:'+(isA?'1':isP?'0.7':'0.5')+'">'+st.s+'</div></div>';});
+  h+='</div></div>';
+  function r2(l1,v1,l2,v2){return'<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:8px"><div><div style="font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:#8A9FAB;margin-bottom:2px">'+l1+'</div><div style="font-size:12px;font-weight:500;color:var(--deep)">'+v1+'</div></div><div><div style="font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:#8A9FAB;margin-bottom:2px">'+l2+'</div><div style="font-size:12px;font-weight:500;color:var(--deep)">'+v2+'</div></div></div>';}
+  h+='<div style="background:#F7F9FB;border-radius:10px;padding:12px;margin-bottom:14px">'+r2('LM signée',m.lm_signee,'Engagement',m.typologie)+r2('Complexité',m.complexite,'Type',m.type_mandat)+'</div>';
+  h+='<div style="margin-bottom:14px"><div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#8A9FAB;margin-bottom:8px">Probabilité retenue</div><div style="background:#F7F9FB;border-radius:10px;padding:12px"><div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid var(--border)"><span style="font-size:11px;color:#8A9FAB">Stade ('+m.stade+')</span><span style="font-size:11px;font-weight:600;color:var(--deep)">'+Math.round(sp*100)+'%</span></div><div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid var(--border)"><span style="font-size:11px;color:#8A9FAB">Coef. complexité</span><span style="font-size:11px;font-weight:600;color:var(--deep)">x'+m.coef_complexite.toFixed(2)+'</span></div><div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid var(--border)"><span style="font-size:11px;color:#8A9FAB">Coef. contractuel</span><span style="font-size:11px;font-weight:600;color:var(--deep)">x'+m.coef_contractuel.toFixed(2)+'</span></div><div style="display:flex;justify-content:space-between;padding-top:8px;margin-top:4px;border-top:2px solid var(--deep)"><span style="font-size:12px;font-weight:700;color:var(--deep)">Probabilité retenue</span><span style="font-size:15px;font-weight:700;color:var(--deep)">'+Math.round(m.proba_brute*100)+'%</span></div></div></div>';
+  h+='<div style="margin-bottom:14px"><div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#8A9FAB;margin-bottom:8px">Revenus</div><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:8px"><div style="background:rgba(0,201,160,.08);border:1px solid rgba(0,201,160,.2);border-radius:8px;padding:9px 11px"><div style="font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:#00C9A0;margin-bottom:4px">Sécurisé</div><div style="font-size:14px;font-weight:700;color:#00C9A0">'+fmtK(m.rev_sec)+'</div></div><div style="background:rgba(45,190,201,.08);border:1px solid rgba(45,190,201,.2);border-radius:8px;padding:9px 11px"><div style="font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:#2DBEC9;margin-bottom:4px">Probabilisé</div><div style="font-size:14px;font-weight:700;color:#2DBEC9">'+fmtK(m.rev_proba)+'</div></div><div style="background:rgba(0,133,202,.08);border:1px solid rgba(0,133,202,.2);border-radius:8px;padding:9px 11px"><div style="font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:#0085CA;margin-bottom:4px">Max</div><div style="font-size:14px;font-weight:700;color:#0085CA">'+fmtK(m.rev_max)+'</div></div></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><div style="background:#F7F9FB;border-radius:8px;padding:9px 11px"><div style="font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:#8A9FAB;margin-bottom:4px">Success fee</div><div style="font-size:13px;font-weight:700;color:var(--deep)">'+fmtK(m.success)+'</div></div><div style="background:#F7F9FB;border-radius:8px;padding:9px 11px"><div style="font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:#8A9FAB;margin-bottom:4px">Retainer</div><div style="font-size:13px;font-weight:700;color:var(--deep)">'+fmtK(m.retainer)+'</div></div></div></div>';
+  h+='<div><div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#8A9FAB;margin-bottom:8px">Dates</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><div style="background:#F7F9FB;border-radius:8px;padding:8px 10px"><div style="font-size:8px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:#8A9FAB;margin-bottom:3px">Retainer estimé</div><div style="font-size:12px;font-weight:600;color:var(--deep)">'+m.ret_date_str+'</div></div><div style="background:#F7F9FB;border-radius:8px;padding:8px 10px"><div style="font-size:8px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:#8A9FAB;margin-bottom:3px">Closing estimé</div><div style="font-size:12px;font-weight:600;color:var(--deep)">'+m.clos_date_str+'</div></div></div></div>';
+  document.getElementById('mo-company-body').innerHTML=h;document.getElementById('mo-company').classList.add('open');
+}
+
+function renderPipeline(){
+  var sm={};STAGES_ORDER.forEach(function(s){sm[s.k]=[];});
+  MANDATS.forEach(function(m){
+    var matched=null;STAGES_ORDER.forEach(function(s){if(m.stade&&!matched&&(m.stade===s.k||m.stade.indexOf(s.k.split('/')[0].trim())>=0||s.k.indexOf(m.stade.split('(')[0].trim())>=0))matched=s.k;});
+    if(!matched)STAGES_ORDER.forEach(function(s){if(m.stade&&s.k.indexOf('Préparation')>=0&&m.stade.indexOf('Préparation')>=0)matched='Préparation (IM, BP)';if(m.stade&&s.k.indexOf('Exclusivité')>=0&&m.stade.indexOf('Exclusivité')>=0)matched='Exclusivité / Due Diligence';});
+    if(matched&&sm[matched]!==undefined)sm[matched].push(m);
+  });
+  Object.keys(sm).forEach(function(k){sm[k].sort(function(a,b){return a.name.localeCompare(b.name,'fr');});});
+  document.getElementById('stages-grid').style.gridTemplateColumns='repeat('+STAGES_ORDER.length+',minmax(0,1fr))';
+  var h='';
+  STAGES_ORDER.forEach(function(s){
+    var list=sm[s.k]||[];
+    h+='<div class="stage-col"><div class="stage-hdr" style="background:'+s.color+'"><div class="stage-hdr-top"><div class="stage-hdr-name">'+s.k+'</div><div class="stage-count-badge">'+list.length+'</div></div><div class="stage-bar"></div></div><div class="stage-body">';
+    if(!list.length)h+='<div style="font-size:10px;color:#8A9FAB;text-align:center;padding:12px 4px;opacity:.4;font-style:italic">-</div>';
+    else list.forEach(function(m){
+      var ref=REFERENTS[m.referent]||{color:'#8A9FAB'};
+      h+='<div class="logo-chip" data-mandat="'+m.name.replace(/"/g,'&quot;')+'"><div class="chip-logo">'+logoHTML(m.domain,m.name,22)+'</div><div class="chip-name">'+m.name+'</div><span style="width:5px;height:5px;border-radius:50%;background:'+ref.color+';flex-shrink:0"></span><span class="chip-proba">'+Math.round(m.proba_brute*100)+'%</span></div>';
+    });
+    h+='</div></div>';
+  });
+  document.getElementById('stages-grid').innerHTML=h;
+  document.getElementById('stages-grid').addEventListener('click',function(e){var chip=e.target.closest('.logo-chip');if(chip)showCompanyModal(chip.getAttribute('data-mandat'));});
+}
+
+renderKPIs();renderChart();renderReferentLegend();renderPipeline();
+</script>
+</body>
+</html</div>
+
+  "fr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -315,60 +423,34 @@ function renderKPIs(){
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'DM Sans',sans-serif;background:#EEF2F5;color:#1A2E38;font-size:14px;min-height:100vh}
-:root{
-  --deep:#1C2B33;--border:rgba(28,43,51,.08);--muted:#8A9FAB;--bg:#F7F9FB;
-  --glass:rgba(255,255,255,.62);--glass-border:rgba(255,255,255,.75);
-  --c1:#1C2B33;
-  --ref-HT:#185FA5;--ref-MW:#1D9E75;--ref-FM:#D85A30;--ref-PMB:#D4537E;--ref-SC:#7F77DD;--ref-EC:#BA7517;
-}
+:root{--deep:#1C2B33;--border:rgba(28,43,51,.08);--muted:#8A9FAB;--glass:rgba(255,255,255,.62);--glass-border:rgba(255,255,255,.75)}
 header{background:var(--deep);height:56px;padding:0 32px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;box-shadow:0 2px 16px rgba(28,43,51,.18)}
 .logo-text h1{color:#fff;font-size:16px;font-weight:600;letter-spacing:-.01em}
-.header-r{display:flex;align-items:center;gap:8px}
 .hbtn{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.65);font-family:inherit;font-size:11px;font-weight:500;padding:5px 13px;border-radius:6px;cursor:pointer;transition:all .18s}
 .hbtn:hover{background:rgba(255,255,255,.13);color:#fff}
-
 .main{padding:22px 32px 48px}
-
-/* KPI row */
 .kpi-row{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin-bottom:18px}
-.kpi{background:var(--glass);backdrop-filter:blur(12px);border:1px solid var(--glass-border);border-radius:12px;padding:20px 16px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:6px}
-.kpi-value{font-size:28px;font-weight:700;line-height:1}
-.kpi-sub{font-size:12px;color:var(--muted);line-height:1.3}
+.kpi{background:var(--glass);backdrop-filter:blur(12px);border:1px solid var(--glass-border);border-radius:12px;padding:20px 16px;display:grid;grid-template-rows:40px 44px auto;align-items:center;text-align:center;justify-items:center}
+.kpi-value{font-size:28px;font-weight:700;line-height:1;display:flex;align-items:center;justify-content:center;height:40px}
 .kpi-badge{display:inline-block;font-size:10px;font-weight:600;padding:2px 9px;border-radius:20px}
 .badge-g{background:#E8F8F0;color:#0B7A52}
 .badge-r{background:#FEF2F2;color:#B91C1C}
-.badge-a{background:#FFF7ED;color:#92400E}
-
-/* Chart card */
 .card{background:var(--glass);backdrop-filter:blur(12px);border:1px solid var(--glass-border);border-radius:14px;padding:20px 22px;margin-bottom:18px}
+.chart-card{background:#fff;border:1px solid rgba(28,43,51,.1);border-radius:14px;padding:20px 22px;margin-bottom:18px}
 .sec-head{display:flex;align-items:center;gap:12px;margin-bottom:16px}
 .sec-lbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.16em;color:var(--deep);white-space:nowrap}
 .sec-line{flex:1;height:1px;background:var(--border)}
-
-.legend-row{display:flex;flex-wrap:wrap;gap:16px;margin-bottom:14px}
-.legend-item{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--muted)}
-.legend-sq{width:11px;height:11px;border-radius:3px;flex-shrink:0}
-.legend-ln{width:18px;height:3px;flex-shrink:0;border-radius:2px}
-.legend-ln.dashed{background:repeating-linear-gradient(90deg,#BA7517 0,#BA7517 4px,transparent 4px,transparent 7px)}
-
+.legend-item{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted)}
 .chart-outer{position:relative;width:100%;height:260px}
-
-.referent-legend{display:flex;flex-wrap:wrap;gap:12px;margin-top:14px;padding-top:12px;border-top:1px solid var(--border)}
-.ref-item{display:flex;align-items:center;gap:5px;font-size:10px;color:var(--muted)}
-.ref-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
-
-/* Pipeline tracker */
 .stages-grid{display:grid;gap:0;align-items:stretch}
 .stage-col{display:flex;flex-direction:column;border-right:1px solid rgba(28,43,51,.1)}
 .stage-col:last-child{border-right:none}
-.stage-hdr{padding:10px 10px 9px;display:flex;flex-direction:column;align-items:flex-start;gap:4px;border-bottom:1px solid rgba(255,255,255,.15)}
+.stage-hdr{padding:10px 10px 9px;display:flex;flex-direction:column;gap:4px;border-bottom:1px solid rgba(255,255,255,.15)}
 .stage-hdr-top{display:flex;align-items:center;justify-content:space-between;width:100%;gap:6px}
 .stage-hdr-name{font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.09em;color:#fff;line-height:1.3;flex:1}
 .stage-count-badge{font-size:11px;font-weight:600;color:rgba(255,255,255,.85);background:rgba(255,255,255,.18);padding:1px 7px;border-radius:10px;white-space:nowrap;flex-shrink:0}
 .stage-bar{height:1.5px;border-radius:1px;width:100%;background:rgba(255,255,255,.2)}
 .stage-body{padding:10px 8px;display:flex;flex-direction:column;gap:6px;flex:1;background:rgba(255,255,255,.45)}
-.stage-empty{font-size:10px;color:var(--muted);text-align:center;padding:12px 4px;opacity:.4;font-style:italic}
-
 .logo-chip{display:flex;align-items:center;gap:7px;padding:6px 8px;background:rgba(255,255,255,.8);border:1px solid rgba(255,255,255,.9);border-radius:8px;cursor:pointer;transition:all .16s}
 .logo-chip:hover{background:#fff;border-color:rgba(28,43,51,.15);transform:translateY(-1px);box-shadow:0 4px 14px rgba(28,43,51,.1)}
 .chip-logo{width:26px;height:18px;display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden}
@@ -376,856 +458,373 @@ header{background:var(--deep);height:56px;padding:0 32px;display:flex;align-item
 .chip-logo .init{font-size:8px;font-weight:700;color:#fff;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center}
 .chip-name{font-size:10px;font-weight:500;color:var(--deep);flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .chip-proba{font-size:9px;font-weight:700;color:var(--muted);flex-shrink:0;background:rgba(28,43,51,.06);padding:1px 5px;border-radius:10px}
-.chip-ref-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0}
-
-/* Modals */
 .mo{position:fixed;inset:0;background:rgba(28,43,51,.42);backdrop-filter:blur(8px);z-index:200;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .2s}
 .mo.open{opacity:1;pointer-events:all}
 .md{background:#fff;border-radius:18px;width:100%;padding:26px;position:relative;box-shadow:0 24px 60px rgba(28,43,51,.14);transform:scale(.97) translateY(6px);transition:transform .22s cubic-bezier(.34,1.56,.64,1);max-height:88vh;overflow-y:auto}
 .mo.open .md{transform:scale(1) translateY(0)}
-.md-x{position:absolute;top:14px;right:14px;background:#F7F9FB;border:1px solid var(--border);color:var(--muted);cursor:pointer;width:28px;height:28px;border-radius:50%;font-size:13px;display:flex;align-items:center;justify-content:center;z-index:2;transition:background .15s}
-.md-x:hover{background:#EEF2F5}
-
-/* Month modal */
+.md-x{position:absolute;top:14px;right:14px;background:#F7F9FB;border:1px solid var(--border);color:var(--muted);cursor:pointer;width:28px;height:28px;border-radius:50%;font-size:13px;display:flex;align-items:center;justify-content:center;z-index:2}
 .month-modal .md{max-width:480px}
-.month-modal .md-title{font-size:18px;font-weight:700;color:var(--deep);margin-bottom:4px;padding-right:36px}
-.month-modal .md-sub{font-size:11px;color:var(--muted);margin-bottom:16px}
-.mo-totals{display:flex;gap:10px;margin-bottom:16px}
-.mo-total{flex:1;background:#F7F9FB;border-radius:10px;padding:10px 12px}
-.mo-total-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:3px}
-.mo-total-val{font-size:15px;font-weight:700;color:var(--deep)}
-.mo-divider{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);padding:10px 0 6px;border-top:1px solid var(--border);margin-top:10px}
-.mo-divider:first-of-type{border-top:none;padding-top:0}
-
-.mo-item{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid rgba(28,43,51,.04)}
-.mo-item:last-child{border-bottom:none}
-.mo-item-logo{width:36px;height:26px;display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0}
-.mo-item-logo img{max-width:100%;max-height:100%;object-fit:contain}
-.mo-item-logo .init{font-size:10px;font-weight:700;color:#fff;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center}
-.mo-item-info{flex:1;min-width:0}
-.mo-item-name{font-size:13px;font-weight:500;color:var(--deep)}
-.mo-item-type{font-size:10px;color:var(--muted)}
-.tag{display:inline-flex;align-items:center;font-size:9px;font-weight:700;padding:3px 8px;border-radius:20px;text-transform:uppercase;letter-spacing:.04em;white-space:nowrap;margin-left:auto;flex-shrink:0}
-.mo-amount{font-size:12px;font-weight:600;color:var(--deep);white-space:nowrap;flex-shrink:0}
-
-/* Company detail modal */
 .company-modal .md{max-width:460px}
-.cm-top{display:flex;align-items:center;gap:14px;margin-bottom:16px;padding-right:36px}
+.mo-item{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid rgba(28,43,51,.04);cursor:pointer}
+.mo-item:last-child{border-bottom:none}
+.mo-item:hover{opacity:.8}
+.mo-item-logo{width:34px;height:24px;display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0}
+.mo-item-logo img{max-width:100%;max-height:100%;object-fit:contain}
+.mo-item-logo .init{font-size:9px;font-weight:700;color:#fff;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center}
 .cm-logo{width:52px;height:52px;background:#EEF2F5;border:1px solid var(--border);border-radius:12px;display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0}
 .cm-logo img{max-width:44px;max-height:36px;object-fit:contain}
 .cm-logo .init{font-size:16px;font-weight:700}
-.cm-name{font-size:20px;font-weight:700;color:var(--deep)}
-.cm-type{font-size:11px;color:var(--muted);margin-top:2px}
-.cm-referent{font-size:11px;margin-top:3px;display:flex;align-items:center;gap:5px}
-.chips-row{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
-.chip{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:500;padding:5px 11px;border-radius:20px;border:1px solid}
-.chip-ok{background:#E8F8F0;color:#0B7A52;border-color:#B6E8D4}
-.chip-no{background:#FEF2F2;color:#B91C1C;border-color:#FECACA}
-.chip-neutral{background:#F1F5F9;color:#475569;border-color:#E2E8F0}
-.chip-warn{background:#FFF7ED;color:#92400E;border-color:#FED7AA}
-.cm-section{margin-bottom:14px}
-.cm-section-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);margin-bottom:8px}
-.cm-proba-breakdown{background:#F7F9FB;border-radius:10px;padding:12px}
-.proba-row{display:flex;justify-content:space-between;align-items:center;padding:4px 0;font-size:12px}
-.proba-row+.proba-row{border-top:1px solid var(--border)}
-.proba-row-lbl{color:var(--muted)}
-.proba-row-val{font-weight:600;color:var(--deep)}
-.proba-total{display:flex;justify-content:space-between;align-items:center;padding:8px 0 0;margin-top:6px;border-top:1.5px solid var(--deep);font-size:13px;font-weight:700;color:var(--deep)}
-.cm-fin{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:10px}
-.cm-fin-item{background:#F7F9FB;border-radius:8px;padding:9px 11px}
-.cm-fin-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:4px}
-.cm-fin-val{font-size:14px;font-weight:700;color:var(--deep)}
-.cm-dates{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
-.cm-date-item{background:#F7F9FB;border-radius:8px;padding:8px 10px}
-.cm-date-lbl{font-size:9px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.08em;margin-bottom:3px}
-.cm-date-val{font-size:12px;font-weight:600;color:var(--deep)}
 </style>
 </head>
 <body>
-
 <header>
   <div class="logo-text"><h1>Corporate Finance Paris - Suivi des mandats 2026</h1></div>
-  <div class="header-r">
-    <button class="hbtn" onclick="window.print()">&#9113; Export PDF</button>
-  </div>
+  <div><button class="hbtn" onclick="window.print()">&#9113; Export PDF</button></div>
 </header>
-
 <div class="main">
-
-  <!-- KPI Row -->
   <div class="kpi-row" id="kpi-row"></div>
-
-  <!-- Chart -->
-  <div class="card">
+  <div class="chart-card">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;gap:12px;flex-wrap:wrap">
-      <div class="sec-head" style="margin-bottom:0;flex:1"><div class="sec-lbl" style="font-size:12px;letter-spacing:.12em">Revenus mensuels 2026</div><div class="sec-line"></div></div>
-      <div id="chart-mode-label" style="font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;min-height:0;display:none"></div>
+      <div class="sec-head" style="margin-bottom:0;flex:1"><div class="sec-lbl">Revenus mensuels 2026</div><div class="sec-line"></div></div>
+      <div id="chart-mode-label" style="font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;display:none"></div>
     </div>
-    <div id="cum-strip" style="margin-bottom:8px"></div>
-    <div class="chart-outer" id="chart-outer-el"><canvas id="mainChart"></canvas></div>
-    <div style="margin-top:16px;padding-top:14px">
-      <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:16px;align-items:center;margin-bottom:10px">
-        <div class="legend-item" style="font-size:12px"><div id="sq-sec" class="legend-sq" style="background:#00C9A0;border-radius:3px;width:12px;height:12px"></div>Revenu sécurisé</div>
-        <div class="legend-item" style="font-size:12px"><div id="sq-proba" class="legend-sq" style="background:#2DBEC9;border-radius:3px;width:12px;height:12px"></div>Revenu probabilisé</div>
-        <div class="legend-item" style="font-size:12px"><div id="sq-max" class="legend-sq" style="background:#0085CA;border-radius:3px;width:12px;height:12px"></div>Revenu max</div>
+<div style="margin-bottom:14px">
+      <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:center;margin-bottom:8px">
+        <span style="font-size:12px;font-weight:500;color:#8A9FAB;white-space:nowrap">Légende :</span>
+        <div class="legend-item"><div style="width:12px;height:12px;border-radius:3px;background:#00C9A0;flex-shrink:0" id="sq-sec"></div>Revenu sécurisé</div>
+        <div class="legend-item"><div style="width:12px;height:12px;border-radius:3px;background:#2DBEC9;flex-shrink:0" id="sq-proba"></div>Revenu probabilisé</div>
+        <div class="legend-item"><div style="width:12px;height:12px;border-radius:3px;background:#0085CA;flex-shrink:0" id="sq-max"></div>Revenu max</div>
       </div>
-      <div id="referent-legend" style="display:flex;flex-wrap:wrap;justify-content:center;gap:6px;align-items:center;margin-top:12px"></div>
+      <div id="referent-legend" style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:6px"></div>
     </div>
   </div>
-
-  <!-- Pipeline -->
+    <div class="chart-outer"><canvas id="mainChart"></canvas></div>
+    <div id="cum-strip" style="margin-top:8px;position:relative;height:56px"></div>
+    
   <div class="card">
-    <div class="sec-head"><div class="sec-lbl">Détail des mandats par étape</div><div class="sec-line"></div></div>
-    <div style="border:1px solid var(--border);border-radius:14px;overflow:hidden;background:rgba(255,255,255,.5);backdrop-filter:blur(16px);box-shadow:0 2px 12px rgba(28,43,51,.06)"><div class="stages-grid" id="stages-grid"></div></div>
+    <div class="sec-head"><div class="sec-lbl">Detail des mandats par etape</div><div class="sec-line"></div></div>
+    <div style="border:1px solid var(--border);border-radius:14px;overflow:hidden;background:rgba(255,255,255,.5);backdrop-filter:blur(16px)"><div class="stages-grid" id="stages-grid"></div></div>
   </div>
-
 </div>
-
-<!-- Month modal -->
 <div class="mo month-modal" id="mo-month" onclick="if(event.target===this)this.classList.remove('open')">
-  <div class="md">
-    <button class="md-x" onclick="document.getElementById('mo-month').classList.remove('open')">&#10005;</button>
-    <div id="mo-month-body"></div>
-  </div>
+  <div class="md"><button class="md-x" onclick="document.getElementById('mo-month').classList.remove('open')">&#10005;</button><div id="mo-month-body"></div></div>
 </div>
-
-<!-- Company modal -->
 <div class="mo company-modal" id="mo-company" onclick="if(event.target===this)this.classList.remove('open')">
-  <div class="md">
-    <button class="md-x" onclick="document.getElementById('mo-company').classList.remove('open')">&#10005;</button>
-    <div id="mo-company-body"></div>
-  </div>
+  <div class="md"><button class="md-x" onclick="document.getElementById('mo-company').classList.remove('open')">&#10005;</button><div id="mo-company-body"></div></div>
 </div>
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script>
-var TK = 'pk_bYWEonUXSpa1_O-4n_OaKQ';
-var BUDGET = 5000000;
-
-var REFERENTS = {
-  'Hubert Tuillier':   {initials:'HT', color:'#185FA5'},
-  'Mark Wyatt':        {initials:'MW', color:'#1D9E75'},
-  'Frédéric Meyer':    {initials:'FM', color:'#D85A30'},
-  'Pierre Marie Blois':{initials:'PMB',color:'#D4537E'},
-  'Sandra Crochemore': {initials:'SC', color:'#7F77DD'},
-  'Emmanuel Clerc':    {initials:'EC', color:'#BA7517'}
-};
-
-var STAGES_ORDER = [
-  {k:'Signé / Onboarding', color:'#263c47'},
-  {k:'Préparation (IM, BP)', color:'#1b4f63'},
-  {k:'Outreach', color:'#007499'},
-  {k:'Intérêt confirmé', color:'#0085CA'},
-  {k:'LOI', color:'#009ebc'},
-  {k:'Exclusivité / Due Diligence', color:'#00a3be'},
-  {k:'Signing', color:'#00c9a0'},
-  {k:'Closing', color:'#00e07e'}
-];
-
-var MANDATS = [{"name":"Clermont Foot","domain":"clermontfoot.com","referent":"Hubert Tuillier","type_mandat":"Sell-side M&A","lm_signee":"Oui","typologie":"Signé","stade":"Intérêt confirmé","complexite":"Moyenne","retainer":15000,"success":250000,"coef_complexite":0.95,"coef_contractuel":1.0,"proba_brute":0.95,"rev_max":265000,"rev_proba":252500,"rev_sec":15000,"sec_ret_month":2,"sec_clos_month":null,"prob_ret_month":2,"prob_clos_month":6,"max_ret_month":2,"max_clos_month":6,"ret_date_str":"28/02/2026","clos_date_str":"30/06/2026"},{"name":"Ride Out","domain":"","referent":"Hubert Tuillier","type_mandat":"Sell-side M&A","lm_signee":"Oui","typologie":"Signé","stade":"Outreach","complexite":"Très élevée","retainer":15000,"success":1200000,"coef_complexite":0.0,"coef_contractuel":1.0,"proba_brute":0.0,"rev_max":1215000,"rev_proba":15000,"rev_sec":15000,"sec_ret_month":3,"sec_clos_month":null,"prob_ret_month":3,"prob_clos_month":10,"max_ret_month":3,"max_clos_month":10,"ret_date_str":"30/03/2026","clos_date_str":"31/10/2027"},{"name":"GEG","domain":"geg.asia","referent":"Hubert Tuillier","type_mandat":"Sell-side M&A","lm_signee":"Oui","typologie":"Signé","stade":"Préparation (IM, BP)","complexite":"Élevée","retainer":120000,"success":1200000,"coef_complexite":0.85,"coef_contractuel":1.0,"proba_brute":0.85,"rev_max":1320000,"rev_proba":1140000,"rev_sec":120000,"sec_ret_month":4,"sec_clos_month":null,"prob_ret_month":4,"prob_clos_month":10,"max_ret_month":4,"max_clos_month":10,"ret_date_str":"20/04/2026","clos_date_str":"31/10/2026"},{"name":"FC Metz","domain":"fcmetz.com","referent":"Hubert Tuillier","type_mandat":"Sell-side M&A","lm_signee":"Oui","typologie":"Signé","stade":"Intérêt confirmé","complexite":"Élevée","retainer":0,"success":1300000,"coef_complexite":0.85,"coef_contractuel":1.0,"proba_brute":0.85,"rev_max":1300000,"rev_proba":1105000,"rev_sec":0,"sec_ret_month":null,"sec_clos_month":null,"prob_ret_month":null,"prob_clos_month":6,"max_ret_month":null,"max_clos_month":6,"ret_date_str":"TBD","clos_date_str":"30/06/2026"},{"name":"Hurricane Group","domain":"hurcn.com","referent":"Hubert Tuillier","type_mandat":"Sell-side M&A","lm_signee":"Oui","typologie":"Signé","stade":"Exclusivité / Due Diligence","complexite":"Élevée","retainer":15000,"success":250000,"coef_complexite":0.85,"coef_contractuel":1.0,"proba_brute":1.0,"rev_max":265000,"rev_proba":265000,"rev_sec":15000,"sec_ret_month":5,"sec_clos_month":null,"prob_ret_month":5,"prob_clos_month":5,"max_ret_month":5,"max_clos_month":5,"ret_date_str":"30/05/2026","clos_date_str":"30/05/2026"},{"name":"EA Guingamp","domain":"eaguingamp.com","referent":"Hubert Tuillier","type_mandat":"Sell-side M&A","lm_signee":"Non","typologie":"Verbal","stade":"Préparation (IM, BP)","complexite":"Élevée","retainer":15000,"success":250000,"coef_complexite":0.85,"coef_contractuel":0.0,"proba_brute":0.0,"rev_max":265000,"rev_proba":15000,"rev_sec":15000,"sec_ret_month":6,"sec_clos_month":null,"prob_ret_month":6,"prob_clos_month":6,"max_ret_month":6,"max_clos_month":6,"ret_date_str":"30/06/2026","clos_date_str":"30/06/2026"},{"name":"OSE (Ecotrail)","domain":"ose-event.com","referent":"Hubert Tuillier","type_mandat":"Buy-side M&A","lm_signee":"Oui","typologie":"Signé","stade":"LOI","complexite":"Moyenne","retainer":10000,"success":100000,"coef_complexite":0.95,"coef_contractuel":1.0,"proba_brute":1.0,"rev_max":110000,"rev_proba":110000,"rev_sec":10000,"sec_ret_month":null,"sec_clos_month":null,"prob_ret_month":null,"prob_clos_month":5,"max_ret_month":null,"max_clos_month":5,"ret_date_str":"TBD","clos_date_str":"30/05/2026"},{"name":"Rodez Foot","domain":"rodezaveyronfootball.com","referent":"Hubert Tuillier","type_mandat":"Sell-side M&A","lm_signee":"Non","typologie":"Verbal","stade":"Intérêt confirmé","complexite":"Élevée","retainer":0,"success":250000,"coef_complexite":0.85,"coef_contractuel":0.0,"proba_brute":0.0,"rev_max":250000,"rev_proba":0,"rev_sec":0,"sec_ret_month":null,"sec_clos_month":null,"prob_ret_month":null,"prob_clos_month":6,"max_ret_month":null,"max_clos_month":6,"ret_date_str":"TBD","clos_date_str":"30/06/2026"},{"name":"Auraé Impact","domain":"auraeimpact.com","referent":"Hubert Tuillier","type_mandat":"Buy-side M&A","lm_signee":"Oui","typologie":"Signé","stade":"Outreach","complexite":"Élevée","retainer":30000,"success":150000,"coef_complexite":0.85,"coef_contractuel":1.0,"proba_brute":0.85,"rev_max":180000,"rev_proba":157500,"rev_sec":180000,"sec_ret_month":null,"sec_clos_month":null,"prob_ret_month":null,"prob_clos_month":null,"max_ret_month":null,"max_clos_month":null,"ret_date_str":"TBD","clos_date_str":"TBD"},{"name":"Golf Up","domain":"golfup.fr","referent":"Hubert Tuillier","type_mandat":"Sell-side M&A","lm_signee":"Oui","typologie":"Signé","stade":"Outreach","complexite":"Très élevée","retainer":15000,"success":350000,"coef_complexite":0.0,"coef_contractuel":1.0,"proba_brute":0.0,"rev_max":365000,"rev_proba":15000,"rev_sec":15000,"sec_ret_month":6,"sec_clos_month":null,"prob_ret_month":6,"prob_clos_month":6,"max_ret_month":6,"max_clos_month":6,"ret_date_str":"30/06/2026","clos_date_str":"30/06/2026"},{"name":"Bomb Squad","domain":"bombsquad.games","referent":"Hubert Tuillier","type_mandat":"Sell-side M&A","lm_signee":"Oui","typologie":"Signé","stade":"Intérêt confirmé","complexite":"Moyenne","retainer":0,"success":200000,"coef_complexite":0.95,"coef_contractuel":1.0,"proba_brute":0.95,"rev_max":200000,"rev_proba":190000,"rev_sec":0,"sec_ret_month":null,"sec_clos_month":null,"prob_ret_month":null,"prob_clos_month":6,"max_ret_month":null,"max_clos_month":6,"ret_date_str":"TBD","clos_date_str":"30/06/2026"},{"name":"Nic Impex","domain":"nicimpex.com","referent":"Hubert Tuillier","type_mandat":"Buy-side M&A","lm_signee":"Oui","typologie":"Signé","stade":"Intérêt confirmé","complexite":"Moyenne","retainer":0,"success":90000,"coef_complexite":0.95,"coef_contractuel":1.0,"proba_brute":0.95,"rev_max":90000,"rev_proba":85500,"rev_sec":0,"sec_ret_month":null,"sec_clos_month":null,"prob_ret_month":null,"prob_clos_month":6,"max_ret_month":null,"max_clos_month":6,"ret_date_str":"TBD","clos_date_str":"30/06/2026"},{"name":"Montpellier Foot","domain":"mhscfoot.com","referent":"Hubert Tuillier","type_mandat":"Buy-side M&A","lm_signee":"Non","typologie":"Opportunité","stade":"Outreach","complexite":"Moyenne","retainer":0,"success":290000,"coef_complexite":0.95,"coef_contractuel":0.0,"proba_brute":0.0,"rev_max":290000,"rev_proba":0,"rev_sec":0,"sec_ret_month":null,"sec_clos_month":null,"prob_ret_month":null,"prob_clos_month":6,"max_ret_month":null,"max_clos_month":6,"ret_date_str":"30/06/2026","clos_date_str":"30/06/2026"},{"name":"EVA Gaming","domain":"eva.gg","referent":"Hubert Tuillier","type_mandat":"Buy-side M&A","lm_signee":"Oui","typologie":"Signé","stade":"Closing","complexite":"Faible","retainer":0,"success":250000,"coef_complexite":1.0,"coef_contractuel":1.0,"proba_brute":1.0,"rev_max":250000,"rev_proba":250000,"rev_sec":250000,"sec_ret_month":null,"sec_clos_month":2,"prob_ret_month":null,"prob_clos_month":2,"max_ret_month":null,"max_clos_month":2,"ret_date_str":"28/02/2026","clos_date_str":"28/02/2026"},{"name":"Sodex","domain":"sodex.fr","referent":"Hubert Tuillier","type_mandat":"Sell-side M&A","lm_signee":"Oui","typologie":"Signé","stade":"Closing","complexite":"Faible","retainer":0,"success":150000,"coef_complexite":1.0,"coef_contractuel":1.0,"proba_brute":1.0,"rev_max":150000,"rev_proba":150000,"rev_sec":150000,"sec_ret_month":null,"sec_clos_month":3,"prob_ret_month":null,"prob_clos_month":3,"max_ret_month":null,"max_clos_month":3,"ret_date_str":"26/03/2026","clos_date_str":"26/03/2026"},{"name":"Folie Douce Val Thorens","domain":"lafoliedouce.com","referent":"Mark Wyatt","type_mandat":"Buy-side M&A","lm_signee":"Oui","typologie":"Signé","stade":"LOI","complexite":"Moyenne","retainer":25000,"success":350000,"coef_complexite":0.95,"coef_contractuel":1.0,"proba_brute":1.0,"rev_max":375000,"rev_proba":375000,"rev_sec":25000,"sec_ret_month":5,"sec_clos_month":null,"prob_ret_month":5,"prob_clos_month":6,"max_ret_month":5,"max_clos_month":6,"ret_date_str":"01/05/2026","clos_date_str":"30/06/2026"},{"name":"Cross Pharm","domain":"crosspharm.com","referent":"Frédéric Meyer","type_mandat":"Sell-side M&A","lm_signee":"Oui","typologie":"Signé","stade":"Intérêt confirmé","complexite":"Moyenne","retainer":0,"success":300000,"coef_complexite":0.95,"coef_contractuel":1.0,"proba_brute":0.95,"rev_max":300000,"rev_proba":285000,"rev_sec":0,"sec_ret_month":null,"sec_clos_month":null,"prob_ret_month":null,"prob_clos_month":7,"max_ret_month":null,"max_clos_month":7,"ret_date_str":"01/06/2026","clos_date_str":"31/07/2026"},{"name":"Pension Bee","domain":"pensionbee.com","referent":"Pierre Marie Blois","type_mandat":"Sell-side M&A","lm_signee":"Oui","typologie":"Signé","stade":"Closing","complexite":"Faible","retainer":15000,"success":500000,"coef_complexite":1.0,"coef_contractuel":1.0,"proba_brute":1.0,"rev_max":515000,"rev_proba":515000,"rev_sec":515000,"sec_ret_month":1,"sec_clos_month":4,"prob_ret_month":1,"prob_clos_month":4,"max_ret_month":1,"max_clos_month":4,"ret_date_str":"29/01/2026","clos_date_str":"30/04/2026"},{"name":"Imadol","domain":"imadol.com","referent":"Sandra Crochemore","type_mandat":"Buy-side M&A","lm_signee":"Non","typologie":"Opportunité","stade":"Préparation (IM, BP)","complexite":"Très élevée","retainer":30000,"success":275000,"coef_complexite":0.0,"coef_contractuel":0.0,"proba_brute":0.0,"rev_max":305000,"rev_proba":30000,"rev_sec":30000,"sec_ret_month":7,"sec_clos_month":null,"prob_ret_month":7,"prob_clos_month":8,"max_ret_month":7,"max_clos_month":8,"ret_date_str":"01/07/2026","clos_date_str":"31/08/2026"},{"name":"Largo","domain":"largo.ai","referent":"Emmanuel Clerc","type_mandat":"Sell-side M&A","lm_signee":"Non","typologie":"Verbal","stade":"Signing","complexite":"Élevée","retainer":10000,"success":180000,"coef_complexite":0.85,"coef_contractuel":0.0,"proba_brute":1.0,"rev_max":190000,"rev_proba":190000,"rev_sec":190000,"sec_ret_month":3,"sec_clos_month":5,"prob_ret_month":3,"prob_clos_month":5,"max_ret_month":3,"max_clos_month":5,"ret_date_str":"01/03/2026","clos_date_str":"31/05/2026"}];
-
-var MONTHS = ['Jan','Fév','Mar','Avr','Mai','Jun','Jul','Aoû','Sep','Oct','Nov','Déc'];
-var MONTHS_FULL = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
-
-function fmtK(v){
-  if(!v||v===0) return '€0';
-  if(v>=1000000) return '€'+(v/1000000).toFixed(1)+'m';
-  if(v>=1000) return '€'+Math.round(v/1000)+'k';
-  return '€'+Math.round(v);
+var TK='pk_bYWEonUXSpa1_O-4n_OaKQ',BUDGET=5000000;
+var C_MAX='#0085CA',C_PROBA='#2DBEC9',C_SEC='#00C9A0';
+var REFERENTS={'Hubert Tuillier':{color:'#185FA5'},'Mark Wyatt':{color:'#1D9E75'},'Frédéric Meyer':{color:'#D85A30'},'Pierre Marie Blois':{color:'#D4537E'},'Sandra Crochemore':{color:'#7F77DD'},'Emmanuel Clerc':{color:'#BA7517'}};
+var REAL_REFERENTS={'Hubert Tuillier':'Hubert Tuillier','Mark Wyatt':'Mark Wyatt','Frédéric Meyer':'Frédéric Meyer','Pierre Marie Blois':'Pierre Marie Blois','Sandra Crochemore':'Sandra Crochemore','Emmanuel Clerc':'Emmanuel Clerc'};
+var STAGES_ORDER=[{k:'Signé / Onboarding',color:'#263c47'},{k:'Préparation (IM, BP)',color:'#1b4f63'},{k:'Outreach',color:'#007499'},{k:'Intérêt confirmé',color:'#0085CA'},{k:'LOI',color:'#009ebc'},{k:'Exclusivité / Due Diligence',color:'#00a3be'},{k:'Signing',color:'#00c9a0'},{k:'Closing',color:'#00e07e'}];
+var MONTHS=['Jan','Fév','Mar','Avr','Mai','Jun','Jul','Aoû','Sep','Oct','Nov','Déc'];
+var MONTHS_FULL=['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+function fmtK(v){if(!v||v===0)return'€0';if(v>=1000000)return'€'+(v/1000000).toFixed(1)+'m';if(v>=1000)return'€'+Math.round(v/1000)+'k';return'€'+Math.round(v)}
+function initials(n){var w=n.trim().split(/\s+/);return w.length===1?w[0].substring(0,2).toUpperCase():(w[0][0]+w[w.length-1][0]).toUpperCase()}
+function logoUrl(d){return'https://img.logo.dev/'+d+'?token='+TK+'&format=png&size=120&theme=light'}
+function logoHTML(domain,name,size){
+  size=size||28;
+  var rk=Object.keys(REFERENTS).find(function(k){return REAL_REFERENTS[k]===name||k===name})||null;
+  var rc=rk?REFERENTS[rk].color:'#8A9FAB';
+  var ini=initials(name);
+  if(domain&&domain!==''&&domain!=='n.a.'){
+    return'<img src="'+logoUrl(domain)+'" style="max-width:'+size+'px;max-height:'+(size*.75)+'px;object-fit:contain" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'">'+'<div class="init" style="display:none;background:'+rc+';font-size:'+Math.round(size*.35)+'px;width:'+size+'px;height:'+size+'px;border-radius:50%;color:#fff;align-items:center;justify-content:center;font-weight:700">'+ini+'</div>';
+  }
+  return'<div class="init" style="display:flex;background:'+rc+';font-size:'+Math.round(size*.35)+'px;width:'+size+'px;height:'+size+'px;border-radius:50%;color:#fff;align-items:center;justify-content:center;font-weight:700">'+ini+'</div>';
 }
-function fmtFull(v){
-  if(!v||v===0) return '€0';
-  if(v>=1000000) return '€'+(v/1000000).toFixed(1)+'m';
-  if(v>=1000) return '€'+Math.round(v/1000)+'k';
-  return '€'+Math.round(v);
-}
-function pct(v,total){if(!total)return '0%';return Math.round(v/total*100)+'%'}
-function logoUrl(domain){return'https://img.logo.dev/'+domain+'?token='+TK+'&format=png&size=120&theme=light'}
-function initials(name){var w=name.trim().split(/\s+/);return w.length===1?w[0].substring(0,2).toUpperCase():(w[0][0]+w[w.length-1][0]).toUpperCase()}
 
-// Build monthly arrays
+var MANDATS=[{"name":"Clermont Foot","domain":"clermontfoot.com","referent":"Hubert Tuillier","type_mandat":"Sell-side M&A","lm_signee":"Oui","typologie":"Signé","stade":"Intérêt confirmé","complexite":"Moyenne","retainer":15000,"success":250000,"coef_complexite":0.95,"coef_contractuel":1.0,"proba_brute":0.95,"rev_max":265000,"rev_proba":252500,"rev_sec":15000,"sec_ret_month":2,"sec_clos_month":null,"prob_ret_month":2,"prob_clos_month":6,"max_ret_month":2,"max_clos_month":6,"ret_date_str":"28/02/2026","clos_date_str":"30/06/2026"},{"name":"Ride Out","domain":"","referent":"Hubert Tuillier","type_mandat":"Sell-side M&A","lm_signee":"Oui","typologie":"Signé","stade":"Outreach","complexite":"Très élevée","retainer":15000,"success":1200000,"coef_complexite":0.0,"coef_contractuel":1.0,"proba_brute":0.0,"rev_max":1215000,"rev_proba":15000,"rev_sec":15000,"sec_ret_month":3,"sec_clos_month":null,"prob_ret_month":3,"prob_clos_month":10,"max_ret_month":3,"max_clos_month":10,"ret_date_str":"30/03/2026","clos_date_str":"31/10/2027"},{"name":"GEG","domain":"geg.asia","referent":"Hubert Tuillier","type_mandat":"Sell-side M&A","lm_signee":"Oui","typologie":"Signé","stade":"Préparation (IM, BP)","complexite":"Élevée","retainer":120000,"success":1200000,"coef_complexite":0.85,"coef_contractuel":1.0,"proba_brute":0.85,"rev_max":1320000,"rev_proba":1140000,"rev_sec":120000,"sec_ret_month":4,"sec_clos_month":null,"prob_ret_month":4,"prob_clos_month":10,"max_ret_month":4,"max_clos_month":10,"ret_date_str":"20/04/2026","clos_date_str":"31/10/2026"},{"name":"FC Metz","domain":"fcmetz.com","referent":"Hubert Tuillier","type_mandat":"Sell-side M&A","lm_signee":"Oui","typologie":"Signé","stade":"Intérêt confirmé","complexite":"Élevée","retainer":0,"success":1300000,"coef_complexite":0.85,"coef_contractuel":1.0,"proba_brute":0.85,"rev_max":1300000,"rev_proba":1105000,"rev_sec":0,"sec_ret_month":null,"sec_clos_month":null,"prob_ret_month":null,"prob_clos_month":6,"max_ret_month":null,"max_clos_month":6,"ret_date_str":"TBD","clos_date_str":"30/06/2026"},{"name":"Hurricane Group","domain":"hurcn.com","referent":"Hubert Tuillier","type_mandat":"Sell-side M&A","lm_signee":"Oui","typologie":"Signé","stade":"Exclusivité / Due Diligence","complexite":"Élevée","retainer":15000,"success":250000,"coef_complexite":0.85,"coef_contractuel":1.0,"proba_brute":1.0,"rev_max":265000,"rev_proba":265000,"rev_sec":15000,"sec_ret_month":5,"sec_clos_month":null,"prob_ret_month":5,"prob_clos_month":5,"max_ret_month":5,"max_clos_month":5,"ret_date_str":"30/05/2026","clos_date_str":"30/05/2026"},{"name":"EA Guingamp","domain":"eaguingamp.com","referent":"Hubert Tuillier","type_mandat":"Sell-side M&A","lm_signee":"Non","typologie":"Verbal","stade":"Préparation (IM, BP)","complexite":"Élevée","retainer":15000,"success":250000,"coef_complexite":0.85,"coef_contractuel":0.0,"proba_brute":0.0,"rev_max":265000,"rev_proba":15000,"rev_sec":15000,"sec_ret_month":6,"sec_clos_month":null,"prob_ret_month":6,"prob_clos_month":6,"max_ret_month":6,"max_clos_month":6,"ret_date_str":"30/06/2026","clos_date_str":"30/06/2026"},{"name":"OSE (Ecotrail)","domain":"ose-event.com","referent":"Hubert Tuillier","type_mandat":"Buy-side M&A","lm_signee":"Oui","typologie":"Signé","stade":"LOI","complexite":"Moyenne","retainer":10000,"success":100000,"coef_complexite":0.95,"coef_contractuel":1.0,"proba_brute":1.0,"rev_max":110000,"rev_proba":110000,"rev_sec":10000,"sec_ret_month":null,"sec_clos_month":null,"prob_ret_month":null,"prob_clos_month":5,"max_ret_month":null,"max_clos_month":5,"ret_date_str":"TBD","clos_date_str":"30/05/2026"},{"name":"Rodez Foot","domain":"rodezaveyronfootball.com","referent":"Hubert Tuillier","type_mandat":"Sell-side M&A","lm_signee":"Non","typologie":"Verbal","stade":"Intérêt confirmé","complexite":"Élevée","retainer":0,"success":250000,"coef_complexite":0.85,"coef_contractuel":0.0,"proba_brute":0.0,"rev_max":250000,"rev_proba":0,"rev_sec":0,"sec_ret_month":null,"sec_clos_month":null,"prob_ret_month":null,"prob_clos_month":6,"max_ret_month":null,"max_clos_month":6,"ret_date_str":"TBD","clos_date_str":"30/06/2026"},{"name":"Auraé Impact","domain":"auraeimpact.com","referent":"Hubert Tuillier","type_mandat":"Buy-side M&A","lm_signee":"Oui","typologie":"Signé","stade":"Outreach","complexite":"Élevée","retainer":30000,"success":150000,"coef_complexite":0.85,"coef_contractuel":1.0,"proba_brute":0.85,"rev_max":180000,"rev_proba":157500,"rev_sec":180000,"sec_ret_month":null,"sec_clos_month":null,"prob_ret_month":null,"prob_clos_month":null,"max_ret_month":null,"max_clos_month":null,"ret_date_str":"TBD","clos_date_str":"TBD"},{"name":"Golf Up","domain":"golfup.fr","referent":"Hubert Tuillier","type_mandat":"Sell-side M&A","lm_signee":"Oui","typologie":"Signé","stade":"Outreach","complexite":"Très élevée","retainer":15000,"success":350000,"coef_complexite":0.0,"coef_contractuel":1.0,"proba_brute":0.0,"rev_max":365000,"rev_proba":15000,"rev_sec":15000,"sec_ret_month":6,"sec_clos_month":null,"prob_ret_month":6,"prob_clos_month":6,"max_ret_month":6,"max_clos_month":6,"ret_date_str":"30/06/2026","clos_date_str":"30/06/2026"},{"name":"Bomb Squad","domain":"bombsquad.games","referent":"Hubert Tuillier","type_mandat":"Sell-side M&A","lm_signee":"Oui","typologie":"Signé","stade":"Intérêt confirmé","complexite":"Moyenne","retainer":0,"success":200000,"coef_complexite":0.95,"coef_contractuel":1.0,"proba_brute":0.95,"rev_max":200000,"rev_proba":190000,"rev_sec":0,"sec_ret_month":null,"sec_clos_month":null,"prob_ret_month":null,"prob_clos_month":6,"max_ret_month":null,"max_clos_month":6,"ret_date_str":"TBD","clos_date_str":"30/06/2026"},{"name":"Nic Impex","domain":"nicimpex.com","referent":"Hubert Tuillier","type_mandat":"Buy-side M&A","lm_signee":"Oui","typologie":"Signé","stade":"Intérêt confirmé","complexite":"Moyenne","retainer":0,"success":90000,"coef_complexite":0.95,"coef_contractuel":1.0,"proba_brute":0.95,"rev_max":90000,"rev_proba":85500,"rev_sec":0,"sec_ret_month":null,"sec_clos_month":null,"prob_ret_month":null,"prob_clos_month":6,"max_ret_month":null,"max_clos_month":6,"ret_date_str":"TBD","clos_date_str":"30/06/2026"},{"name":"Montpellier Foot","domain":"mhscfoot.com","referent":"Hubert Tuillier","type_mandat":"Buy-side M&A","lm_signee":"Non","typologie":"Opportunité","stade":"Outreach","complexite":"Moyenne","retainer":0,"success":290000,"coef_complexite":0.95,"coef_contractuel":0.0,"proba_brute":0.0,"rev_max":290000,"rev_proba":0,"rev_sec":0,"sec_ret_month":null,"sec_clos_month":null,"prob_ret_month":null,"prob_clos_month":6,"max_ret_month":null,"max_clos_month":6,"ret_date_str":"30/06/2026","clos_date_str":"30/06/2026"},{"name":"EVA Gaming","domain":"eva.gg","referent":"Hubert Tuillier","type_mandat":"Buy-side M&A","lm_signee":"Oui","typologie":"Signé","stade":"Closing","complexite":"Faible","retainer":0,"success":250000,"coef_complexite":1.0,"coef_contractuel":1.0,"proba_brute":1.0,"rev_max":250000,"rev_proba":250000,"rev_sec":250000,"sec_ret_month":null,"sec_clos_month":2,"prob_ret_month":null,"prob_clos_month":2,"max_ret_month":null,"max_clos_month":2,"ret_date_str":"28/02/2026","clos_date_str":"28/02/2026"},{"name":"Sodex","domain":"sodex.fr","referent":"Hubert Tuillier","type_mandat":"Sell-side M&A","lm_signee":"Oui","typologie":"Signé","stade":"Closing","complexite":"Faible","retainer":0,"success":150000,"coef_complexite":1.0,"coef_contractuel":1.0,"proba_brute":1.0,"rev_max":150000,"rev_proba":150000,"rev_sec":150000,"sec_ret_month":null,"sec_clos_month":3,"prob_ret_month":null,"prob_clos_month":3,"max_ret_month":null,"max_clos_month":3,"ret_date_str":"26/03/2026","clos_date_str":"26/03/2026"},{"name":"Folie Douce Val Thorens","domain":"lafoliedouce.com","referent":"Mark Wyatt","type_mandat":"Buy-side M&A","lm_signee":"Oui","typologie":"Signé","stade":"LOI","complexite":"Moyenne","retainer":25000,"success":350000,"coef_complexite":0.95,"coef_contractuel":1.0,"proba_brute":1.0,"rev_max":375000,"rev_proba":375000,"rev_sec":25000,"sec_ret_month":5,"sec_clos_month":null,"prob_ret_month":5,"prob_clos_month":6,"max_ret_month":5,"max_clos_month":6,"ret_date_str":"01/05/2026","clos_date_str":"30/06/2026"},{"name":"Cross Pharm","domain":"crosspharm.com","referent":"Frédéric Meyer","type_mandat":"Sell-side M&A","lm_signee":"Oui","typologie":"Signé","stade":"Intérêt confirmé","complexite":"Moyenne","retainer":0,"success":300000,"coef_complexite":0.95,"coef_contractuel":1.0,"proba_brute":0.95,"rev_max":300000,"rev_proba":285000,"rev_sec":0,"sec_ret_month":null,"sec_clos_month":null,"prob_ret_month":null,"prob_clos_month":7,"max_ret_month":null,"max_clos_month":7,"ret_date_str":"01/06/2026","clos_date_str":"31/07/2026"},{"name":"Pension Bee","domain":"pensionbee.com","referent":"Pierre Marie Blois","type_mandat":"Sell-side M&A","lm_signee":"Oui","typologie":"Signé","stade":"Closing","complexite":"Faible","retainer":15000,"success":500000,"coef_complexite":1.0,"coef_contractuel":1.0,"proba_brute":1.0,"rev_max":515000,"rev_proba":515000,"rev_sec":515000,"sec_ret_month":1,"sec_clos_month":4,"prob_ret_month":1,"prob_clos_month":4,"max_ret_month":1,"max_clos_month":4,"ret_date_str":"29/01/2026","clos_date_str":"30/04/2026"},{"name":"Imadol","domain":"imadol.com","referent":"Sandra Crochemore","type_mandat":"Buy-side M&A","lm_signee":"Non","typologie":"Opportunité","stade":"Préparation (IM, BP)","complexite":"Très élevée","retainer":30000,"success":275000,"coef_complexite":0.0,"coef_contractuel":0.0,"proba_brute":0.0,"rev_max":305000,"rev_proba":30000,"rev_sec":30000,"sec_ret_month":7,"sec_clos_month":null,"prob_ret_month":7,"prob_clos_month":8,"max_ret_month":7,"max_clos_month":8,"ret_date_str":"01/07/2026","clos_date_str":"31/08/2026"},{"name":"Largo","domain":"largo.ai","referent":"Emmanuel Clerc","type_mandat":"Sell-side M&A","lm_signee":"Non","typologie":"Verbal","stade":"Signing","complexite":"Élevée","retainer":10000,"success":180000,"coef_complexite":0.85,"coef_contractuel":0.0,"proba_brute":1.0,"rev_max":190000,"rev_proba":190000,"rev_sec":190000,"sec_ret_month":3,"sec_clos_month":5,"prob_ret_month":3,"prob_clos_month":5,"max_ret_month":3,"max_clos_month":5,"ret_date_str":"01/03/2026","clos_date_str":"31/05/2026"}];
+
+var REF_DATA={"Hubert Tuillier":{"maxM":[0,265000,165000,120000,365000,3010000,0,0,0,2400000,0,0],"probaM":[0,265000,165000,120000,365000,1648000,0,0,0,1020000,0,0],"secM":[0,265000,165000,120000,15000,30000,0,0,0,0,0,0]},"Mark Wyatt":{"maxM":[0,0,0,0,25000,350000,0,0,0,0,0,0],"probaM":[0,0,0,0,25000,350000,0,0,0,0,0,0],"secM":[0,0,0,0,25000,0,0,0,0,0,0,0]},"Frédéric Meyer":{"maxM":[0,0,0,0,0,0,300000,0,0,0,0,0],"probaM":[0,0,0,0,0,0,285000,0,0,0,0,0],"secM":[0,0,0,0,0,0,0,0,0,0,0,0]},"Pierre Marie Blois":{"maxM":[15000,0,0,500000,0,0,0,0,0,0,0,0],"probaM":[15000,0,0,500000,0,0,0,0,0,0,0,0],"secM":[15000,0,0,500000,0,0,0,0,0,0,0,0]},"Sandra Crochemore":{"maxM":[0,0,0,0,0,0,30000,275000,0,0,0,0],"probaM":[0,0,0,0,0,0,30000,0,0,0,0,0],"secM":[0,0,0,0,0,0,30000,0,0,0,0,0]},"Emmanuel Clerc":{"maxM":[0,0,10000,0,180000,0,0,0,0,0,0,0],"probaM":[0,0,10000,0,180000,0,0,0,0,0,0,0],"secM":[0,0,10000,0,180000,0,0,0,0,0,0,0]}};
+
 function buildMonthly(){
-  var maxM=new Array(12).fill(0), probaM=new Array(12).fill(0), secM=new Array(12).fill(0);
-  var maxByMonth=Array.from({length:12},function(){return[]}),
-      probaByMonth=Array.from({length:12},function(){return[]}),
-      secByMonth=Array.from({length:12},function(){return[]});
-
+  var maxM=new Array(12).fill(0),probaM=new Array(12).fill(0),secM=new Array(12).fill(0);
+  var maxBM=Array.from({length:12},function(){return[]}),probaBM=Array.from({length:12},function(){return[]}),secBM=Array.from({length:12},function(){return[]});
   MANDATS.forEach(function(m){
-    // MAX
-    if(m.max_ret_month&&m.max_ret_month>=1&&m.max_ret_month<=12&&m.retainer>0){
-      var mi=m.max_ret_month-1;maxM[mi]+=m.retainer;
-      maxByMonth[mi].push({name:m.name,domain:m.domain,referent:m.referent,amount:m.retainer,revtype:'Retainer',proba_brute:m.proba_brute,type_mandat:m.type_mandat});
-    }
-    if(m.max_clos_month&&m.max_clos_month>=1&&m.max_clos_month<=12&&m.success>0){
-      var mi=m.max_clos_month-1;maxM[mi]+=m.success;
-      maxByMonth[mi].push({name:m.name,domain:m.domain,referent:m.referent,amount:m.success,revtype:'Success fee',proba_brute:m.proba_brute,type_mandat:m.type_mandat});
-    }
-    // PROBA
-    if(m.prob_ret_month&&m.prob_ret_month>=1&&m.prob_ret_month<=12&&m.retainer>0){
-      var mi=m.prob_ret_month-1;probaM[mi]+=m.retainer;
-      probaByMonth[mi].push({name:m.name,domain:m.domain,referent:m.referent,amount:m.retainer,revtype:'Retainer',proba_brute:m.proba_brute,type_mandat:m.type_mandat});
-    }
-    if(m.prob_clos_month&&m.prob_clos_month>=1&&m.prob_clos_month<=12&&m.success>0){
-      var mi=m.prob_clos_month-1;var amt=m.success*m.proba_brute;probaM[mi]+=amt;
-      probaByMonth[mi].push({name:m.name,domain:m.domain,referent:m.referent,amount:amt,revtype:'Success fee',proba_brute:m.proba_brute,type_mandat:m.type_mandat});
-    }
-    // SEC
-    if(m.sec_ret_month&&m.sec_ret_month>=1&&m.sec_ret_month<=12&&m.retainer>0){
-      var mi=m.sec_ret_month-1;secM[mi]+=m.retainer;
-      secByMonth[mi].push({name:m.name,domain:m.domain,referent:m.referent,amount:m.retainer,revtype:'Retainer',proba_brute:m.proba_brute,type_mandat:m.type_mandat});
-    }
-    if(m.sec_clos_month&&m.sec_clos_month>=1&&m.sec_clos_month<=12&&m.success>0){
-      var mi=m.sec_clos_month-1;secM[mi]+=m.success;
-      secByMonth[mi].push({name:m.name,domain:m.domain,referent:m.referent,amount:m.success,revtype:'Success fee',proba_brute:m.proba_brute,type_mandat:m.type_mandat});
-    }
+    if(m.max_ret_month&&m.max_ret_month<=12&&m.retainer>0){var i=m.max_ret_month-1;maxM[i]+=m.retainer;maxBM[i].push({name:m.name,domain:m.domain,referent:m.referent,amount:m.retainer,revtype:'Retainer'})}
+    if(m.max_clos_month&&m.max_clos_month<=12&&m.success>0){var i=m.max_clos_month-1;maxM[i]+=m.success;maxBM[i].push({name:m.name,domain:m.domain,referent:m.referent,amount:m.success,revtype:'Success fee'})}
+    if(m.prob_ret_month&&m.prob_ret_month<=12&&m.retainer>0){var i=m.prob_ret_month-1;probaM[i]+=m.retainer;probaBM[i].push({name:m.name,domain:m.domain,referent:m.referent,amount:m.retainer,revtype:'Retainer'})}
+    if(m.prob_clos_month&&m.prob_clos_month<=12&&m.success>0){var i=m.prob_clos_month-1;var a=m.success*m.proba_brute;probaM[i]+=a;probaBM[i].push({name:m.name,domain:m.domain,referent:m.referent,amount:a,revtype:'Success fee'})}
+    if(m.sec_ret_month&&m.sec_ret_month<=12&&m.retainer>0){var i=m.sec_ret_month-1;secM[i]+=m.retainer;secBM[i].push({name:m.name,domain:m.domain,referent:m.referent,amount:m.retainer,revtype:'Retainer'})}
+    if(m.sec_clos_month&&m.sec_clos_month<=12&&m.success>0){var i=m.sec_clos_month-1;secM[i]+=m.success;secBM[i].push({name:m.name,domain:m.domain,referent:m.referent,amount:m.success,revtype:'Success fee'})}
   });
-  return{maxM:maxM,probaM:probaM,secM:secM,maxByMonth:maxByMonth,probaByMonth:probaByMonth,secByMonth:secByMonth};
+  return{maxM:maxM,probaM:probaM,secM:secM,maxByMonth:maxBM,probaByMonth:probaBM,secByMonth:secBM};
 }
-
 var D=buildMonthly();
-// KPI totals taken directly from sheet columns W/X/Y (not recomputed monthly)
 var totalMax=MANDATS.reduce(function(s,m){return s+m.rev_max},0);
 var totalProba=MANDATS.reduce(function(s,m){return s+m.rev_proba},0);
 var totalSec=MANDATS.reduce(function(s,m){return s+m.rev_sec},0);
 var sellCount=MANDATS.filter(function(m){return m.type_mandat==='Sell-side M&A'}).length;
 var buyCount=MANDATS.filter(function(m){return m.type_mandat==='Buy-side M&A'}).length;
 
-// KPI row
+// KPIs - no titles, just numbers
 function renderKPIs(){
-  var pctMax=Math.round(totalMax/BUDGET*100);
-  var pctProba=Math.round(totalProba/BUDGET*100);
-  var pctSec=Math.round(totalSec/BUDGET*100);
-  function badgeClass(p){return p>=100?'badge-g':'badge-r'}
-  function badgeLabel(p){return p+'% vs. budget'}
-
-  function kpiRev(lbl,val,pct,desc,c1){
-    var cl=pct>=100?'badge-g':'badge-r';
-    return '<div class="kpi"><div class="kpi-label">'+lbl+'</div>'
-      +'<div style="display:flex;align-items:baseline;justify-content:space-between;gap:8px">'
-      +'<div class="kpi-value" style="color:'+c1+'">'+fmtK(Math.round(val))+'</div>'
-      +'<div class="kpi-badge '+cl+'" style="white-space:nowrap">'+pct+'% vs. budget</div>'
-      +'</div>'
-      +'<div class="kpi-sub">'+desc+'</div></div>';
-  }
+  var pM=Math.round(totalMax/BUDGET*100),pP=Math.round(totalProba/BUDGET*100),pS=Math.round(totalSec/BUDGET*100);
+  function bg(p){return p>=100?'badge-g':'badge-r'}
   document.getElementById('kpi-row').innerHTML=
-    '<div class="kpi"><div class="kpi-label">Mandats en cours</div><div style="display:flex;align-items:center;gap:16px;margin:8px 0 8px"><div class="kpi-value">'+MANDATS.length+'</div><div style="display:flex;flex-direction:column;gap:4px"><div class="kpi-badge" style="background:#E6F1FB;color:#185FA5;border:1px solid #B5D4F4">'+sellCount+' sell-side</div><div class="kpi-badge" style="background:#EEEDFE;color:#534AB7;border:1px solid #CECBF6">'+buyCount+' buy-side</div></div></div><div style="display:flex;flex-direction:column;gap:3px"><div class="kpi-sub">Mandats actifs</div></div></div>'+
-    '<div class="kpi"><div class="kpi-label">Objectif CA 2026B</div><div class="kpi-value">'+fmtK(BUDGET)+'</div><div style="display:flex;flex-direction:column;gap:3px"><div class="kpi-sub">Budget annuel fixé</div></div></div>'+
-    kpiRev('Revenu max',totalMax,pctMax,'Tous les deals closent','#0085CA')+
-    kpiRev('Revenu probabilisé',totalProba,pctProba,'Deals probabilisés','#2DBEC9')+
-    kpiRev('Revenu sécurisé',totalSec,pctSec,'Retainers + closings certains','#00C9A0');
+    '<div class="kpi"><div class="kpi-value" style="color:var(--deep)">'+MANDATS.length+'</div><div style="font-size:12px;color:#8A9FAB;display:flex;align-items:center;justify-content:center;height:44px">mandats en cours</div><div style="display:flex;gap:6px;justify-content:center;align-items:flex-start"><div class="kpi-badge" style="background:#E6F1FB;color:#185FA5;border:1px solid #B5D4F4">'+sellCount+' sell-side</div><div class="kpi-badge" style="background:#EEEDFE;color:#534AB7;border:1px solid #CECBF6">'+buyCount+' buy-side</div></div></div>'+
+    '<div class="kpi"><div class="kpi-value" style="color:var(--deep)">'+fmtK(BUDGET)+'</div><div style="font-size:12px;color:#8A9FAB;display:flex;align-items:center;justify-content:center;height:44px">Objectif de CA 2026B</div><div></div></div>'+
+    '<div class="kpi"><div class="kpi-value" style="color:'+C_MAX+'">'+fmtK(Math.round(totalMax))+'</div><div style="font-size:12px;color:#8A9FAB;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;height:44px;line-height:1.4"><span>Revenu max</span><span style="font-size:11px">(tous les deals closent)</span></div><div class="kpi-badge '+bg(pM)+'">'+pM+'% vs. budget</div></div>'+
+    '<div class="kpi"><div class="kpi-value" style="color:'+C_PROBA+'">'+fmtK(Math.round(totalProba))+'</div><div style="font-size:12px;color:#8A9FAB;display:flex;align-items:center;justify-content:center;height:44px">Revenu probabilisé</div><div class="kpi-badge '+bg(pP)+'">'+pP+'% vs. budget</div></div>'+
+    '<div class="kpi"><div class="kpi-value" style="color:'+C_SEC+'">'+fmtK(Math.round(totalSec))+'</div><div style="font-size:12px;color:#8A9FAB;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;height:44px;line-height:1.4"><span>Revenu sécurisé</span><span style="font-size:11px">(retainers + closings certains)</span></div><div class="kpi-badge '+bg(pS)+'">'+pS+'% vs. budget</div></div>';
 }
 
-// Chart
-var REF_DATA = {"Hubert Tuillier":{"maxM":[0,265000,165000,120000,365000,3010000,0,0,0,2400000,0,0],"probaM":[0,265000,165000,120000,365000,1648000,0,0,0,1020000,0,0],"secM":[0,265000,165000,120000,15000,30000,0,0,0,0,0,0],"totalMax":6515000,"totalProba":3750500,"totalSec":785000},"Mark Wyatt":{"maxM":[0,0,0,0,25000,350000,0,0,0,0,0,0],"probaM":[0,0,0,0,25000,350000,0,0,0,0,0,0],"secM":[0,0,0,0,25000,0,0,0,0,0,0,0],"totalMax":375000,"totalProba":375000,"totalSec":25000},"Frédéric Meyer":{"maxM":[0,0,0,0,0,0,300000,0,0,0,0,0],"probaM":[0,0,0,0,0,0,285000,0,0,0,0,0],"secM":[0,0,0,0,0,0,0,0,0,0,0,0],"totalMax":300000,"totalProba":285000,"totalSec":0},"Pierre Marie Blois":{"maxM":[15000,0,0,500000,0,0,0,0,0,0,0,0],"probaM":[15000,0,0,500000,0,0,0,0,0,0,0,0],"secM":[15000,0,0,500000,0,0,0,0,0,0,0,0],"totalMax":515000,"totalProba":515000,"totalSec":515000},"Sandra Crochemore":{"maxM":[0,0,0,0,0,0,30000,275000,0,0,0,0],"probaM":[0,0,0,0,0,0,30000,0,0,0,0,0],"secM":[0,0,0,0,0,0,30000,0,0,0,0,0],"totalMax":305000,"totalProba":30000,"totalSec":30000},"Emmanuel Clerc":{"maxM":[0,0,10000,0,180000,0,0,0,0,0,0,0],"probaM":[0,0,10000,0,180000,0,0,0,0,0,0,0],"secM":[0,0,10000,0,180000,0,0,0,0,0,0,0],"totalMax":190000,"totalProba":190000,"totalSec":190000}};
+var activeRef=null,mainChartInstance=null;
 
-// Scenario base colors
-var C_MAX='#0085CA', C_PROBA='#2DBEC9', C_SEC='#00C9A0';
-
-function blendHex(h1,h2,t){
-  function hv(h){return[parseInt(h.slice(1,3),16),parseInt(h.slice(3,5),16),parseInt(h.slice(5,7),16)]}
-  function th(n){return ('0'+Math.round(n).toString(16)).slice(-2)}
-  var a=hv(h1),b=hv(h2);
-  return '#'+th(a[0]+(b[0]-a[0])*t)+th(a[1]+(b[1]-a[1])*t)+th(a[2]+(b[2]-a[2])*t);
-}
-
-function getCumulativeSec(secM){
-  var cum=[]; var running=0;
-  for(var i=0;i<12;i++){running+=secM[i];cum.push(running);}
-  return cum;
-}
-
-// Build aggregated monthly arrays (filtered by activeRef)
-function getFilteredMonthly(){
+function getFiltered(){
   var maxM=new Array(12).fill(0),probaM=new Array(12).fill(0),secM=new Array(12).fill(0);
-  Object.keys(REFERENTS).forEach(function(ref){
-    if(activeRef && activeRef!==ref) return;
-    REF_DATA[ref].maxM.forEach(function(v,i){maxM[i]+=v});
-    REF_DATA[ref].probaM.forEach(function(v,i){probaM[i]+=v});
-    REF_DATA[ref].secM.forEach(function(v,i){secM[i]+=v});
+  Object.keys(REF_DATA).forEach(function(r){
+    if(activeRef&&activeRef!==r)return;
+    REF_DATA[r].maxM.forEach(function(v,i){maxM[i]+=v});
+    REF_DATA[r].probaM.forEach(function(v,i){probaM[i]+=v});
+    REF_DATA[r].secM.forEach(function(v,i){secM[i]+=v});
   });
   return{maxM:maxM,probaM:probaM,secM:secM};
 }
 
-// Custom datalabels plugin (draw value above each bar group)
-var topLabelPlugin = {
-  id:'topLabel',
-  afterDatasetsDraw:function(chart){
-    var ctx=chart.ctx;
-    var datasets=chart.data.datasets;
-    var metas=[chart.getDatasetMeta(0),chart.getDatasetMeta(1),chart.getDatasetMeta(2)];
-    if(!metas[0].data.length) return;
-    ctx.save();
-    for(var i=0;i<12;i++){
-      metas.forEach(function(meta,bi){
-        var bar=meta.data[i];
-        var val=datasets[bi].data[i];
-        if(!bar||!val||val===0) return;
-        var txt=fmtK(val);
-        // pill background
-        var pw=ctx.measureText(txt).width+10;
-        var ph=16;
-        var bx=bar.x-pw/2;
-        var by=bar.y-ph-5;
-        ctx.fillStyle='rgba(255,255,255,0.88)';
-        ctx.beginPath();
-        ctx.roundRect(bx,by,pw,ph,4);
-        ctx.fill();
-        ctx.font='600 10px DM Sans, sans-serif';
-        ctx.textAlign='center';
-        ctx.textBaseline='middle';
-        var colors=[C_SEC,C_PROBA,C_MAX];
-        ctx.fillStyle=colors[bi];
-        ctx.fillText(txt,bar.x,by+ph/2);
-      });
-    }
-    ctx.restore();
-  }
-};
-
 function renderCumStrip(secM){
-  var fm=getFilteredMonthly();
-  var cumProba=[],cumSec=[],rp=0,rs=0;
-  for(var i=0;i<12;i++){rp+=fm.probaM[i];rs+=secM[i];cumProba.push(rp);cumSec.push(rs);}
-  window._cumData={cumProba:cumProba,cumSec:cumSec};
+  var fm=getFiltered();var cp=[],cs=[],rp=0,rs=0;
+  for(var i=0;i<12;i++){rp+=fm.probaM[i];rs+=secM[i];cp.push(rp);cs.push(rs);}
+  window._cumData={cp:cp,cs:cs};
 }
 
 function positionCumStrip(){
-  var chart=mainChartInstance;
-  var strip=document.getElementById('cum-strip');
-  if(!chart||!strip) return;
+  var chart=mainChartInstance,strip=document.getElementById('cum-strip');
+  if(!chart||!strip||!window._cumData||!chart.scales||!chart.scales.x)return;
   var cd=window._cumData;
-  if(!cd) return;
-  if(!chart.scales||!chart.scales.x) return;
+  var caLeft=chart.chartArea.left,caRight=chart.chartArea.right;
 
-  var caLeft=chart.chartArea.left;
-  var caRight=chart.chartArea.right;
-  var canvasW=chart.canvas.offsetWidth;
+  // Build as two flex rows — label outside, pills positioned absolutely over pill-zone
   strip.innerHTML='';
   strip.style.position='relative';
   strip.style.height='56px';
 
-  // Label on left
-  var lblLeft=Math.max(0,caLeft-8);
-  function addLabel(text,color,top){
-    var d=document.createElement('div');
-    d.style.cssText='position:absolute;right:'+(canvasW-caLeft+6)+'px;top:'+top+'px;font-size:9.5px;font-weight:700;color:'+color+';line-height:1.3;text-align:right;white-space:nowrap;pointer-events:none';
-    d.innerHTML=text;
-    strip.appendChild(d);
-  }
-  addLabel('Probabilisé cumulé','#2DBEC9',2);
-  addLabel('Sécurisé cumulé','#00C9A0',30);
+  // Pill zone: a container div that sits exactly over the chart bars area
+  var GAP=28;
 
-  var GAP=24; // half pill width
-  function addRow(values,color,top){
-    // line segments between pills
+  function buildRow(label,color,values,top){
+    // Label — sits to the left of caLeft, right-aligned
+    var lbl=document.createElement('div');
+    lbl.style.cssText=[
+      'position:absolute',
+      'right:'+(strip.offsetWidth-caLeft+6)+'px',
+      'top:'+top+'px',
+      'width:90px',
+      'text-align:right',
+      'font-size:9px',
+      'font-weight:700',
+      'color:'+color,
+      'line-height:1.35',
+      'pointer-events:none'
+    ].join(';');
+    lbl.innerHTML=label;
+    strip.appendChild(lbl);
+
+    // Line segments between pills
     for(var si=0;si<=12;si++){
       var xA=si===0?caLeft:(chart.scales.x.getPixelForValue(si-1)+GAP);
       var xB=si===12?caRight:(chart.scales.x.getPixelForValue(si)-GAP);
       if(xB>xA){
         var seg=document.createElement('div');
-        seg.style.cssText='position:absolute;height:1px;background:rgba(28,43,51,.09);top:'+(top+9)+'px;pointer-events:none';
-        seg.style.left=xA+'px';
-        seg.style.width=(xB-xA)+'px';
+        seg.style.cssText='position:absolute;height:1px;background:rgba(28,43,51,.18);top:'+(top+9)+'px;pointer-events:none';
+        seg.style.left=xA+'px';seg.style.width=(xB-xA)+'px';
         strip.appendChild(seg);
       }
     }
-    // pills
+
+    // Pills
     values.forEach(function(v,i){
       var xPx=chart.scales.x.getPixelForValue(i);
       var pill=document.createElement('div');
       pill.style.cssText='position:absolute;transform:translateX(-50%);top:'+top+'px;pointer-events:none';
       pill.style.left=xPx+'px';
       pill.innerHTML=v>0
-        ?'<span style="display:inline-flex;background:'+color+'14;border:1px solid '+color+'55;border-radius:20px;padding:2px 7px;font-size:9.5px;font-weight:700;color:'+color+'">'+fmtK(v)+'</span>'
-        :'<span style="display:inline-flex;border:1px solid rgba(28,43,51,.07);border-radius:20px;padding:2px 7px;font-size:9px;color:rgba(28,43,51,.2)">-</span>';
+        ?'<span style="display:inline-flex;justify-content:center;min-width:44px;background:'+color+'14;border:1px solid '+color+'55;border-radius:20px;padding:2px 8px;font-size:9.5px;font-weight:700;color:'+color+'">'+fmtK(v)+'</span>'
+        :'<span style="display:inline-flex;justify-content:center;min-width:44px;border:1px solid rgba(28,43,51,.1);border-radius:20px;padding:2px 8px;font-size:9.5px;color:rgba(28,43,51,.25)">-</span>';
       strip.appendChild(pill);
     });
   }
 
-  addRow(cd.cumProba,'#2DBEC9',0);
-  addRow(cd.cumSec,'#00C9A0',28);
+  buildRow('Proba<br>cumulé','#2DBEC9',cd.cp,0);
+  buildRow('Sécu<br>cumulé','#00C9A0',cd.cs,28);
 }
 
-function renderChart(){
-  var ctx=document.getElementById('mainChart').getContext('2d');
-  var fm=getFilteredMonthly();
-  var cumSec=getCumulativeSec(fm.secM);
-  renderCumStrip(fm.secM);
-  var BR={topLeft:6,topRight:6,bottomLeft:0,bottomRight:0};
+var topLabelPlugin={id:'topLabel',afterDatasetsDraw:function(chart){
+  var ctx=chart.ctx,ds=chart.data.datasets;
+  var metas=[chart.getDatasetMeta(0),chart.getDatasetMeta(1),chart.getDatasetMeta(2)];
+  if(!metas[0].data.length)return;ctx.save();
+  for(var i=0;i<12;i++){metas.forEach(function(meta,bi){
+    var bar=meta.data[i],val=ds[bi].data[i];
+    if(!bar||!val||val===0)return;
+    var txt=fmtK(val),pw=ctx.measureText(txt).width+12,ph=16,bx=bar.x-pw/2,by=bar.y-ph-5;
+    ctx.fillStyle='rgba(255,255,255,.9)';ctx.beginPath();ctx.roundRect(bx,by,pw,ph,4);ctx.fill();
+    ctx.font='600 10px DM Sans, sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';
+    ctx.fillStyle=[C_SEC,C_PROBA,C_MAX][bi];ctx.fillText(txt,bar.x,by+ph/2);
+  });}ctx.restore();
+}};
 
-  mainChartInstance = new Chart(ctx,{
-    type:'bar',
-    plugins:[topLabelPlugin],
-    data:{
-      labels:MONTHS,
-      datasets:[
-        {label:'Revenu sec',   data:fm.secM,   backgroundColor:C_SEC,   borderRadius:BR, borderSkipped:false, barPercentage:0.78, categoryPercentage:0.78, order:3},
-        {label:'Revenu proba', data:fm.probaM, backgroundColor:C_PROBA, borderRadius:BR, borderSkipped:false, barPercentage:0.78, categoryPercentage:0.78, order:2},
-        {label:'Revenu max',   data:fm.maxM,   backgroundColor:C_MAX,   borderRadius:BR, borderSkipped:false, barPercentage:0.78, categoryPercentage:0.78, order:1},
+var ttDiv=null;
+function getTT(){if(!ttDiv){ttDiv=document.createElement('div');ttDiv.style.cssText='position:fixed;background:#fff;border:1px solid rgba(28,43,51,.12);border-radius:16px;padding:14px 16px;box-shadow:0 12px 40px rgba(28,43,51,.18);pointer-events:none;z-index:999;min-width:220px;max-width:300px;opacity:0;transition:opacity .12s;font-family:DM Sans,sans-serif';document.body.appendChild(ttDiv);}return ttDiv;}
 
-      ]
-    },
-    options:{
-      responsive:true, maintainAspectRatio:false,
-      layout:{padding:{top:8}},
-      plugins:{
-        legend:{display:false},
-        tooltip:{enabled:false},
-        hover:{mode:'nearest',intersect:true}
-      },
-      onClick:function(evt,items){
-        if(!items.length) return;
-        showMonthModal(items[0].index);
-      },
-      scales:{
-        x:{
-          ticks:{font:{size:11,family:'DM Sans'},color:'#8A9FAB',autoSkip:false},
-          grid:{display:false},
-          border:{display:true,color:'rgba(28,43,51,.1)',width:1}
-        },
-        y:{
-          display:false,
-          grid:{display:false},
-          border:{display:false}
-        }
-      }
-    }
+function buildTT(mi,dsLabel){
+  var scMap={'Revenu sec':{label:'Revenu sécurisé',key:'secM',bk:'secByMonth',color:C_SEC},'Revenu proba':{label:'Revenu probabilisé',key:'probaM',bk:'probaByMonth',color:C_PROBA},'Revenu max':{label:'Revenu max',key:'maxM',bk:'maxByMonth',color:C_MAX}};
+  var sc=scMap[dsLabel];if(!sc)return'';
+  var total=0,refs=[];
+  Object.keys(REF_DATA).forEach(function(ref){if(activeRef&&activeRef!==ref)return;var v=REF_DATA[ref][sc.key][mi];if(v>0){total+=v;refs.push({ref:ref,v:v});}});
+  if(!total)return'';
+  var h='<div style="font-size:12px;font-weight:700;color:#1C2B33;margin-bottom:10px;display:flex;align-items:center;gap:7px"><div style="width:10px;height:10px;border-radius:3px;background:'+sc.color+'"></div>'+sc.label+' - '+MONTHS_FULL[mi]+'<span style="margin-left:auto;font-size:13px;color:'+sc.color+'">'+fmtK(total)+'</span></div>';
+  refs.forEach(function(rl){
+    var rc=REFERENTS[rl.ref]||{color:'#8A9FAB'};var ini=rl.ref.split(' ').map(function(w){return w[0]}).join('').substring(0,3);
+    var items=(D[sc.bk]&&D[sc.bk][mi]||[]).filter(function(it){return it.referent===rl.ref&&it.amount>0});
+    var dn=REAL_REFERENTS[rl.ref]||rl.ref;
+    h+='<div style="padding:5px 0;border-bottom:1px solid rgba(28,43,51,.05)"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:'+(items.length?'5':'0')+'px"><div style="display:flex;align-items:center;gap:6px"><div style="width:20px;height:20px;border-radius:50%;background:'+rc.color+';display:flex;align-items:center;justify-content:center;font-size:7px;font-weight:700;color:#fff">'+ini+'</div><span style="font-size:11px;font-weight:600;color:#1C2B33">'+dn+'</span></div><span style="font-size:11px;font-weight:700;color:'+sc.color+'">'+fmtK(rl.v)+'</span></div>';
+    items.forEach(function(it){h+='<div style="display:flex;justify-content:space-between;padding:2px 0 2px 26px"><span style="font-size:10px;color:#6B7B86">'+it.name+'</span><span style="font-size:10px;font-weight:500;color:#1C2B33">'+fmtK(it.amount)+'</span></div>';});
+    h+='</div>';
   });
-}
-
-// Custom tooltip
-var ttDiv = null;
-function getOrCreateTooltip(){
-  if(!ttDiv){
-    ttDiv=document.createElement('div');
-    ttDiv.id='custom-tt';
-    ttDiv.style.cssText='position:fixed;background:#fff;border:1px solid rgba(28,43,51,.12);border-radius:16px;padding:16px 18px;box-shadow:0 12px 40px rgba(28,43,51,.18);pointer-events:none;z-index:999;min-width:240px;max-width:320px;opacity:0;transition:opacity .12s;font-family:DM Sans,sans-serif';
-    document.body.appendChild(ttDiv);
-  }
-  return ttDiv;
-}
-
-function buildTooltipHTML(mi, hoveredDatasetLabel){
-  var month=MONTHS_FULL[mi];
-  var scMap={'Revenu sec':{label:'Revenu sécurisé',key:'secM',color:C_SEC},
-             'Revenu proba':{label:'Revenu probabilisé',key:'probaM',color:C_PROBA},
-             'Revenu max':{label:'Revenu max',key:'maxM',color:C_MAX}};
-  var sc=scMap[hoveredDatasetLabel];
-  if(!sc) return '';
-  var total=0, refLines=[];
-  Object.keys(REFERENTS).forEach(function(ref){
-    if(activeRef && activeRef!==ref) return;
-    var v=REF_DATA[ref][sc.key][mi];
-    if(v>0){total+=v;refLines.push({ref:ref,v:v});}
-  });
-  if(!total) return '';
-  var h='<div style="font-size:12px;font-weight:700;color:#1C2B33;margin-bottom:10px;display:flex;align-items:center;gap:7px">'
-    +'<div style="width:10px;height:10px;border-radius:3px;background:'+sc.color+'"></div>'
-    +sc.label+' - '+month
-    +'<span style="margin-left:auto;font-size:13px;color:'+sc.color+'">'+fmtK(total)+'</span></div>';
-  if(refLines.length>0){
-    refLines.forEach(function(rl){
-      var rc=REFERENTS[rl.ref]||{color:'#8A9FAB'};
-      var initl=rl.ref.split(' ').map(function(w){return w[0]}).join('').substring(0,3);
-      // companies for this ref+scenario this month
-      var byMonthKey=sc.key==='maxM'?'maxByMonth':sc.key==='probaM'?'probaByMonth':'secByMonth';
-      var items=(D[byMonthKey]&&D[byMonthKey][mi])||[];
-      var refItems=items.filter(function(it){return it.referent===rl.ref&&it.amount>0});
-      h+='<div style="padding:5px 0;border-bottom:1px solid rgba(28,43,51,.05)">';
-      h+='<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:'+(refItems.length?'5':'0')+'px">';
-      h+='<div style="display:flex;align-items:center;gap:6px">';
-      h+='<div style="width:20px;height:20px;border-radius:50%;background:'+rc.color+';display:flex;align-items:center;justify-content:center;font-size:7px;font-weight:700;color:#fff;flex-shrink:0">'+initl+'</div>';
-      h+='<span style="font-size:11px;font-weight:600;color:#1C2B33">'+rl.ref+'</span></div>';
-      h+='<span style="font-size:11px;font-weight:700;color:'+sc.color+'">'+fmtK(rl.v)+'</span></div>';
-      refItems.forEach(function(it){
-        h+='<div style="display:flex;align-items:center;justify-content:space-between;padding:2px 0 2px 26px">';
-        h+='<span style="font-size:10px;color:#6B7B86">'+it.name+'</span>';
-        h+='<span style="font-size:10px;font-weight:500;color:#1C2B33">'+fmtK(it.amount)+'</span></div>';
-      });
-      h+='</div>';
-    });
-  }
-  h+='<div style="margin-top:8px;font-size:10px;color:var(--muted);text-align:center">Cliquez pour le détail complet du mois</div>';
+  h+='<div style="margin-top:8px;font-size:10px;color:#8A9FAB;text-align:center">Cliquez pour le détail</div>';
   return h;
 }
 
-// Hook custom tooltip into Chart.js via plugin
-Chart.register({
-  id:'customTooltip',
-  afterEvent:function(chart,args){
-    var evt=args.event;
-    var tt=getOrCreateTooltip();
-    if(evt.type==='mousemove'){
-      var pts=chart.getElementsAtEventForMode(evt.native,'nearest',{intersect:true},true);
-      if(pts.length){
-        var mi=pts[0].index;
-        var dsIdx=pts[0].datasetIndex;
-        var ds=chart.data.datasets[dsIdx];
-        var html=buildTooltipHTML(mi,ds.label);
-        if(!html){tt.style.opacity='0';return;}
-        tt.innerHTML=html;
-        var rect=chart.canvas.getBoundingClientRect();
-        // position top-right of chart
-        // Position tooltip near the hovered bar
-        var barX=evt.native.clientX;
-        var barY=evt.native.clientY;
-        var ttW=300;
-        var ttH=200;
-        var vw=window.innerWidth;
-        var vh=window.innerHeight;
-        var tx=barX+16;
-        var ty=barY-80;
-        if(tx+ttW>vw-10) tx=barX-ttW-16;
-        if(ty+ttH>vh-10) ty=vh-ttH-10;
-        if(ty<8) ty=8;
-        tt.style.left=tx+'px';
-        tt.style.top=ty+'px';
-        tt.style.opacity='1';
-      } else {
-        tt.style.opacity='0';
-      }
-    } else if(evt.type==='mouseout'){
-      tt.style.opacity='0';
-    }
-  }
-});
+Chart.register({id:'customTT',afterEvent:function(chart,args){
+  var evt=args.event,tt=getTT();
+  if(evt.type==='mousemove'){
+    var pts=chart.getElementsAtEventForMode(evt.native,'nearest',{intersect:true},true);
+    if(pts.length){
+      var mi=pts[0].index,ds=chart.data.datasets[pts[0].datasetIndex];
+      var html=buildTT(mi,ds.label);if(!html){tt.style.opacity='0';return;}
+      tt.innerHTML=html;
+      var x=evt.native.clientX+16,y=evt.native.clientY-80;
+      if(x+300>window.innerWidth)x=evt.native.clientX-316;if(y<8)y=8;
+      tt.style.left=x+'px';tt.style.top=y+'px';tt.style.opacity='1';
+    }else tt.style.opacity='0';
+  }else if(evt.type==='mouseout')tt.style.opacity='0';
+}});
 
-function updateChart(){
-  if(!mainChartInstance) return;
-  updateRefPills();
-  var fm=getFilteredMonthly();
-  var cumSec=getCumulativeSec(fm.secM);
-  mainChartInstance.data.datasets[0].data=fm.secM;
-  mainChartInstance.data.datasets[1].data=fm.probaM;
-  mainChartInstance.data.datasets[2].data=fm.maxM;
-  mainChartInstance.update();
-  renderCumStrip(fm.secM);
-  setTimeout(positionCumStrip,20);
+
+function renderChart(){
+  var ctx=document.getElementById('mainChart').getContext('2d');
+  var fm=getFiltered();renderCumStrip(fm.secM);
+  var BR={topLeft:6,topRight:6,bottomLeft:0,bottomRight:0};
+  mainChartInstance=new Chart(ctx,{type:'bar',plugins:[topLabelPlugin],
+    data:{labels:MONTHS_FULL,datasets:[
+      {label:'Revenu sec',  data:fm.secM,   backgroundColor:C_SEC,   borderRadius:BR,borderSkipped:false,barPercentage:0.78,categoryPercentage:0.78},
+      {label:'Revenu proba',data:fm.probaM, backgroundColor:C_PROBA, borderRadius:BR,borderSkipped:false,barPercentage:0.78,categoryPercentage:0.78},
+      {label:'Revenu max',  data:fm.maxM,   backgroundColor:C_MAX,   borderRadius:BR,borderSkipped:false,barPercentage:0.78,categoryPercentage:0.78}
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:8}},
+      plugins:{legend:{display:false},tooltip:{enabled:false},hover:{mode:'nearest',intersect:true}},
+      onClick:function(evt,items){if(!items.length)return;showMonthModal(items[0].index);},
+      scales:{
+        x:{ticks:{font:{size:11,family:'DM Sans'},color:'#8A9FAB',autoSkip:false},grid:{display:false},border:{display:true,color:'rgba(28,43,51,.1)',width:1}},
+        y:{display:false,grid:{display:false},border:{display:false}}
+      }
+    }
+  });
+  setTimeout(positionCumStrip,60);
 }
 
-// Active referent filter (null = all)
-var activeRef = null;
-var mainChartInstance = null;
+function updateChart(){
+  if(!mainChartInstance)return;updateRefPills();
+  var fm=getFiltered();
+  mainChartInstance.data.datasets[0].data=fm.secM;mainChartInstance.data.datasets[1].data=fm.probaM;mainChartInstance.data.datasets[2].data=fm.maxM;
+  mainChartInstance.update();renderCumStrip(fm.secM);setTimeout(positionCumStrip,20);
+}
 
 function renderReferentLegend(){
-  var el=document.getElementById('referent-legend');
-  var h='<span style="font-size:10px;font-weight:500;color:var(--muted);align-self:center;white-space:nowrap">Filtrer par référent :</span>';
+  var el=document.getElementById('referent-legend'),h='<span style="font-size:12px;font-weight:500;color:#8A9FAB;align-self:center;white-space:nowrap">Filtrer par référent :</span>';
   Object.keys(REFERENTS).forEach(function(name){
-    var r=REFERENTS[name];
-    h+='<div class="ref-pill" data-ref="'+name+'" style="display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:500;padding:4px 11px 4px 7px;border-radius:20px;cursor:pointer;border:1px solid '+r.color+';color:'+r.color+';background:transparent;transition:all .15s">'
-      +'<span class="pill-check" style="width:15px;height:15px;border-radius:4px;border:1.5px solid '+r.color+';display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s;overflow:hidden">'
-      +'<svg class="pill-tick" width="9" height="7" viewBox="0 0 9 7" fill="none" style="opacity:0;transition:opacity .15s"><path d="M1 3.5L3.5 6L8 1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>'+name+'</div>';
+    var r=REFERENTS[name];var dn=REAL_REFERENTS[name]||name;
+    h+='<div class="ref-pill" data-ref="'+name+'" style="display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:500;padding:4px 11px 4px 7px;border-radius:20px;cursor:pointer;border:1px solid '+r.color+';color:'+r.color+';background:transparent;transition:all .15s"><span class="pill-check" style="width:15px;height:15px;border-radius:4px;border:1.5px solid '+r.color+';display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden"><svg class="pill-tick" width="9" height="7" viewBox="0 0 9 7" fill="none" style="opacity:0;transition:opacity .15s"><path d="M1 3.5L3.5 6L8 1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>'+dn+'</div>';
   });
   el.innerHTML=h;
-  el.querySelectorAll('.ref-pill').forEach(function(pill){
-    pill.addEventListener('click',function(){
-      var ref=pill.getAttribute('data-ref');
-      if(activeRef===ref){activeRef=null}else{activeRef=ref}
-      updateChart();
-    });
-  });
+  el.querySelectorAll('.ref-pill').forEach(function(pill){pill.addEventListener('click',function(){var ref=pill.getAttribute('data-ref');activeRef=activeRef===ref?null:ref;updateChart();});});
 }
 
 function updateRefPills(){
   document.querySelectorAll('.ref-pill').forEach(function(pill){
-    var ref=pill.getAttribute('data-ref');
-    var r=REFERENTS[ref];
-    var ck=pill.querySelector('.pill-check');
-    var tk=pill.querySelector('.pill-tick');
-    var isActive=(activeRef===null||activeRef===ref);
-    var isSelected=(activeRef===ref);
-    if(isActive){
-      pill.style.background=isSelected?r.color:'transparent';
-      pill.style.color=isSelected?'#fff':r.color;
-      pill.style.opacity='1';
-      if(ck){ck.style.background=isSelected?'rgba(255,255,255,.22)':'transparent';ck.style.borderColor=isSelected?'rgba(255,255,255,.5)':r.color;ck.style.color=isSelected?'#fff':r.color;}
-      if(tk) tk.style.opacity=isSelected?'1':'0';
-    } else {
-      pill.style.background='transparent';pill.style.color=r.color;pill.style.opacity='0.35';
-      if(ck){ck.style.background='transparent';ck.style.borderColor=r.color;ck.style.color=r.color;}
-      if(tk) tk.style.opacity='0';
-    }
+    var ref=pill.getAttribute('data-ref'),r=REFERENTS[ref];
+    var ck=pill.querySelector('.pill-check'),tk=pill.querySelector('.pill-tick');
+    var isSel=(activeRef===ref),isActive=(activeRef===null||isSel);
+    pill.style.background=isSel?r.color:'transparent';pill.style.color=isSel?'#fff':r.color;pill.style.opacity=isActive?'1':'0.35';
+    if(ck){ck.style.background=isSel?'rgba(255,255,255,.22)':'transparent';ck.style.borderColor=isSel?'rgba(255,255,255,.5)':r.color;ck.style.color=isSel?'#fff':r.color;}
+    if(tk)tk.style.opacity=isSel?'1':'0';
   });
-  // Update the 3 scenario legend squares to show blended color when a ref is active
-  var sqMax=document.getElementById('sq-max');
-  var sqProba=document.getElementById('sq-proba');
-  var sqSec=document.getElementById('sq-sec');
-  if(sqMax&&activeRef){
-    sqMax.style.background=C_MAX;
-    sqProba.style.background=C_PROBA;
-    sqSec.style.background=C_SEC;
-  } else if(sqMax){
-    sqMax.style.background=C_MAX;
-    sqProba.style.background=C_PROBA;
-    sqSec.style.background=C_SEC;
-  }
   var lbl=document.getElementById('chart-mode-label');
-  if(activeRef){
-    var rc=REFERENTS[activeRef]||{color:'#8A9FAB'};
-    lbl.style.display='inline-flex';
-    lbl.style.background=rc.color+'18';
-    lbl.style.color=rc.color;
-    lbl.style.border='1px solid '+rc.color+'44';
-    var initl=activeRef.split(' ').map(function(w){return w[0]}).join('').substring(0,3);
-    lbl.innerHTML='<span style="width:18px;height:18px;border-radius:50%;background:'+rc.color+';color:#fff;font-size:7px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;margin-right:4px">'+initl+'</span>'+activeRef;
-  } else {
-    lbl.style.display='none';
-    lbl.innerHTML='';
-  }
+  if(activeRef){var rc=REFERENTS[activeRef]||{color:'#8A9FAB'};var ini=activeRef.split(' ').map(function(w){return w[0]}).join('').substring(0,3);lbl.style.cssText='font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;display:inline-flex;align-items:center;gap:5px;background:'+rc.color+'18;color:'+rc.color+';border:1px solid '+rc.color+'44';lbl.innerHTML='<span style="width:18px;height:18px;border-radius:50%;background:'+rc.color+';color:#fff;font-size:7px;font-weight:700;display:inline-flex;align-items:center;justify-content:center">'+ini+'</span>'+(REAL_REFERENTS[activeRef]||activeRef);}
+  else{lbl.style.display='none';lbl.innerHTML='';}
 }
 
-// Logo with fallback
-function logoHTML(domain,name,size){
-  size=size||28;
-  var ref=REFERENTS[name]||null;
-  var refColor=ref?ref.color:'#8A9FAB';
-  var ini=initials(name);
-  if(domain&&domain!==''&&domain!=='n.a.'){
-    return'<img src="'+logoUrl(domain)+'" style="max-width:'+size+'px;max-height:'+(size*0.75)+'px;object-fit:contain" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'">'
-      +'<div class="init" style="display:none;background:'+refColor+';font-size:'+Math.round(size*0.35)+'px;width:'+size+'px;height:'+size+'px;border-radius:50%;color:#fff;align-items:center;justify-content:center;font-weight:700">'+ini+'</div>';
-  }
-  return'<div class="init" style="display:flex;background:'+refColor+';font-size:'+Math.round(size*0.35)+'px;width:'+size+'px;height:'+size+'px;border-radius:50%;color:#fff;align-items:center;justify-content:center;font-weight:700">'+ini+'</div>';
-}
-
-// Month modal
 function showMonthModal(mi){
   var monthName=MONTHS_FULL[mi];
-  var fm=getFilteredMonthly();
-  function getFilteredItems(byMonth){
-    var items=byMonth[mi]||[];
-    if(!activeRef) return items;
-    return items.filter(function(it){return it.referent===activeRef});
-  }
-  var maxItems=getFilteredItems(D.maxByMonth);
-  var probaItems=getFilteredItems(D.probaByMonth);
-  var secItems=getFilteredItems(D.secByMonth);
-  function feeTag(revtype){
-    var bg=revtype==='Retainer'?'#EFF6FF':'#F0FDF4';
-    var col=revtype==='Retainer'?'#1D4ED8':'#15803D';
-    var border=revtype==='Retainer'?'#BFDBFE':'#BBF7D0';
-    return '<span style="font-size:9px;font-weight:600;padding:2px 8px;border-radius:12px;background:'+bg+';color:'+col+';border:1px solid '+border+'">'+revtype+'</span>';
-  }
+  function getItems(bm){var it=bm[mi]||[];return activeRef?it.filter(function(x){return x.referent===activeRef}):it;}
+  var maxI=getItems(D.maxByMonth),probaI=getItems(D.probaByMonth),secI=getItems(D.secByMonth);
+  function feeTag(t){var bg=t==='Retainer'?'#EFF6FF':'#F0FDF4',col=t==='Retainer'?'#1D4ED8':'#15803D',border=t==='Retainer'?'#BFDBFE':'#BBF7D0';return'<span style="font-size:9px;font-weight:600;padding:2px 8px;border-radius:12px;background:'+bg+';color:'+col+';border:1px solid '+border+'">'+t+'</span>';}
   function itemRow(item){
-    var rc=REFERENTS[item.referent]||{color:'#8A9FAB'};
-    var showRef=!activeRef;
-    return '<div class="mo-item" data-name="'+item.name.replace(/"/g,'&quot;')+'">'
-      +'<div class="mo-item-logo">'+logoHTML(item.domain,item.name,28)+'</div>'
-      +'<div style="flex:1;min-width:0;overflow:hidden">'
-      +'<div style="font-size:12px;font-weight:500;color:var(--deep);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+item.name+'</div>'
-      +(showRef?'<div style="display:flex;align-items:center;gap:4px;margin-top:2px"><span style="width:5px;height:5px;border-radius:50%;background:'+rc.color+';flex-shrink:0"></span><span style="font-size:10px;color:var(--muted)">'+item.referent+'</span></div>':'')
-      +'</div>'
-      +'<div style="display:flex;align-items:center;gap:5px;flex-shrink:0">'+feeTag(item.revtype)
-      +'<div style="font-size:12px;font-weight:700;color:var(--deep);min-width:40px;text-align:right">'+fmtK(item.amount)+'</div>'
-      +'</div></div>';
+    var rc=REFERENTS[item.referent]||{color:'#8A9FAB'};var showRef=!activeRef;
+    return'<div class="mo-item" data-name="'+item.name.replace(/"/g,'&quot;')+'">'+'<div class="mo-item-logo">'+logoHTML(item.domain,item.name,26)+'</div>'+'<div style="flex:1;min-width:0"><div style="font-size:12px;font-weight:500;color:var(--deep);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+item.name+'</div>'+(showRef?'<div style="display:flex;align-items:center;gap:4px;margin-top:2px"><span style="width:5px;height:5px;border-radius:50%;background:'+rc.color+'"></span><span style="font-size:10px;color:#8A9FAB">'+(REAL_REFERENTS[item.referent]||item.referent)+'</span></div>':'')+'</div><div style="display:flex;align-items:center;gap:5px;flex-shrink:0">'+feeTag(item.revtype)+'<div style="font-size:12px;font-weight:700;color:var(--deep);min-width:40px;text-align:right">'+fmtK(item.amount)+'</div></div></div>';
   }
-  function scenario(label,color,items,total){
-    if(!items.length||total===0) return '';
-    var deduped={};items.forEach(function(it){if(it.amount>0)deduped[it.name+it.revtype]=it});
-    var list=Object.values(deduped);if(!list.length)return '';
-    return '<div style="margin-bottom:14px">'
-      +'<div style="display:flex;align-items:center;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(28,43,51,.06);margin-bottom:6px">'
-      +'<div style="display:flex;align-items:center;gap:6px"><div style="width:9px;height:9px;border-radius:2px;background:'+color+'"></div>'
-      +'<span style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:'+color+'">'+label+'</span></div>'
-      +'<span style="font-size:13px;font-weight:700;color:'+color+'">'+fmtK(total)+'</span></div>'
-      +list.map(itemRow).join('')+'</div>';
+  function scenario(label,color,items){
+    var deduped={};items.forEach(function(it){if(it.amount>0)deduped[it.name+it.revtype]=it;});
+    var list=Object.values(deduped),total=list.reduce(function(s,it){return s+it.amount},0);
+    if(!list.length||!total)return'';
+    return'<div style="margin-bottom:14px"><div style="display:flex;align-items:center;justify-content:space-between;padding:5px 0;border-bottom:1px solid rgba(28,43,51,.06);margin-bottom:6px"><div style="display:flex;align-items:center;gap:6px"><div style="width:9px;height:9px;border-radius:2px;background:'+color+'"></div><span style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:'+color+'">'+label+'</span></div><span style="font-size:13px;font-weight:700;color:'+color+'">'+fmtK(total)+'</span></div>'+list.map(itemRow).join('')+'</div>';
   }
-  var tSec=secItems.reduce(function(s,it){return s+it.amount},0);
-  var tProba=probaItems.reduce(function(s,it){return s+it.amount},0);
-  var tMax=maxItems.reduce(function(s,it){return s+it.amount},0);
-  var h='<div style="display:flex;align-items:baseline;justify-content:space-between;padding-right:36px;margin-bottom:4px">'
-    +'<div style="font-size:18px;font-weight:700;color:var(--deep)">'+monthName+' 2026</div>';
-  if(activeRef){var rc=REFERENTS[activeRef]||{color:'#8A9FAB'};h+='<span style="font-size:10px;font-weight:600;padding:3px 10px;border-radius:20px;background:'+rc.color+'18;color:'+rc.color+';border:1px solid '+rc.color+'33">'+activeRef+'</span>';}
-  h+='</div><div style="font-size:11px;color:var(--muted);margin-bottom:16px">Cliquez sur une entreprise pour le détail</div>';
-  h+=scenario('Revenu sécurisé',C_SEC,secItems,tSec);
-  h+=scenario('Revenu probabilisé',C_PROBA,probaItems,tProba);
-  h+=scenario('Revenu max',C_MAX,maxItems,tMax);
-  if(!tSec&&!tProba&&!tMax)h+='<div style="text-align:center;padding:24px 0;color:var(--muted);font-size:12px">Aucun flux prévu ce mois</div>';
+  var h='<div style="display:flex;align-items:baseline;justify-content:space-between;padding-right:36px;margin-bottom:4px"><div style="font-size:18px;font-weight:700;color:var(--deep)">'+monthName+' 2026</div>';
+  if(activeRef){var rc=REFERENTS[activeRef]||{color:'#8A9FAB'};h+='<span style="font-size:10px;font-weight:600;padding:3px 10px;border-radius:20px;background:'+rc.color+'18;color:'+rc.color+';border:1px solid '+rc.color+'33">'+(REAL_REFERENTS[activeRef]||activeRef)+'</span>';}
+  h+='</div><div style="font-size:11px;color:#8A9FAB;margin-bottom:16px">Cliquez sur une entreprise pour le détail</div>';
+  h+=scenario('Revenu sécurisé',C_SEC,secI)+scenario('Revenu probabilisé',C_PROBA,probaI)+scenario('Revenu max',C_MAX,maxI);
+  if(!h.includes('mo-item'))h+='<div style="text-align:center;padding:24px;color:#8A9FAB;font-size:12px">Aucun flux ce mois</div>';
   document.getElementById('mo-month-body').innerHTML=h;
   document.getElementById('mo-month').classList.add('open');
-  document.getElementById('mo-month-body').querySelectorAll('.mo-item').forEach(function(el){
-    el.style.cursor='pointer';
-    el.addEventListener('click',function(){
-      var name=el.getAttribute('data-name');
-      if(!name)return;
-      document.getElementById('mo-month').classList.remove('open');
-      showCompanyModal(name);
-    });
-  });
+  document.getElementById('mo-month-body').querySelectorAll('.mo-item').forEach(function(el){el.addEventListener('click',function(){var n=el.getAttribute('data-name');if(!n)return;document.getElementById('mo-month').classList.remove('open');showCompanyModal(n);});});
 }
 
-
-// Company detail modal
 function showCompanyModal(name){
-  var m=null;
-  for(var i=0;i<MANDATS.length;i++)if(MANDATS[i].name===name){m=MANDATS[i];break}
-  if(!m)return;
-  var ref=REFERENTS[m.referent]||{color:'#8A9FAB'};
-
-  // Stage progression
-  var STAGE_STEPS=[
-    {k:'Signé / Onboarding',s:'Onboarding',c:'#263c47'},
-    {k:'Préparation (IM, BP)',s:'Préparation',c:'#1b4f63'},
-    {k:'Outreach',s:'Outreach',c:'#007499'},
-    {k:'Intérêt confirmé',s:'Intérêt confirmé',c:'#0085CA'},
-    {k:'LOI',s:'LOI',c:'#009ebc'},
-    {k:'Exclusivité / Due Diligence',s:'Exclu / DD',c:'#00a3be'},
-    {k:'Signing',s:'Signing',c:'#00c9a0'},
-    {k:'Closing',s:'Closing',c:'#00e07e'}
-  ];
-  var currentStageIdx=-1;
-  STAGE_STEPS.forEach(function(st,i){
-    if(m.stade&&(m.stade===st.k||m.stade.indexOf(st.k.split('/')[0].trim())>=0||st.k.indexOf(m.stade.split('(')[0].trim())>=0))
-      currentStageIdx=i;
-  });
-
-  // Proba breakdown
-  var stageProbaMap={'Signé / Onboarding':0.1,'Préparation (IM, BP)':0.15,'Outreach':0.2,'Intérêt confirmé':0.3,'LOI':0.5,'Exclusivité / Due Diligence':0.8,'Signing':0.9,'Closing':1.0};
-  var stageProba=stageProbaMap[m.stade]||0;
-
-  var h='';
-
-  // ── Top: logo + name + ref chip + close ──
-  h+='<div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;padding-right:36px">'
-    +'<div class="cm-logo">'+logoHTML(m.domain,m.name,40)+'</div>'
-    +'<div style="flex:1;min-width:0">'
-    +'<div style="font-size:18px;font-weight:700;color:var(--deep);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+m.name+'</div>'
-    +'<div style="font-size:11px;color:var(--muted);margin-top:2px">'+m.type_mandat+'</div></div>'
-    +'<span style="font-size:10px;font-weight:600;padding:3px 10px;border-radius:20px;background:'+ref.color+'18;color:'+ref.color+';border:1px solid '+ref.color+'33;white-space:nowrap;flex-shrink:0">'+m.referent+'</span>'
-    +'</div>';
-
-  // ── Stage progress bar ──
-  h+='<div style="margin-bottom:16px">';
-  h+='<div style="display:flex;gap:3px;align-items:stretch">';
-  STAGE_STEPS.forEach(function(st,i){
-    var isActive=(i===currentStageIdx);
-    var isPast=(i<currentStageIdx);
-    var op=isPast?'1':isActive?'1':'0.2';
-    h+='<div style="flex:1;cursor:default" title="'+st.k+'">'
-      +'<div style="height:5px;border-radius:2px;background:'+st.c+';opacity:'+op+'"></div>'
-      +'<div style="font-size:7.5px;text-align:center;margin-top:3px;font-weight:'+(isActive?'700':'400')+';color:'+(isActive?st.c:isPast?st.c:'#8A9FAB')+';opacity:'+(isActive?'1':isPast?'0.7':'0.5')+'">'+st.s+'</div>'
-      +'</div>';
-  });
+  var m=null;for(var i=0;i<MANDATS.length;i++)if(MANDATS[i].name===name){m=MANDATS[i];break;}if(!m)return;
+  var ref=REFERENTS[m.referent]||{color:'#8A9FAB'};var dn=REAL_REFERENTS[m.referent]||m.referent;
+  var STEPS=[{k:'Signé / Onboarding',s:'Onboarding',c:'#263c47'},{k:'Préparation (IM, BP)',s:'Prépa',c:'#1b4f63'},{k:'Outreach',s:'Outreach',c:'#007499'},{k:'Intérêt confirmé',s:'Intérêt',c:'#0085CA'},{k:'LOI',s:'LOI',c:'#009ebc'},{k:'Exclusivité / Due Diligence',s:'Exclu/DD',c:'#00a3be'},{k:'Signing',s:'Signing',c:'#00c9a0'},{k:'Closing',s:'Closing',c:'#00e07e'}];
+  var ci=-1;STEPS.forEach(function(st,i){if(m.stade&&(m.stade===st.k||m.stade.indexOf(st.k.split('/')[0].trim())>=0||st.k.indexOf(m.stade.split('(')[0].trim())>=0))ci=i;});
+  var spm={'Signé / Onboarding':0.1,'Préparation (IM, BP)':0.15,'Outreach':0.2,'Intérêt confirmé':0.3,'LOI':0.5,'Exclusivité / Due Diligence':0.8,'Signing':0.9,'Closing':1.0};
+  var sp=spm[m.stade]||0;
+  var h='<div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;padding-right:36px"><div class="cm-logo">'+logoHTML(m.domain,m.name,40)+'</div><div style="flex:1;min-width:0"><div style="font-size:18px;font-weight:700;color:var(--deep)">'+m.name+'</div><div style="font-size:11px;color:#8A9FAB;margin-top:2px">'+m.type_mandat+'</div></div><span style="font-size:10px;font-weight:600;padding:3px 10px;border-radius:20px;background:'+ref.color+'18;color:'+ref.color+';border:1px solid '+ref.color+'33;white-space:nowrap;flex-shrink:0">'+dn+'</span></div>';
+  h+='<div style="margin-bottom:16px"><div style="display:flex;gap:3px">';
+  STEPS.forEach(function(st,i){var isA=(i===ci),isP=(i<ci),op=isP||isA?'1':'0.2';h+='<div style="flex:1" title="'+st.k+'"><div style="height:5px;border-radius:2px;background:'+st.c+';opacity:'+op+'"></div><div style="font-size:7.5px;text-align:center;margin-top:3px;font-weight:'+(isA?'700':'400')+';color:'+(isA?st.c:isP?st.c:'#8A9FAB')+';opacity:'+(isA?'1':isP?'0.7':'0.5')+'">'+st.s+'</div></div>';});
   h+='</div></div>';
-
-  // ── Info table ──
-  function row2(l1,v1,l2,v2){
-    return '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:8px">'
-      +'<div><div style="font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:2px">'+l1+'</div><div style="font-size:12px;font-weight:500;color:var(--deep)">'+v1+'</div></div>'
-      +'<div><div style="font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:2px">'+l2+'</div><div style="font-size:12px;font-weight:500;color:var(--deep)">'+v2+'</div></div>'
-      +'</div>';
-  }
-  h+='<div style="background:#F7F9FB;border-radius:10px;padding:12px;margin-bottom:14px">'
-    +row2('LM signée',m.lm_signee,'Engagement',m.typologie)
-    +row2('Complexité',m.complexite,'Type',m.type_mandat)
-    +'</div>';
-
-  // ── Probabilité retenue ──
-  h+='<div style="margin-bottom:14px">'
-    +'<div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);margin-bottom:8px">Probabilité retenue</div>'
-    +'<div style="background:#F7F9FB;border-radius:10px;padding:12px">'
-    +'<div style="display:flex;justify-content:space-between;align-items:center;padding:4px 0;border-bottom:1px solid var(--border)"><span style="font-size:11px;color:var(--muted)">Stade ('+m.stade+')</span><span style="font-size:11px;font-weight:600;color:var(--deep)">'+Math.round(stageProba*100)+'%</span></div>'
-    +'<div style="display:flex;justify-content:space-between;align-items:center;padding:4px 0;border-bottom:1px solid var(--border)"><span style="font-size:11px;color:var(--muted)">Coef. complexité</span><span style="font-size:11px;font-weight:600;color:var(--deep)">×'+m.coef_complexite.toFixed(2)+'</span></div>'
-    +'<div style="display:flex;justify-content:space-between;align-items:center;padding:4px 0;border-bottom:1px solid var(--border)"><span style="font-size:11px;color:var(--muted)">Coef. contractuel</span><span style="font-size:11px;font-weight:600;color:var(--deep)">×'+m.coef_contractuel.toFixed(2)+'</span></div>'
-    +'<div style="display:flex;justify-content:space-between;align-items:center;padding-top:8px;margin-top:4px;border-top:2px solid var(--deep)"><span style="font-size:12px;font-weight:700;color:var(--deep)">Probabilité retenue</span><span style="font-size:15px;font-weight:700;color:var(--deep)">'+Math.round(m.proba_brute*100)+'%</span></div>'
-    +'</div></div>';
-
-  // ── Revenus ──
-  h+='<div style="margin-bottom:14px">'
-    +'<div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);margin-bottom:8px">Revenus</div>'
-    +'<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:8px">'
-    +'<div style="background:rgba(0,201,160,.08);border:1px solid rgba(0,201,160,.2);border-radius:8px;padding:9px 11px"><div style="font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:#00C9A0;margin-bottom:4px">Sécurisé</div><div style="font-size:14px;font-weight:700;color:#00C9A0">'+fmtK(m.rev_sec)+'</div></div>'
-    +'<div style="background:rgba(45,190,201,.08);border:1px solid rgba(45,190,201,.2);border-radius:8px;padding:9px 11px"><div style="font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:#2DBEC9;margin-bottom:4px">Probabilisé</div><div style="font-size:14px;font-weight:700;color:#2DBEC9">'+fmtK(m.rev_proba)+'</div></div>'
-    +'<div style="background:rgba(0,133,202,.08);border:1px solid rgba(0,133,202,.2);border-radius:8px;padding:9px 11px"><div style="font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:#0085CA;margin-bottom:4px">Max</div><div style="font-size:14px;font-weight:700;color:#0085CA">'+fmtK(m.rev_max)+'</div></div>'
-    +'</div>'
-    +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">'
-    +'<div style="background:#F7F9FB;border-radius:8px;padding:9px 11px"><div style="font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:4px">Success fee</div><div style="font-size:13px;font-weight:700;color:var(--deep)">'+fmtK(m.success)+'</div></div>'
-    +'<div style="background:#F7F9FB;border-radius:8px;padding:9px 11px"><div style="font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:4px">Retainer</div><div style="font-size:13px;font-weight:700;color:var(--deep)">'+fmtK(m.retainer)+'</div></div>'
-    +'</div></div>';
-
-  // ── Dates ──
-  h+='<div>'
-    +'<div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);margin-bottom:8px">Dates</div>'
-    +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">'
-    +'<div style="background:#F7F9FB;border-radius:8px;padding:8px 10px"><div style="font-size:8px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:3px">Retainer estimé</div><div style="font-size:12px;font-weight:600;color:var(--deep)">'+m.ret_date_str+'</div></div>'
-    +'<div style="background:#F7F9FB;border-radius:8px;padding:8px 10px"><div style="font-size:8px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:3px">Closing estimé</div><div style="font-size:12px;font-weight:600;color:var(--deep)">'+m.clos_date_str+'</div></div>'
-    +'</div></div>';
-
-  document.getElementById('mo-company-body').innerHTML=h;
-  document.getElementById('mo-company').classList.add('open');
+  function r2(l1,v1,l2,v2){return'<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:8px"><div><div style="font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:#8A9FAB;margin-bottom:2px">'+l1+'</div><div style="font-size:12px;font-weight:500;color:var(--deep)">'+v1+'</div></div><div><div style="font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:#8A9FAB;margin-bottom:2px">'+l2+'</div><div style="font-size:12px;font-weight:500;color:var(--deep)">'+v2+'</div></div></div>';}
+  h+='<div style="background:#F7F9FB;border-radius:10px;padding:12px;margin-bottom:14px">'+r2('LM signée',m.lm_signee,'Engagement',m.typologie)+r2('Complexité',m.complexite,'Type',m.type_mandat)+'</div>';
+  h+='<div style="margin-bottom:14px"><div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#8A9FAB;margin-bottom:8px">Probabilité retenue</div><div style="background:#F7F9FB;border-radius:10px;padding:12px"><div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid var(--border)"><span style="font-size:11px;color:#8A9FAB">Stade ('+m.stade+')</span><span style="font-size:11px;font-weight:600;color:var(--deep)">'+Math.round(sp*100)+'%</span></div><div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid var(--border)"><span style="font-size:11px;color:#8A9FAB">Coef. complexité</span><span style="font-size:11px;font-weight:600;color:var(--deep)">x'+m.coef_complexite.toFixed(2)+'</span></div><div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid var(--border)"><span style="font-size:11px;color:#8A9FAB">Coef. contractuel</span><span style="font-size:11px;font-weight:600;color:var(--deep)">x'+m.coef_contractuel.toFixed(2)+'</span></div><div style="display:flex;justify-content:space-between;padding-top:8px;margin-top:4px;border-top:2px solid var(--deep)"><span style="font-size:12px;font-weight:700;color:var(--deep)">Probabilité retenue</span><span style="font-size:15px;font-weight:700;color:var(--deep)">'+Math.round(m.proba_brute*100)+'%</span></div></div></div>';
+  h+='<div style="margin-bottom:14px"><div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#8A9FAB;margin-bottom:8px">Revenus</div><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:8px"><div style="background:rgba(0,201,160,.08);border:1px solid rgba(0,201,160,.2);border-radius:8px;padding:9px 11px"><div style="font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:#00C9A0;margin-bottom:4px">Sécurisé</div><div style="font-size:14px;font-weight:700;color:#00C9A0">'+fmtK(m.rev_sec)+'</div></div><div style="background:rgba(45,190,201,.08);border:1px solid rgba(45,190,201,.2);border-radius:8px;padding:9px 11px"><div style="font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:#2DBEC9;margin-bottom:4px">Probabilisé</div><div style="font-size:14px;font-weight:700;color:#2DBEC9">'+fmtK(m.rev_proba)+'</div></div><div style="background:rgba(0,133,202,.08);border:1px solid rgba(0,133,202,.2);border-radius:8px;padding:9px 11px"><div style="font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:#0085CA;margin-bottom:4px">Max</div><div style="font-size:14px;font-weight:700;color:#0085CA">'+fmtK(m.rev_max)+'</div></div></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><div style="background:#F7F9FB;border-radius:8px;padding:9px 11px"><div style="font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:#8A9FAB;margin-bottom:4px">Success fee</div><div style="font-size:13px;font-weight:700;color:var(--deep)">'+fmtK(m.success)+'</div></div><div style="background:#F7F9FB;border-radius:8px;padding:9px 11px"><div style="font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:#8A9FAB;margin-bottom:4px">Retainer</div><div style="font-size:13px;font-weight:700;color:var(--deep)">'+fmtK(m.retainer)+'</div></div></div></div>';
+  h+='<div><div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#8A9FAB;margin-bottom:8px">Dates</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><div style="background:#F7F9FB;border-radius:8px;padding:8px 10px"><div style="font-size:8px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:#8A9FAB;margin-bottom:3px">Retainer estimé</div><div style="font-size:12px;font-weight:600;color:var(--deep)">'+m.ret_date_str+'</div></div><div style="background:#F7F9FB;border-radius:8px;padding:8px 10px"><div style="font-size:8px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:#8A9FAB;margin-bottom:3px">Closing estimé</div><div style="font-size:12px;font-weight:600;color:var(--deep)">'+m.clos_date_str+'</div></div></div></div>';
+  document.getElementById('mo-company-body').innerHTML=h;document.getElementById('mo-company').classList.add('open');
 }
 
-
-// Pipeline tracker
 function renderPipeline(){
-  var stageMap={};
-  STAGES_ORDER.forEach(function(s){stageMap[s.k]=[]});
-
+  var sm={};STAGES_ORDER.forEach(function(s){sm[s.k]=[];});
   MANDATS.forEach(function(m){
-    var stadeKey=m.stade;
-    // Match partial stade names
-    var matched=null;
-    STAGES_ORDER.forEach(function(s){
-      if(stadeKey&&(stadeKey===s.k||stadeKey.indexOf(s.k)===0||s.k.indexOf(stadeKey)===0)){
-        if(!matched)matched=s.k;
-      }
-    });
-    if(!matched){
-      // Try partial
-      STAGES_ORDER.forEach(function(s){
-        if(stadeKey&&(s.k.indexOf('Préparation')>=0&&stadeKey.indexOf('Préparation')>=0)){matched='Préparation (IM, BP)'}
-        if(stadeKey&&(s.k.indexOf('Exclusivité')>=0&&stadeKey.indexOf('Exclusivité')>=0)){matched='Exclusivité / Due Diligence'}
-      });
-    }
-    if(matched&&stageMap[matched]!==undefined){
-      stageMap[matched].push(m);
-    }
+    var matched=null;STAGES_ORDER.forEach(function(s){if(m.stade&&!matched&&(m.stade===s.k||m.stade.indexOf(s.k.split('/')[0].trim())>=0||s.k.indexOf(m.stade.split('(')[0].trim())>=0))matched=s.k;});
+    if(!matched)STAGES_ORDER.forEach(function(s){if(m.stade&&s.k.indexOf('Préparation')>=0&&m.stade.indexOf('Préparation')>=0)matched='Préparation (IM, BP)';if(m.stade&&s.k.indexOf('Exclusivité')>=0&&m.stade.indexOf('Exclusivité')>=0)matched='Exclusivité / Due Diligence';});
+    if(matched&&sm[matched]!==undefined)sm[matched].push(m);
   });
-
-  // Sort alphabetically within each stage
-  Object.keys(stageMap).forEach(function(k){
-    stageMap[k].sort(function(a,b){return a.name.localeCompare(b.name,'fr')});
-  });
-
-  var colCount=STAGES_ORDER.length;
-  document.getElementById('stages-grid').style.gridTemplateColumns='repeat('+colCount+',minmax(0,1fr))';
-
+  Object.keys(sm).forEach(function(k){sm[k].sort(function(a,b){return a.name.localeCompare(b.name,'fr');});});
+  document.getElementById('stages-grid').style.gridTemplateColumns='repeat('+STAGES_ORDER.length+',minmax(0,1fr))';
   var h='';
   STAGES_ORDER.forEach(function(s){
-    var list=stageMap[s.k]||[];
+    var list=sm[s.k]||[];
     h+='<div class="stage-col"><div class="stage-hdr" style="background:'+s.color+'"><div class="stage-hdr-top"><div class="stage-hdr-name">'+s.k+'</div><div class="stage-count-badge">'+list.length+'</div></div><div class="stage-bar"></div></div><div class="stage-body">';
-    if(!list.length){
-      h+='<div class="stage-empty">-</div>';
-    } else {
-      list.forEach(function(m){
-        var ref=REFERENTS[m.referent]||{color:'#8A9FAB'};
-        var probaStr=Math.round(m.proba_brute*100)+'%';
-        h+='<div class="logo-chip" data-mandat="'+m.name.replace(/"/g,'&quot;')+'">'
-          +'<div class="chip-logo">'+logoHTML(m.domain,m.name,22)+'</div>'
-          +'<div class="chip-name">'+m.name+'</div>'
-          +'<span class="chip-ref-dot" style="background:'+ref.color+'" title="'+m.referent+'"></span>'
-          +'<span class="chip-proba">'+probaStr+'</span>'
-          +'</div>';
-      });
-    }
+    if(!list.length)h+='<div style="font-size:10px;color:#8A9FAB;text-align:center;padding:12px 4px;opacity:.4;font-style:italic">-</div>';
+    else list.forEach(function(m){
+      var ref=REFERENTS[m.referent]||{color:'#8A9FAB'};
+      h+='<div class="logo-chip" data-mandat="'+m.name.replace(/"/g,'&quot;')+'"><div class="chip-logo">'+logoHTML(m.domain,m.name,22)+'</div><div class="chip-name">'+m.name+'</div><span style="width:5px;height:5px;border-radius:50%;background:'+ref.color+';flex-shrink:0"></span><span class="chip-proba">'+Math.round(m.proba_brute*100)+'%</span></div>';
+    });
     h+='</div></div>';
   });
-
   document.getElementById('stages-grid').innerHTML=h;
-
-  // Click handlers
-  document.getElementById('stages-grid').addEventListener('click',function(e){
-    var chip=e.target.closest('.logo-chip');
-    if(!chip)return;
-    var name=chip.getAttribute('data-mandat');
-    if(name)showCompanyModal(name);
-  });
+  document.getElementById('stages-grid').addEventListener('click',function(e){var chip=e.target.closest('.logo-chip');if(chip)showCompanyModal(chip.getAttribute('data-mandat'));});
 }
 
-// Init
-renderKPIs();
-renderChart();
-renderReferentLegend();
-renderPipeline();
+renderKPIs();renderChart();renderReferentLegend();renderPipeline();
 </script>
 </body>
 </html>
