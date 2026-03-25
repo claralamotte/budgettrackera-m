@@ -390,7 +390,7 @@ function updateRefPills(){
 
 function showMonthModal(mi){
   var monthName=MONTHS_FULL[mi];
-  function getItems(bm){var it=bm[mi]||[];return activeRef?it.filter(function(x){return x.referent===activeRef}):it;}
+  function getItems(bm){var it=bm[mi]||[];return activeRefs.size>0?it.filter(function(x){return activeRefs.has(x.referent)}):it;}
   var maxI=getItems(D.maxByMonth),probaI=getItems(D.probaByMonth),secI=getItems(D.secByMonth);
   function feeTag(t){var bg=t==='Retainer'?'#EFF6FF':'#F0FDF4',col=t==='Retainer'?'#1D4ED8':'#15803D',border=t==='Retainer'?'#BFDBFE':'#BBF7D0';return'<span style="font-size:9px;font-weight:600;padding:2px 8px;border-radius:12px;background:'+bg+';color:'+col+';border:1px solid '+border+'">'+t+'</span>';}
   function itemRow(item){
@@ -533,8 +533,8 @@ function renderCumStrip(secM){
   var fm=getFiltered();var cp=[],cs=[],rp=0,rs=0;
   for(var i=0;i<12;i++){rp+=fm.probaM[i];rs+=secM[i];cp.push(rp);cs.push(rs);}
   // Add undated flows to last non-zero month so totals match KPI boxes
-  var totalP=activeRef?MANDATS.filter(function(m){return m.referent===activeRef;}).reduce(function(s,m){return s+m.rev_proba;},0):totalProba;
-  var totalS=activeRef?MANDATS.filter(function(m){return m.referent===activeRef;}).reduce(function(s,m){return s+m.rev_sec;},0):totalSec;
+  var totalP=activeRefs.size>0?MANDATS.filter(function(m){return activeRefs.has(m.referent);}).reduce(function(s,m){return s+m.rev_proba;},0):totalProba;
+  var totalS=activeRefs.size>0?MANDATS.filter(function(m){return activeRefs.has(m.referent);}).reduce(function(s,m){return s+m.rev_sec;},0):totalSec;
   // Find last month with data and add remainder there
   var lastP=-1,lastS=-1;
   for(var i=11;i>=0;i--){if(fm.probaM[i]>0&&lastP<0)lastP=i;if(secM[i]>0&&lastS<0)lastS=i;}
@@ -732,7 +732,7 @@ function updateRefPills(){
 
 function showMonthModal(mi){
   var monthName=MONTHS_FULL[mi];
-  function getItems(bm){var it=bm[mi]||[];return activeRef?it.filter(function(x){return x.referent===activeRef}):it;}
+  function getItems(bm){var it=bm[mi]||[];return activeRefs.size>0?it.filter(function(x){return activeRefs.has(x.referent)}):it;}
   var maxI=getItems(D.maxByMonth),probaI=getItems(D.probaByMonth),secI=getItems(D.secByMonth);
   function feeTag(t){var bg=t==='Retainer'?'#EFF6FF':'#F0FDF4',col=t==='Retainer'?'#1D4ED8':'#15803D',border=t==='Retainer'?'#BFDBFE':'#BBF7D0';return'<span style="font-size:9px;font-weight:600;padding:2px 8px;border-radius:12px;background:'+bg+';color:'+col+';border:1px solid '+border+'">'+t+'</span>';}
   function itemRow(item){
