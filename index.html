@@ -301,17 +301,11 @@ function renderKPIs(){
       +'<div class="kpi-sub">'+desc+'</div></div>';
   }
     document.getElementById('kpi-row').innerHTML=
-    '<div class="kpi">'
-      +'<div class="kpi-value" style="color:var(--deep)">'+MANDATS.length+' mandats</div>'
-      +'<div style="display:flex;gap:8px;justify-content:center;margin-top:6px">'
-        +'<div class="kpi-badge" style="background:#E6F1FB;color:#185FA5;border:1px solid #B5D4F4">'+sellCount+' sell-side</div>'
-        +'<div class="kpi-badge" style="background:#EEEDFE;color:#534AB7;border:1px solid #CECBF6">'+buyCount+' buy-side</div>'
-      +'</div>'
-    +'</div>'
-    +'<div class="kpi"><div class="kpi-value" style="color:var(--deep)">'+fmtK(BUDGET)+'</div><div class="kpi-sub">Budget annuel fixé</div></div>'
-    +'<div class="kpi"><div class="kpi-value" style="color:#0085CA">'+fmtK(Math.round(totalMax))+'</div><div class="kpi-sub">Revenu max</div><div class="kpi-badge '+(pctMax>=100?'badge-g':'badge-r')+'" style="margin-top:4px">'+pctMax+'% vs. budget</div></div>'
-    +'<div class="kpi"><div class="kpi-value" style="color:#2DBEC9">'+fmtK(Math.round(totalProba))+'</div><div class="kpi-sub">Revenu probabilisé</div><div class="kpi-badge '+(pctProba>=100?'badge-g':'badge-r')+'" style="margin-top:4px">'+pctProba+'% vs. budget</div></div>'
-    +'<div class="kpi"><div class="kpi-value" style="color:#00C9A0">'+fmtK(Math.round(totalSec))+'</div><div class="kpi-sub">Revenu sécurisé</div><div class="kpi-badge '+(pctSec>=100?'badge-g':'badge-r')+'" style="margin-top:4px">'+pctSec+'% vs. budget</div></div>';<!DOCTYPE html>
+    '<div class="kpi"><div class="kpi-value" style="color:var(--deep)">' +MANDATS.length+ '</div><div style="display:flex;gap:8px;justify-content:center;margin-top:6px"><div class="kpi-badge" style="background:#E6F1FB;color:#185FA5;border:1px solid #B5D4F4">' +sellCount+ ' sell-side</div><div class="kpi-badge" style="background:#EEEDFE;color:#534AB7;border:1px solid #CECBF6">' +buyCount+ ' buy-side</div></div></div>'
+    +'<div class="kpi"><div class="kpi-value" style="color:var(--deep)">' +fmtK(BUDGET)+ '</div></div>'
+    +'<div class="kpi"><div class="kpi-value" style="color:#0085CA">' +fmtK(Math.round(totalMax))+ '</div><div class="kpi-badge ' +(pctMax>=100?'badge-g':'badge-r')+ '" style="margin-top:6px">' +pctMax+ '% vs. budget</div></div>'
+    +'<div class="kpi"><div class="kpi-value" style="color:#2DBEC9">' +fmtK(Math.round(totalProba))+ '</div><div class="kpi-badge ' +(pctProba>=100?'badge-g':'badge-r')+ '" style="margin-top:6px">' +pctProba+ '% vs. budget</div></div>'
+    +'<div class="kpi"><div class="kpi-value" style="color:#00C9A0">' +fmtK(Math.round(totalSec))+ '</div><div class="kpi-badge ' +(pctSec>=100?'badge-g':'badge-r')+ '" style="margin-top:6px">' +pctSec+ '% vs. budget</div></div>';<!DOCTYPE html>
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
