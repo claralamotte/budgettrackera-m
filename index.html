@@ -335,10 +335,15 @@ function updateChart(){
 
 function updateRefPills(){
   document.querySelectorAll('.ref-pill').forEach(function(pill){
-    var ref=pill.getAttribute('data-ref'),r=REFERENTS[ref];
-    var ck=pill.querySelector('.pill-check'),tk=pill.querySelector('.pill-tick');
+    var ref=pill.getAttribute('data-ref');
+    var r=REFERENTS[ref];
+    if(!r)return;
     var isSel=activeRefs.has(ref),isActive=(activeRefs.size===0||isSel);
-    pill.style.background=isSel?r.color:'transparent';pill.style.color=isSel?'#fff':r.color;pill.style.opacity=isActive?'1':'0.35';
+    pill.style.background=isSel?r.color:'transparent';
+    pill.style.color=isSel?'#fff':r.color;
+    pill.style.opacity=isActive?'1':'0.35';
+    pill.style.border='2px solid '+r.color;
+    var ck=pill.querySelector('.pill-check'),tk=pill.querySelector('.pill-tick');
     if(ck){ck.style.background=isSel?'rgba(255,255,255,.22)':'transparent';ck.style.borderColor=isSel?'rgba(255,255,255,.5)':r.color;ck.style.color=isSel?'#fff':r.color;}
     if(tk)tk.style.opacity=isSel?'1':'0';
   });
@@ -670,6 +675,7 @@ function renderReferentLegend(){
     var r=REFERENTS[name];
     var dn=REAL_REFERENTS[name]||name;
     var pill=document.createElement('div');
+    pill.className='ref-pill';
     pill.setAttribute('data-ref',name);
     pill.style.cssText='display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:500;padding:6px 14px;border-radius:20px;cursor:pointer;user-select:none;border:2px solid '+r.color+';color:'+r.color+';background:transparent';
     pill.textContent=dn;
@@ -684,10 +690,15 @@ function renderReferentLegend(){
 }
 function updateRefPills(){
   document.querySelectorAll('.ref-pill').forEach(function(pill){
-    var ref=pill.getAttribute('data-ref'),r=REFERENTS[ref];
-    var ck=pill.querySelector('.pill-check'),tk=pill.querySelector('.pill-tick');
+    var ref=pill.getAttribute('data-ref');
+    var r=REFERENTS[ref];
+    if(!r)return;
     var isSel=activeRefs.has(ref),isActive=(activeRefs.size===0||isSel);
-    pill.style.background=isSel?r.color:'transparent';pill.style.color=isSel?'#fff':r.color;pill.style.opacity=isActive?'1':'0.35';
+    pill.style.background=isSel?r.color:'transparent';
+    pill.style.color=isSel?'#fff':r.color;
+    pill.style.opacity=isActive?'1':'0.35';
+    pill.style.border='2px solid '+r.color;
+    var ck=pill.querySelector('.pill-check'),tk=pill.querySelector('.pill-tick');
     if(ck){ck.style.background=isSel?'rgba(255,255,255,.22)':'transparent';ck.style.borderColor=isSel?'rgba(255,255,255,.5)':r.color;ck.style.color=isSel?'#fff':r.color;}
     if(tk)tk.style.opacity=isSel?'1':'0';
   });
