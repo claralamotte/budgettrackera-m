@@ -345,7 +345,14 @@ function renderReferentLegend(){
     h+='<div class="ref-pill" data-ref="'+name+'" style="display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:500;padding:4px 11px 4px 7px;border-radius:20px;cursor:pointer;border:1px solid '+r.color+';color:'+r.color+';background:transparent;transition:all .15s"><span class="pill-check" style="width:15px;height:15px;border-radius:4px;border:1.5px solid '+r.color+';display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden"><svg class="pill-tick" width="9" height="7" viewBox="0 0 9 7" fill="none" style="opacity:0;transition:opacity .15s"><path d="M1 3.5L3.5 6L8 1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>'+dn+'</div>';
   });
   el.innerHTML=h;
-  el.querySelectorAll('.ref-pill').forEach(function(pill){pill.addEventListener('click',function(){var ref=pill.getAttribute('data-ref');if(activeRefs.has(ref))activeRefs.delete(ref);else activeRefs.add(ref);updateChart();});});
+  el.addEventListener('click',function(e){
+    var pill=e.target.closest('.ref-pill');
+    if(!pill)return;
+    var ref=pill.getAttribute('data-ref');
+    if(!ref)return;
+    if(activeRefs.has(ref))activeRefs.delete(ref);else activeRefs.add(ref);
+    updateChart();
+  });
 }
 
 function updateRefPills(){
@@ -780,7 +787,14 @@ function renderReferentLegend(){
     h+='<div class="ref-pill" data-ref="'+name+'" style="display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:500;padding:4px 11px 4px 7px;border-radius:20px;cursor:pointer;border:1px solid '+r.color+';color:'+r.color+';background:transparent;transition:all .15s"><span class="pill-check" style="width:15px;height:15px;border-radius:4px;border:1.5px solid '+r.color+';display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden"><svg class="pill-tick" width="9" height="7" viewBox="0 0 9 7" fill="none" style="opacity:0;transition:opacity .15s"><path d="M1 3.5L3.5 6L8 1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>'+dn+'</div>';
   });
   el.innerHTML=h;
-  el.querySelectorAll('.ref-pill').forEach(function(pill){pill.addEventListener('click',function(){var ref=pill.getAttribute('data-ref');if(activeRefs.has(ref))activeRefs.delete(ref);else activeRefs.add(ref);updateChart();});});
+  el.addEventListener('click',function(e){
+    var pill=e.target.closest('.ref-pill');
+    if(!pill)return;
+    var ref=pill.getAttribute('data-ref');
+    if(!ref)return;
+    if(activeRefs.has(ref))activeRefs.delete(ref);else activeRefs.add(ref);
+    updateChart();
+  });
 }
 
 function updateRefPills(){
