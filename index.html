@@ -173,7 +173,7 @@ var TK='pk_bYWEonUXSpa1_O-4n_OaKQ',BUDGET=5000000;
 var C_MAX='#0085CA',C_PROBA='#2DBEC9',C_SEC='#00C9A0';
 var REFERENTS={'Hubert Tuillier':{color:'#185FA5'},'Mark Wyatt':{color:'#1D9E75'},'Frédéric Meyer':{color:'#D85A30'},'Pierre Marie Blois':{color:'#D4537E'},'Sandra Crochemore':{color:'#7F77DD'},'Emmanuel Clerc':{color:'#BA7517'}};
 var REAL_REFERENTS={'Hubert Tuillier':'Hubert Tuillier','Mark Wyatt':'Mark Wyatt','Frédéric Meyer':'Frédéric Meyer','Pierre Marie Blois':'Pierre Marie Blois','Sandra Crochemore':'Sandra Crochemore','Emmanuel Clerc':'Emmanuel Clerc'};
-var STAGES_ORDER=[{k:'Signé / Onboarding',color:'#263c47'},{k:'Préparation (IM, BP)',color:'#1b4f63'},{k:'Roadshow',color:'#007499'},{k:'Intérêt confirmé',color:'#0085CA'},{k:'LOI',color:'#009ebc'},{k:'Exclusivité / Due Diligence',color:'#00a3be'},{k:'Signing',color:'#00c9a0'},{k:'Closing',color:'#00e07e'}];
+var STAGES_ORDER=[{k:'Signé / Onboarding',color:'#263c47'},{k:'Préparation (IM, BP)',color:'#1b4f63'},{k:'Roadshow',color:'#007499'},{k:'Intérêt confirmé',color:'#0085CA'},{k:'LOI',color:'#009ebc'},{k:'Exclusivité / DD',color:'#00a3be'},{k:'Signing',color:'#00c9a0'},{k:'Closing',color:'#00e07e'}];
 // Année Nov → Oct : index 0=Nov, 1=Déc, 2=Jan, 3=Fév, ... 11=Oct
 // Les données MANDATS utilisent des mois 1-12 dans l'année calendaire 2026.
 // On convertit : mois calendaire m (1-12) → index Nov-Oct via :
@@ -606,9 +606,9 @@ function showMonthModal(mi){
 function showCompanyModal(name){
   var m=null;for(var i=0;i<MANDATS.length;i++)if(MANDATS[i].name===name){m=MANDATS[i];break;}if(!m)return;
   var ref=REFERENTS[m.referent]||{color:'#8A9FAB'};var dn=REAL_REFERENTS[m.referent]||m.referent;
-  var STEPS=[{k:'Signé / Onboarding',s:'Onboarding',c:'#263c47'},{k:'Préparation (IM, BP)',s:'Prép.',c:'#1b4f63'},{k:'Roadshow',s:'Roadshow',c:'#007499'},{k:'Intérêt confirmé',s:'Intérêt confirmé',c:'#0085CA'},{k:'LOI',s:'LOI',c:'#009ebc'},{k:'Exclusivité / Due Diligence',s:'Exclu/DD',c:'#00a3be'},{k:'Signing',s:'Signing',c:'#00c9a0'},{k:'Closing',s:'Closing',c:'#00e07e'}];
+  var STEPS=[{k:'Signé / Onboarding',s:'Onboarding',c:'#263c47'},{k:'Préparation (IM, BP)',s:'Prép.',c:'#1b4f63'},{k:'Roadshow',s:'Roadshow',c:'#007499'},{k:'Intérêt confirmé',s:'Intérêt confirmé',c:'#0085CA'},{k:'LOI',s:'LOI',c:'#009ebc'},{k:'Exclusivité / DD',s:'Exclu/DD',c:'#00a3be'},{k:'Signing',s:'Signing',c:'#00c9a0'},{k:'Closing',s:'Closing',c:'#00e07e'}];
   var ci=-1;STEPS.forEach(function(st,i){if(m.stade&&(m.stade===st.k||m.stade.indexOf(st.k.split('/')[0].trim())>=0||st.k.indexOf(m.stade.split('(')[0].trim())>=0))ci=i;});
-  var spm={'Signé / Onboarding':0.1,'Préparation (IM, BP)':0.15,'Roadshow':0.2,'Intérêt confirmé':0.3,'LOI':0.5,'Exclusivité / Due Diligence':0.8,'Signing':0.9,'Closing':1.0};
+  var spm={'Signé / Onboarding':0.1,'Préparation (IM, BP)':0.15,'Roadshow':0.2,'Intérêt confirmé':0.3,'LOI':0.5,'Exclusivité / DD':0.8,'Signing':0.9,'Closing':1.0};
   var coefStade=m.coef_stade!==undefined?m.coef_stade:(spm[m.stade]||0);
 
   // ── Header ──
@@ -883,7 +883,7 @@ function renderPipeline(){
   MANDATS.forEach(function(m){
     if(activeRefs.size>0&&!activeRefs.has(m.referent))return;
     var matched=null;STAGES_ORDER.forEach(function(s){if(m.stade&&!matched&&(m.stade===s.k||m.stade.indexOf(s.k.split('/')[0].trim())>=0||s.k.indexOf(m.stade.split('(')[0].trim())>=0))matched=s.k;});
-    if(!matched)STAGES_ORDER.forEach(function(s){if(m.stade&&s.k.indexOf('Préparation')>=0&&m.stade.indexOf('Préparation')>=0)matched='Préparation (IM, BP)';if(m.stade&&s.k.indexOf('Exclusivité')>=0&&m.stade.indexOf('Exclusivité')>=0)matched='Exclusivité / Due Diligence';});
+    if(!matched)STAGES_ORDER.forEach(function(s){if(m.stade&&s.k.indexOf('Préparation')>=0&&m.stade.indexOf('Préparation')>=0)matched='Préparation (IM, BP)';if(m.stade&&s.k.indexOf('Exclusivité')>=0&&m.stade.indexOf('Exclusivité')>=0)matched='Exclusivité / DD';});
     if(matched&&sm[matched]!==undefined)sm[matched].push(m);
   });
   Object.keys(sm).forEach(function(k){sm[k].sort(function(a,b){return a.name.localeCompare(b.name,'fr');});});
