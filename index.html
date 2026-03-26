@@ -138,7 +138,7 @@ header{background:var(--deep);height:56px;padding:0 var(--pad);display:flex;alig
       <div class="legend-item leg-toggle" data-ds="2" style="cursor:pointer;user-select:none;transition:opacity .18s"><div style="width:11px;height:11px;border-radius:3px;background:#0085CA;flex-shrink:0"></div>Revenu max</div>
     </div>
     <div class="chart-outer"><canvas id="mainChart"></canvas></div>
-    <div id="cum-strip" style="margin-top:8px"></div>
+    <div id="cum-strip" style="margin-top:4px;padding:0 0 4px"></div>
   </div>
 
   <div class="card">
@@ -337,12 +337,19 @@ function renderCumStrip(secM){
 function positionCumStrip(){
   var chart=mainChartInstance,strip=document.getElementById('cum-strip');
   if(!chart||!strip||!window._cumData||!chart.scales||!chart.scales.x)return;
-  var cd=window._cumData,caLeft=chart.chartArea.left,caRight=chart.chartArea.right;
+  var cd=window._cumData;
+
+  // Le canvas et le strip sont dans le même parent chart-card (padding:20px).
+  // chart.chartArea.left est en pixels canvas. Le strip a le même padding-left que le canvas.
+  // On utilise directement les coordonnées canvas — elles correspondent au strip car même parent, même largeur.
+  var caLeft=chart.chartArea.left;
+  var caRight=chart.chartArea.right;
+
   strip.innerHTML='';
   strip.style.position='relative';
   strip.style.height='auto';
-  strip.style.paddingTop='8px';
-  var GAP=28;
+  strip.style.paddingTop='4px';
+
   function buildSection(title,color,values,type){
     var titleEl=document.createElement('div');
     titleEl.style.cssText='font-size:10px;font-weight:700;color:'+color+';margin-bottom:4px;padding-left:'+caLeft+'px';
@@ -351,18 +358,9 @@ function positionCumStrip(){
     var rowEl=document.createElement('div');
     rowEl.style.cssText='position:relative;height:22px;margin-bottom:10px';
     strip.appendChild(rowEl);
-    for(var si=0;si<=12;si++){
-      var xA=si===0?caLeft:(chart.scales.x.getPixelForValue(si-1)+GAP);
-      var xB=si===12?caRight:(chart.scales.x.getPixelForValue(si)-GAP);
-      if(xB>xA){
-        var seg=document.createElement('div');
-        seg.style.cssText='position:absolute;height:1px;background:rgba(28,43,51,.15);top:10px;pointer-events:none';
-        seg.style.left=xA+'px';seg.style.width=(xB-xA)+'px';
-        rowEl.appendChild(seg);
-      }
-    }
+
     values.forEach(function(v,i){
-      var xPx=chart.scales.x.getPixelForValue(i);
+      var xPx=chart.scales.x.getPixelForTick(i);
       var pill=document.createElement('div');
       pill.style.cssText='position:absolute;transform:translateX(-50%);top:0;'+(v>0?'cursor:pointer':'pointer-events:none');
       pill.style.left=xPx+'px';
@@ -374,10 +372,35 @@ function positionCumStrip(){
           pill.addEventListener('click',function(){showCumModal(type,monthIdx,cumVal);});
         })(i,v);
       } else {
-        pill.innerHTML='<span style="display:inline-flex;justify-content:center;min-width:44px;border:1px solid rgba(28,43,51,.1);border-radius:20px;padding:1px 7px;font-size:9.5px;color:rgba(28,43,51,.2)">-</span>';
+        pill.innerHTML='<span style="display:inline-flex;justify-content:center;min-width:44px;background:'+color+'08;border:1px solid '+color+'30;border-radius:20px;padding:1px 7px;font-size:9.5px;font-weight:600;color:'+color+'55">-</span>';
       }
       rowEl.appendChild(pill);
     });
+
+    // Ligne entre les pills (segments, pas derrière)
+    var HALF=26;
+    for(var si=0;si<values.length;si++){
+      var xCur=chart.scales.x.getPixelForTick(si);
+      if(si===0){
+        if(xCur-HALF>caLeft){
+          var s1=document.createElement('div');
+          s1.style.cssText='position:absolute;height:1px;background:'+color+'40;top:10px;pointer-events:none;left:'+caLeft+'px;width:'+(xCur-HALF-caLeft)+'px';
+          rowEl.appendChild(s1);
+        }
+      } else {
+        var xPrev=chart.scales.x.getPixelForTick(si-1);
+        if(xCur-HALF>xPrev+HALF){
+          var s2=document.createElement('div');
+          s2.style.cssText='position:absolute;height:1px;background:'+color+'40;top:10px;pointer-events:none;left:'+(xPrev+HALF)+'px;width:'+(xCur-HALF-xPrev-HALF)+'px';
+          rowEl.appendChild(s2);
+        }
+      }
+      if(si===values.length-1&&xCur+HALF<caRight){
+        var s3=document.createElement('div');
+        s3.style.cssText='position:absolute;height:1px;background:'+color+'40;top:10px;pointer-events:none;left:'+(xCur+HALF)+'px;width:'+(caRight-xCur-HALF)+'px';
+        rowEl.appendChild(s3);
+      }
+    }
   }
   if(activeDs.has(0))buildSection('Revenu sécurisé cumulé',C_SEC,cd.cs,'sec');
   if(activeDs.has(1))buildSection('Revenu probabilisé cumulé',C_PROBA,cd.cp,'proba');
