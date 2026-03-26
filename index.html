@@ -124,22 +124,22 @@ header{background:var(--deep);height:56px;padding:0 var(--pad);display:flex;alig
   <div class="chart-card" style="position:relative">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;gap:12px;flex-wrap:wrap">
       <div class="sec-head" style="margin-bottom:0;flex:1"><div class="sec-lbl">Revenus mensuels</div><div class="sec-line"></div></div>
+      <!-- Date filter box inline with title -->
+      <div id="date-filter-box" style="background:#F7F9FB;border:1px solid rgba(28,43,51,.1);border-radius:12px;padding:6px 12px;display:flex;align-items:center;gap:8px;box-shadow:0 2px 8px rgba(28,43,51,.06);flex-shrink:0;cursor:default">
+        <div style="display:flex;flex-direction:column;gap:1px">
+          <span style="font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:#8A9FAB">De</span>
+          <div id="sel-from-display" style="font-size:12px;font-weight:600;color:#1C2B33;cursor:pointer;white-space:nowrap;min-width:68px"></div>
+        </div>
+        <div style="width:1px;height:26px;background:rgba(28,43,51,.1)"></div>
+        <div style="display:flex;flex-direction:column;gap:1px">
+          <span style="font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:#8A9FAB">À</span>
+          <div id="sel-to-display" style="font-size:12px;font-weight:600;color:#1C2B33;cursor:pointer;white-space:nowrap;min-width:68px"></div>
+        </div>
+      </div>
       <div id="chart-mode-label" style="display:none"></div>
     </div>
-    <!-- Floating date filter box -->
-    <div id="date-filter-box" style="position:absolute;top:16px;right:20px;background:#F7F9FB;border:1px solid rgba(28,43,51,.1);border-radius:12px;padding:8px 12px;display:flex;align-items:center;gap:8px;box-shadow:0 2px 12px rgba(28,43,51,.08);z-index:10">
-      <div style="display:flex;flex-direction:column;gap:2px">
-        <span style="font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:#8A9FAB">De</span>
-        <div id="sel-from-display" style="font-size:12px;font-weight:600;color:#1C2B33;cursor:pointer;white-space:nowrap;min-width:72px"></div>
-      </div>
-      <div style="width:1px;height:28px;background:rgba(28,43,51,.1)"></div>
-      <div style="display:flex;flex-direction:column;gap:2px">
-        <span style="font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:#8A9FAB">À</span>
-        <div id="sel-to-display" style="font-size:12px;font-weight:600;color:#1C2B33;cursor:pointer;white-space:nowrap;min-width:72px"></div>
-      </div>
-    </div>
-    <!-- Dropdown panel -->
-    <div id="date-dropdown" style="position:absolute;top:80px;right:20px;background:#fff;border:1px solid rgba(28,43,51,.1);border-radius:14px;padding:12px;box-shadow:0 8px 32px rgba(28,43,51,.14);z-index:20;display:none;min-width:220px">
+    <!-- Dropdown panel — positioned relative to chart-card but below the header row -->
+    <div id="date-dropdown" style="position:absolute;top:58px;right:20px;background:#fff;border:1px solid rgba(28,43,51,.1);border-radius:14px;padding:12px 14px;box-shadow:0 8px 32px rgba(28,43,51,.14);z-index:20;display:none;min-width:220px">
       <div id="date-dropdown-body"></div>
     </div>
     <div id="referent-legend"></div>
@@ -238,7 +238,7 @@ function renderKPIs(){
   var pM=Math.round(totalMax/BUDGET*100),pP=Math.round(totalProba/BUDGET*100),pS=Math.round(totalSec/BUDGET*100);
   function bg(p){return p>=100?'badge-g':'badge-r'}
   document.getElementById('kpi-row').innerHTML=
-    '<div class="kpi"><div class="kpi-value" style="color:var(--deep)">'+MANDATS.length+'</div><div class="kpi-label">mandats en cours<div style="display:flex;gap:5px;justify-content:center;margin-top:4px"><div class="kpi-badge" style="background:#E6F1FB;color:#185FA5;border:1px solid #B5D4F4">'+sellCount+' sell</div><div class="kpi-badge" style="background:#EEEDFE;color:#534AB7;border:1px solid #CECBF6">'+buyCount+' buy</div></div></div></div>'+
+    '<div class="kpi"><div class="kpi-value" style="color:var(--deep)">'+MANDATS.length+'</div><div class="kpi-label">mandats en cours<div style="display:flex;gap:5px;justify-content:center;margin-top:4px"><div class="kpi-badge" style="background:#E6F1FB;color:#185FA5;border:1px solid #B5D4F4">'+sellCount+' Sell-side</div><div class="kpi-badge" style="background:#EEEDFE;color:#534AB7;border:1px solid #CECBF6">'+buyCount+' Buy-side</div></div></div></div>'+
     '<div class="kpi"><div class="kpi-value" style="color:var(--deep)">'+fmtK(BUDGET)+'</div><div class="kpi-label">Objectif CA 2026</div></div>'+
     '<div class="kpi" style="border-color:'+C_MAX+'55"><div class="kpi-value" style="color:'+C_MAX+'">'+fmtK(Math.round(totalMax))+'</div><div class="kpi-label">Revenu max<br><span style="font-size:10px">(si tous les deals closent)</span></div><div id="kpi-badge-max" class="kpi-badge '+bg(pM)+'">'+pM+'% vs. budget</div></div>'+
     '<div class="kpi" style="border-color:'+C_PROBA+'55"><div class="kpi-value" style="color:'+C_PROBA+'">'+fmtK(Math.round(totalProba))+'</div><div class="kpi-label">Revenu probabilisé</div><div id="kpi-badge-proba" class="kpi-badge '+bg(pP)+'">'+pP+'% vs. budget</div></div>'+
