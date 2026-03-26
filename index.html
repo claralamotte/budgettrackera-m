@@ -127,7 +127,7 @@ header{background:var(--deep);height:56px;padding:0 var(--pad);display:flex;alig
   <div class="kpi-row" id="kpi-row"></div>
   <div class="chart-card">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;gap:12px;flex-wrap:wrap">
-      <div class="sec-head" style="margin-bottom:0;flex:1"><div class="sec-lbl">Revenus mensuels</div><div class="sec-line"></div></div>
+      <div class="sec-head" style="margin-bottom:0;flex:1"><div class="sec-lbl">Revenus mensuels <span style="font-weight:500;color:#8A9FAB;letter-spacing:.08em;font-size:9px">&ndash; Nov-25 à Oct-26</span></div><div class="sec-line"></div></div>
       <div id="chart-mode-label" style="display:none"></div>
     </div>
     <div id="referent-legend"></div>
@@ -149,11 +149,16 @@ header{background:var(--deep);height:56px;padding:0 var(--pad);display:flex;alig
 <div class="mo month-modal" id="mo-month" onclick="if(event.target===this)this.classList.remove('open')">
   <div class="md"><button class="md-x" onclick="document.getElementById('mo-month').classList.remove('open')">&#10005;</button><div id="mo-month-body"></div></div>
 </div>
+<div class="mo company-modal" id="mo-cum" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="md" style="max-width:560px"><button class="md-x" onclick="document.getElementById('mo-cum').classList.remove('open')">&#10005;</button><div id="mo-cum-body"></div></div>
+</div>
 <div class="mo company-modal" id="mo-revenue" onclick="if(event.target===this)this.classList.remove('open')">
   <div class="md" style="max-width:560px"><button class="md-x" onclick="document.getElementById('mo-revenue').classList.remove('open')">&#10005;</button><div id="mo-revenue-body"></div></div>
-</div> onclick="if(event.target===this)this.classList.remove('open')">
+</div>
+<div class="mo company-modal" id="mo-mandats" onclick="if(event.target===this)this.classList.remove('open')">
   <div class="md"><button class="md-x" onclick="document.getElementById('mo-mandats').classList.remove('open')">&#10005;</button><div id="mo-mandats-body"></div></div>
 </div>
+<div class="mo company-modal" id="mo-company" onclick="if(event.target===this)this.classList.remove('open')">
   <div class="md"><button class="md-x" onclick="document.getElementById('mo-company').classList.remove('open')">&#10005;</button><div id="mo-company-body"></div></div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
@@ -338,7 +343,7 @@ function positionCumStrip(){
   strip.style.height='auto';
   strip.style.paddingTop='8px';
   var GAP=28;
-  function buildSection(title,color,values){
+  function buildSection(title,color,values,type){
     var titleEl=document.createElement('div');
     titleEl.style.cssText='font-size:10px;font-weight:700;color:'+color+';margin-bottom:4px;padding-left:'+caLeft+'px';
     titleEl.textContent=title;
@@ -359,17 +364,24 @@ function positionCumStrip(){
     values.forEach(function(v,i){
       var xPx=chart.scales.x.getPixelForValue(i);
       var pill=document.createElement('div');
-      pill.style.cssText='position:absolute;transform:translateX(-50%);top:0;pointer-events:none';
+      pill.style.cssText='position:absolute;transform:translateX(-50%);top:0;'+(v>0?'cursor:pointer':'pointer-events:none');
       pill.style.left=xPx+'px';
-      pill.innerHTML=v>0
-        ?'<span style="display:inline-flex;justify-content:center;min-width:44px;background:'+color+'14;border:1px solid '+color+'55;border-radius:20px;padding:1px 7px;font-size:9.5px;font-weight:700;color:'+color+'">'+fmtK(v)+'</span>'
-        :'<span style="display:inline-flex;justify-content:center;min-width:44px;border:1px solid rgba(28,43,51,.1);border-radius:20px;padding:1px 7px;font-size:9.5px;color:rgba(28,43,51,.2)">-</span>';
+      if(v>0){
+        pill.innerHTML='<span style="display:inline-flex;justify-content:center;min-width:44px;background:'+color+'14;border:1px solid '+color+'55;border-radius:20px;padding:1px 7px;font-size:9.5px;font-weight:700;color:'+color+';transition:background .14s">'+fmtK(v)+'</span>';
+        (function(monthIdx,cumVal){
+          pill.addEventListener('mouseenter',function(){pill.querySelector('span').style.background=color+'30';});
+          pill.addEventListener('mouseleave',function(){pill.querySelector('span').style.background=color+'14';});
+          pill.addEventListener('click',function(){showCumModal(type,monthIdx,cumVal);});
+        })(i,v);
+      } else {
+        pill.innerHTML='<span style="display:inline-flex;justify-content:center;min-width:44px;border:1px solid rgba(28,43,51,.1);border-radius:20px;padding:1px 7px;font-size:9.5px;color:rgba(28,43,51,.2)">-</span>';
+      }
       rowEl.appendChild(pill);
     });
   }
-  if(activeDs.has(0))buildSection('Revenu sécurisé cumulé',C_SEC,cd.cs);
-  if(activeDs.has(1))buildSection('Revenu probabilisé cumulé',C_PROBA,cd.cp);
-  if(activeDs.has(2))buildSection('Revenu max cumulé',C_MAX,cd.cm);
+  if(activeDs.has(0))buildSection('Revenu sécurisé cumulé',C_SEC,cd.cs,'sec');
+  if(activeDs.has(1))buildSection('Revenu probabilisé cumulé',C_PROBA,cd.cp,'proba');
+  if(activeDs.has(2))buildSection('Revenu max cumulé',C_MAX,cd.cm,'max');
 }
 
 var topLabelPlugin={id:'topLabel',afterDatasetsDraw:function(chart){
@@ -604,6 +616,76 @@ function showCompanyModal(name){
   document.getElementById('mo-company-body').innerHTML=h;document.getElementById('mo-company').classList.add('open');
 }
 
+function showCumModal(type,upToIdx,cumVal){
+  var cfg={
+    max:{label:'Revenu max cumulé',color:C_MAX,retKey:'max_ret_month',closKey:'max_clos_month',amtFn:function(m){return m.rev_max;}},
+    proba:{label:'Revenu probabilisé cumulé',color:C_PROBA,retKey:'prob_ret_month',closKey:'prob_clos_month',amtFn:function(m){return m.rev_proba;}},
+    sec:{label:'Revenu sécurisé cumulé',color:C_SEC,retKey:'sec_ret_month',closKey:'sec_clos_month',amtFn:function(m){return m.rev_sec;}}
+  };
+  var c=cfg[type];
+
+  // Collecte les flux jusqu'au mois upToIdx (inclus), triés chronologiquement
+  var rows=[];
+  MANDATS.forEach(function(m){
+    if(activeRefs.size>0&&!activeRefs.has(m.referent))return;
+    var retIdx=m[c.retKey]?mToIdx(m[c.retKey]):null;
+    var closIdx=m[c.closKey]?mToIdx(m[c.closKey]):null;
+    if(retIdx!==null&&retIdx<=upToIdx&&m.retainer>0){
+      rows.push({name:m.name,domain:m.domain,referent:m.referent,stade:m.stade,monthIdx:retIdx,amount:m.retainer,revtype:'Retainer'});
+    }
+    if(closIdx!==null&&closIdx<=upToIdx&&m.success>0){
+      var amt=type==='proba'?m.success*m.proba_brute:m.success;
+      rows.push({name:m.name,domain:m.domain,referent:m.referent,stade:m.stade,monthIdx:closIdx,amount:amt,revtype:'Success fee'});
+    }
+  });
+  // Tri chronologique puis alpha
+  rows.sort(function(a,b){return a.monthIdx-b.monthIdx||a.name.localeCompare(b.name,'fr');});
+  var filteredCum=rows.reduce(function(s,r){return s+r.amount;},0);
+
+  var h='<div style="display:flex;align-items:center;justify-content:space-between;padding-right:36px;margin-bottom:16px">'+
+    '<div style="font-size:18px;font-weight:700;color:var(--deep)">'+c.label+'</div>'+
+    '<span style="font-size:13px;font-weight:700;padding:3px 12px;border-radius:20px;background:'+c.color+'15;color:'+c.color+';border:1px solid '+c.color+'40">'+fmtK(filteredCum)+'</span>'+
+    '</div>';
+
+  h+='<div style="display:grid;grid-template-columns:60px 1fr 60px 90px 80px;gap:10px;padding:0 0 6px;border-bottom:1px solid rgba(28,43,51,.08);margin-bottom:2px">'+
+    '<span style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#8A9FAB">Mois</span>'+
+    '<span style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#8A9FAB">Mandat</span>'+
+    '<span style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#8A9FAB">Référent</span>'+
+    '<span style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#8A9FAB">Type</span>'+
+    '<span style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#8A9FAB;text-align:right">Montant</span>'+
+    '</div>';
+
+  var lastMonth=-1;
+  rows.forEach(function(r){
+    var rc=REFERENTS[r.referent]||{color:'#8A9FAB'};
+    var ini=r.referent.split(' ').map(function(w){return w[0];}).join('').substring(0,3);
+    var fBg=r.revtype==='Retainer'?'#EFF6FF':'#F0FDF4';
+    var fCol=r.revtype==='Retainer'?'#1D4ED8':'#15803D';
+    var fBd=r.revtype==='Retainer'?'#BFDBFE':'#BBF7D0';
+    var safeName=r.name.replace(/\\/g,'\\\\').replace(/"/g,'&quot;');
+    var monthLabel=r.monthIdx!==lastMonth?MONTHS_FULL[r.monthIdx]:'';
+    lastMonth=r.monthIdx;
+
+    h+='<div style="display:grid;grid-template-columns:60px 1fr 60px 90px 80px;gap:10px;align-items:center;padding:7px 0;border-bottom:1px solid rgba(28,43,51,.04);cursor:pointer" onclick="document.getElementById(\'mo-cum\').classList.remove(\'open\');showCompanyModal(\''+safeName+'\')">'+
+      '<span style="font-size:10px;font-weight:600;color:#8A9FAB">'+monthLabel+'</span>'+
+      '<div style="display:flex;align-items:center;gap:7px;min-width:0">'+
+        '<div style="width:24px;height:18px;display:flex;align-items:center;justify-content:center;flex-shrink:0">'+logoHTML(r.domain,r.name,22)+'</div>'+
+        '<span style="font-size:12px;font-weight:500;color:var(--deep);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+r.name+'</span>'+
+      '</div>'+
+      '<div style="display:flex;justify-content:center">'+
+        '<span style="width:22px;height:22px;border-radius:50%;background:'+rc.color+';color:#fff;font-size:7px;font-weight:700;display:inline-flex;align-items:center;justify-content:center" title="'+r.referent+'">'+ini+'</span>'+
+      '</div>'+
+      '<span style="font-size:9px;font-weight:600;padding:2px 7px;border-radius:10px;background:'+fBg+';color:'+fCol+';border:1px solid '+fBd+';white-space:nowrap">'+r.revtype+'</span>'+
+      '<span style="font-size:12px;font-weight:700;color:'+c.color+';text-align:right;white-space:nowrap">'+fmtK(r.amount)+'</span>'+
+      '</div>';
+  });
+
+  if(!rows.length)h+='<div style="text-align:center;padding:24px;color:#8A9FAB;font-size:12px">Aucun flux sur cette période</div>';
+
+  document.getElementById('mo-cum-body').innerHTML=h;
+  document.getElementById('mo-cum').classList.add('open');
+}
+
 function showRevenueModal(type){
   var cfg={
     max:{label:'Revenu max',color:C_MAX,key:'rev_max',total:totalMax},
@@ -612,12 +694,16 @@ function showRevenueModal(type){
   };
   var c=cfg[type];
 
-  // Mandats avec montant > 0, triés alpha
-  var list=MANDATS.filter(function(m){return m[c.key]>0;}).sort(function(a,b){return a.name.localeCompare(b.name,'fr');});
+  // Filtrer par référents sélectionnés
+  var list=MANDATS.filter(function(m){
+    return m[c.key]>0&&(activeRefs.size===0||activeRefs.has(m.referent));
+  }).sort(function(a,b){return a.name.localeCompare(b.name,'fr');});
+
+  var filteredTotal=list.reduce(function(s,m){return s+m[c.key];},0);
 
   var h='<div style="display:flex;align-items:center;justify-content:space-between;padding-right:36px;margin-bottom:16px">'+
     '<div style="font-size:18px;font-weight:700;color:var(--deep)">'+c.label+'</div>'+
-    '<span style="font-size:13px;font-weight:700;padding:3px 12px;border-radius:20px;background:'+c.color+'15;color:'+c.color+';border:1px solid '+c.color+'40">'+fmtK(c.total)+'</span>'+
+    '<span style="font-size:13px;font-weight:700;padding:3px 12px;border-radius:20px;background:'+c.color+'15;color:'+c.color+';border:1px solid '+c.color+'40">'+fmtK(filteredTotal)+'</span>'+
     '</div>';
 
   // Header
@@ -658,6 +744,7 @@ function showMandatsModal(filter){
   var list=MANDATS.slice().sort(function(a,b){return a.name.localeCompare(b.name,'fr');});
   if(filter==='sell')list=list.filter(function(m){return m.type_mandat==='Sell-side M&A';});
   if(filter==='buy')list=list.filter(function(m){return m.type_mandat==='Buy-side M&A';});
+  if(activeRefs.size>0)list=list.filter(function(m){return activeRefs.has(m.referent);});
 
   var title=filter==='sell'?'Sell-side M&A':filter==='buy'?'Buy-side M&A':'Mandats en cours';
   var chipColor=filter==='sell'?'#185FA5':filter==='buy'?'#534AB7':'#1C2B33';
