@@ -143,9 +143,14 @@ header{background:var(--deep);height:56px;padding:0 var(--pad);display:flex;alig
 
   <div class="card">
     <div class="sec-head"><div class="sec-lbl">Détail des mandats par étape</div><div class="sec-line"></div></div>
+    <div id="pipeline-legend" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px;justify-content:flex-end"></div>
     <div class="pipeline-scroll"><div class="stages-grid" id="stages-grid"></div></div>
   </div>
-</div>
+
+  <div class="card" id="risk-card">
+    <div class="sec-head" style="margin-bottom:18px"><div class="sec-lbl">Concentration & risque <span style="font-weight:500;color:#8A9FAB;letter-spacing:.08em;font-size:9px">&ndash; dépendance par dossier</span></div><div class="sec-line"></div></div>
+    <div id="risk-body"></div>
+  </div>
 <div class="mo month-modal" id="mo-month" onclick="if(event.target===this)this.classList.remove('open')">
   <div class="md"><button class="md-x" onclick="document.getElementById('mo-month').classList.remove('open')">&#10005;</button><div id="mo-month-body"></div></div>
 </div>
@@ -520,7 +525,7 @@ function updateChart(){
   mainChartInstance.data.datasets[0].data=fm.secM;
   mainChartInstance.data.datasets[1].data=fm.probaM;
   mainChartInstance.data.datasets[2].data=fm.maxM;
-  mainChartInstance.update();renderCumStrip(fm.secM);setTimeout(positionCumStrip,20);renderPipeline();
+  mainChartInstance.update();renderCumStrip(fm.secM);setTimeout(positionCumStrip,20);renderPipeline();renderRisk();
 }
 
 function updateRefPills(){
@@ -900,7 +905,9 @@ function renderPipeline(){
 
 function renderReferentLegend(){
   var el=document.getElementById('referent-legend');
+  var pl=document.getElementById('pipeline-legend');
   el.innerHTML='';
+  if(pl)pl.innerHTML='';
   var lbl=document.createElement('span');
   lbl.style.cssText='font-size:12px;font-weight:500;color:#8A9FAB;align-self:center;white-space:nowrap';
   lbl.textContent='Filtrer par référent :';
@@ -908,6 +915,16 @@ function renderReferentLegend(){
   Object.keys(REFERENTS).forEach(function(name){
     var r=REFERENTS[name];
     var dn=REAL_REFERENTS[name]||name;
+    var ini=dn.split(' ').map(function(w){return w[0]||'';}).join('').substring(0,3).toUpperCase();
+
+    // Pill légende pipeline (bulle % style + initiales)
+    if(pl){
+      var plItem=document.createElement('div');
+      plItem.style.cssText='display:inline-flex;align-items:center;gap:5px;font-size:10px;font-weight:600;color:#6B7B86';
+      plItem.title=dn;
+      plItem.innerHTML='<span style="font-size:9px;font-weight:700;background:'+r.color+'18;color:'+r.color+';border:1px solid '+r.color+'40;padding:1px 7px;border-radius:10px;white-space:nowrap">'+ini+'</span>';
+      pl.appendChild(plItem);
+    }
     var pill=document.createElement('div');
     pill.className='ref-pill';
     pill.setAttribute('data-ref',name);
@@ -936,7 +953,88 @@ function renderReferentLegend(){
   });
 }
 
-renderKPIs();renderChart();renderReferentLegend();renderPipeline();
+function renderRisk(){
+  var el=document.getElementById('risk-body');
+  if(!el)return;
+
+  var actives=MANDATS.filter(function(m){return activeRefs.size===0||activeRefs.has(m.referent);});
+  var tMax=actives.reduce(function(s,m){return s+m.rev_max;},0);
+  var tProba=actives.reduce(function(s,m){return s+m.rev_proba;},0);
+  var tSec=actives.reduce(function(s,m){return s+m.rev_sec;},0);
+
+  var h='';
+
+  // ── Barres horizontales avec KPI banner par colonne ──
+  h+='<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px">';
+
+  function scStats(keyFn,total){
+    var sv=actives.map(function(m){return keyFn(m);});
+    var nonZero=actives.filter(function(m){return keyFn(m)>0;});
+    var sortedS=actives.slice().sort(function(a,b){return keyFn(b)-keyFn(a);});
+    var t1=total>0&&sortedS.length?Math.round(keyFn(sortedS[0])/total*100):0;
+    var t3=total>0?Math.round(sortedS.slice(0,3).reduce(function(s,m){return s+keyFn(m);},0)/total*100):0;
+    var svSorted=sv.slice().sort(function(a,b){return a-b;});
+    var nn=svSorted.length;
+    var med=nn===0?0:nn%2===0?(svSorted[nn/2-1]+svSorted[nn/2])/2:svSorted[Math.floor(nn/2)];
+    var mn=total/Math.max(actives.length,1);
+    var std=Math.sqrt(sv.reduce(function(s,v){return s+(v-mn)*(v-mn);},0)/Math.max(actives.length,1));
+    return{count:nonZero.length,t1:t1,t3:t3,med:med,std:std};
+  }
+
+  function barSection(title,color,keyFn,total){
+    var st=scStats(keyFn,total);
+    var s='<div>';
+    // KPI banner
+    s+='<div style="background:'+color+'0d;border:1px solid '+color+'25;border-radius:12px;padding:10px 14px;margin-bottom:12px">';
+    s+='<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">';
+    s+='<div style="font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:.12em;color:#8A9FAB">'+title+'</div>';
+    s+='<span style="font-size:11px;font-weight:700;padding:2px 9px;border-radius:20px;background:'+color+'15;color:'+color+';border:1px solid '+color+'35">'+st.count+' mandat'+(st.count>1?'s':'')+'</span>';
+    s+='</div>';
+    s+='<div style="display:flex;align-items:flex-end;justify-content:space-between;gap:4px">';
+    function kpi(lbl,val){
+      return'<div style="display:flex;flex-direction:column;gap:2px">'
+        +'<div style="font-size:8px;font-weight:500;color:#8A9FAB;white-space:nowrap">'+lbl+'</div>'
+        +'<div style="font-size:13px;font-weight:700;color:'+color+'">'+val+'</div>'
+        +'</div>';
+    }
+    s+=kpi('Top 1',st.t1+'%');
+    s+=kpi('Top 3',st.t3+'%');
+    s+=kpi('Moyenne',fmtK(Math.round(total/Math.max(actives.length,1))));
+    s+=kpi('Médiane',fmtK(st.med));
+    s+=kpi('Écart-type',fmtK(st.std));
+    s+='</div></div>';
+    var sortedByKey=actives.slice().sort(function(a,b){return keyFn(b)-keyFn(a);});
+    sortedByKey.forEach(function(m){
+      var val=keyFn(m);
+      var isZero=val<=0;
+      var pct=(!isZero&&total>0)?Math.round(val/total*100):0;
+      var barPct=(!isZero&&total>0)?val/total*100:0;
+      s+='<div style="margin-bottom:8px;opacity:'+(isZero?'0.35':'1')+'">';
+      s+='<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:3px;gap:8px">';
+      s+='<div style="display:flex;align-items:center;gap:6px;min-width:0">';
+      s+='<div style="width:20px;height:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0">'+logoHTML(m.domain,m.name,18)+'</div>';
+      s+='<span style="font-size:10px;font-weight:500;color:'+(isZero?'#8A9FAB':'var(--deep)')+';overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+m.name+'</span>';
+      s+='</div>';
+      s+='<span style="font-size:10px;font-weight:700;color:'+(isZero?'#8A9FAB':color)+';white-space:nowrap;flex-shrink:0">'+(isZero?'—':pct+'%')+'</span>';
+      s+='</div>';
+      s+='<div style="height:4px;background:rgba(28,43,51,.06);border-radius:4px;overflow:hidden">';
+      s+='<div style="height:100%;width:'+barPct+'%;background:'+(isZero?'rgba(28,43,51,.12)':color)+';border-radius:4px;transition:width .4s"></div>';
+      s+='</div>';
+      s+='</div>';
+    });
+    s+='</div>';
+    return s;
+  }
+
+  h+=barSection('Revenu max',C_MAX,function(m){return m.rev_max;},tMax);
+  h+=barSection('Revenu probabilisé',C_PROBA,function(m){return m.rev_proba;},tProba);
+  h+=barSection('Revenu sécurisé',C_SEC,function(m){return m.rev_sec;},tSec);
+  h+='</div>';
+
+  el.innerHTML=h;
+}
+
+renderKPIs();renderChart();renderReferentLegend();renderPipeline();renderRisk();
 
 
 </script>
