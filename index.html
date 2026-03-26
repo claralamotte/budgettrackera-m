@@ -264,7 +264,7 @@ function renderKPIs(){
   var pM=Math.round(totalMax/BUDGET*100),pP=Math.round(totalProba/BUDGET*100),pS=Math.round(totalSec/BUDGET*100);
   function bg(p){return p>=100?'badge-g':'badge-r'}
   document.getElementById('kpi-row').innerHTML=
-    '<div class="kpi kpi-clickable" onclick="showMandatsModal(\'all\')" style="cursor:pointer"><div class="kpi-value" style="color:var(--deep)">'+MANDATS.length+'</div><div class="kpi-label">mandats en cours<div style="display:flex;gap:5px;justify-content:center;margin-top:4px"><div class="kpi-badge kpi-badge-clickable" style="background:#E6F1FB;color:#185FA5;border:1px solid #B5D4F4" onclick="event.stopPropagation();showMandatsModal(\'sell\')">'+sellCount+' Sell-side</div><div class="kpi-badge kpi-badge-clickable" style="background:#EEEDFE;color:#534AB7;border:1px solid #CECBF6" onclick="event.stopPropagation();showMandatsModal(\'buy\')">'+buyCount+' Buy-side</div></div></div></div>'+
+    '<div class="kpi kpi-clickable" onclick="showMandatsModal(\'all\')" style="cursor:pointer"><div class="kpi-value" style="color:var(--deep)">'+MANDATS.length+'</div><div class="kpi-label">mandats en cours</div><div style="display:flex;gap:5px;justify-content:center"><div class="kpi-badge kpi-badge-clickable" style="background:#E6F1FB;color:#185FA5;border:1px solid #B5D4F4" onclick="event.stopPropagation();showMandatsModal(\'sell\')">'+sellCount+' sell-side</div><div class="kpi-badge kpi-badge-clickable" style="background:#EEEDFE;color:#534AB7;border:1px solid #CECBF6" onclick="event.stopPropagation();showMandatsModal(\'buy\')">'+buyCount+' buy-side</div></div></div>'+
     '<div class="kpi"><div class="kpi-value" style="color:var(--deep)">'+fmtK(BUDGET)+'</div><div class="kpi-label">Objectif CA 2026</div></div>'+
     '<div class="kpi kpi-clickable" onclick="showRevenueModal(&quot;max&quot;)" style="border-color:'+C_MAX+'55"><div class="kpi-value" style="color:'+C_MAX+'">'+fmtK(Math.round(totalMax))+'</div><div class="kpi-label">Revenu max<br><span style="font-size:10px">(si tous les deals closent)</span></div><div id="kpi-badge-max" class="kpi-badge '+bg(pM)+'">'+pM+'% vs. budget</div></div>'+
     '<div class="kpi kpi-clickable" onclick="showRevenueModal(&quot;proba&quot;)" style="border-color:'+C_PROBA+'55"><div class="kpi-value" style="color:'+C_PROBA+'">'+fmtK(Math.round(totalProba))+'</div><div class="kpi-label">Revenu probabilisé</div><div id="kpi-badge-proba" class="kpi-badge '+bg(pP)+'">'+pP+'% vs. budget</div></div>'+
@@ -360,7 +360,7 @@ function positionCumStrip(){
     strip.appendChild(rowEl);
 
     values.forEach(function(v,i){
-      var xPx=chart.scales.x.getPixelForTick(i);
+      var xPx=chart.scales.x.getPixelForValue(i);
       var pill=document.createElement('div');
       pill.style.cssText='position:absolute;transform:translateX(-50%);top:0;'+(v>0?'cursor:pointer':'pointer-events:none');
       pill.style.left=xPx+'px';
@@ -380,7 +380,7 @@ function positionCumStrip(){
     // Ligne entre les pills (segments, pas derrière)
     var HALF=26;
     for(var si=0;si<values.length;si++){
-      var xCur=chart.scales.x.getPixelForTick(si);
+      var xCur=chart.scales.x.getPixelForValue(si);
       if(si===0){
         if(xCur-HALF>caLeft){
           var s1=document.createElement('div');
@@ -388,7 +388,7 @@ function positionCumStrip(){
           rowEl.appendChild(s1);
         }
       } else {
-        var xPrev=chart.scales.x.getPixelForTick(si-1);
+        var xPrev=chart.scales.x.getPixelForValue(si-1);
         if(xCur-HALF>xPrev+HALF){
           var s2=document.createElement('div');
           s2.style.cssText='position:absolute;height:1px;background:'+color+'40;top:10px;pointer-events:none;left:'+(xPrev+HALF)+'px;width:'+(xCur-HALF-xPrev-HALF)+'px';
@@ -666,12 +666,11 @@ function showCumModal(type,upToIdx,cumVal){
   var filteredCum=rows.reduce(function(s,r){return s+r.amount;},0);
 
   var h='<div style="display:flex;align-items:center;justify-content:space-between;padding-right:36px;margin-bottom:16px">'+
-    '<div style="font-size:18px;font-weight:700;color:var(--deep)">'+c.label+'</div>'+
+    '<div style="font-size:18px;font-weight:700;color:'+c.color+'">'+c.label+'</div>'+
     '<span style="font-size:13px;font-weight:700;padding:3px 12px;border-radius:20px;background:'+c.color+'15;color:'+c.color+';border:1px solid '+c.color+'40">'+fmtK(filteredCum)+'</span>'+
     '</div>';
 
-  h+='<div style="display:grid;grid-template-columns:60px 1fr 60px 90px 80px;gap:10px;padding:0 0 6px;border-bottom:1px solid rgba(28,43,51,.08);margin-bottom:2px">'+
-    '<span style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#8A9FAB">Mois</span>'+
+  h+='<div style="display:grid;grid-template-columns:1fr 60px 90px 80px;gap:10px;padding:0 0 4px;margin-bottom:0">'+
     '<span style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#8A9FAB">Mandat</span>'+
     '<span style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#8A9FAB">Référent</span>'+
     '<span style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#8A9FAB">Type</span>'+
@@ -686,11 +685,15 @@ function showCumModal(type,upToIdx,cumVal){
     var fCol=r.revtype==='Retainer'?'#1D4ED8':'#15803D';
     var fBd=r.revtype==='Retainer'?'#BFDBFE':'#BBF7D0';
     var safeName=r.name.replace(/\\/g,'\\\\').replace(/"/g,'&quot;');
-    var monthLabel=r.monthIdx!==lastMonth?MONTHS_FULL[r.monthIdx]:'';
+    var isNewMonth=r.monthIdx!==lastMonth;
     lastMonth=r.monthIdx;
 
-    h+='<div style="display:grid;grid-template-columns:60px 1fr 60px 90px 80px;gap:10px;align-items:center;padding:7px 0;border-bottom:1px solid rgba(28,43,51,.04);cursor:pointer" onclick="document.getElementById(\'mo-cum\').classList.remove(\'open\');showCompanyModal(\''+safeName+'\')">'+
-      '<span style="font-size:10px;font-weight:600;color:#8A9FAB">'+monthLabel+'</span>'+
+    // Header de groupe mois
+    if(isNewMonth){
+      h+='<div style="font-size:11px;font-weight:600;color:#1C2B33;padding:'+(lastMonth!==-1?'10px':'4px')+' 0 4px;'+(lastMonth!==-1?'border-top:1px solid rgba(28,43,51,.06);':'')+'">'+MONTHS_FULL[r.monthIdx]+'</div>';
+    }
+
+    h+='<div style="display:grid;grid-template-columns:1fr 60px 90px 80px;gap:10px;align-items:center;padding:5px 0;border-bottom:1px solid rgba(28,43,51,.04);cursor:pointer" onclick="document.getElementById(\'mo-cum\').classList.remove(\'open\');showCompanyModal(\''+safeName+'\')">' +
       '<div style="display:flex;align-items:center;gap:7px;min-width:0">'+
         '<div style="width:24px;height:18px;display:flex;align-items:center;justify-content:center;flex-shrink:0">'+logoHTML(r.domain,r.name,22)+'</div>'+
         '<span style="font-size:12px;font-weight:500;color:var(--deep);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+r.name+'</span>'+
