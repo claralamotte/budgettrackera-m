@@ -26,8 +26,8 @@ header{background:var(--deep);height:56px;padding:0 var(--pad);display:flex;alig
 .kpi-value{font-size:26px;font-weight:700;line-height:1}
 .kpi-label{font-size:11px;color:#8A9FAB;line-height:1.4;min-height:32px;display:flex;flex-direction:column;align-items:center;justify-content:center}
 .kpi-badge{display:inline-block;font-size:10px;font-weight:600;padding:2px 9px;border-radius:20px}
-.kpi-badge.kpi-badge-clickable{cursor:pointer;transition:opacity .15s}
-.kpi-badge.kpi-badge-clickable:hover{opacity:.75}
+.kpi-badge.kpi-badge-clickable{cursor:pointer;transition:all .15s}
+.kpi-badge.kpi-badge-clickable:hover{opacity:1;transform:translateY(-1px);box-shadow:0 3px 10px rgba(28,43,51,.15)}
 .badge-g{background:#E8F8F0;color:#0B7A52}
 .badge-r{background:#FEF2F2;color:#B91C1C}
 
@@ -198,42 +198,11 @@ function logoHTML(domain,name,size){
   return'<div class="init" style="display:flex;background:'+rc+';font-size:'+Math.round(size*.35)+'px;width:'+size+'px;height:'+size+'px;border-radius:50%;color:#fff;align-items:center;justify-content:center;font-weight:700">'+ini+'</div>';
 }
 
-var MANDATS=[{"name":"Clermont Foot","domain":"clermontfoot.com","referent":"Hubert Tuillier","type_mandat":"Sell-side M&A","lm_signee":"Oui","typologie":"Signé","stade":"Intérêt confirmé","complexite":"Moyenne","retainer":15000,"success":250000,"coef_complexite":0.95,"coef_contractuel":1.0,"proba_brute":0.95,"rev_max":265000,"rev_proba":252500,"rev_sec":15000,"sec_ret_month":2,"sec_clos_month":null,"prob_ret_month":2,"prob_clos_month":6,"max_ret_month":2,"max_clos_month":6,"ret_date_str":"28/02/2026","clos_date_str":"30/06/2026"},{"name":"Ride Out","domain":"","referent":"Hubert Tuillier","type_mandat":"Sell-side M&A","lm_signee":"Oui","typologie":"Signé","stade":"Roadshow","complexite":"Très élevée","retainer":15000,"success":1200000,"coef_complexite":0.0,"coef_contractuel":1.0,"proba_brute":0.0,"rev_max":1215000,"rev_proba":15000,"rev_sec":15000,"sec_ret_month":3,"sec_clos_month":null,"prob_ret_month":3,"prob_clos_month":10,"max_ret_month":3,"max_clos_month":10,"ret_date_str":"30/03/2026","clos_date_str":"31/10/2027"},{"name":"GEG","domain":"geg.asia","referent":"Hubert Tuillier","type_mandat":"Sell-side M&A","lm_signee":"Oui","typologie":"Signé","stade":"Préparation (IM, BP)","complexite":"Élevée","retainer":120000,"success":1200000,"coef_complexite":0.85,"coef_contractuel":1.0,"proba_brute":0.85,"rev_max":1320000,"rev_proba":1140000,"rev_sec":120000,"sec_ret_month":4,"sec_clos_month":null,"prob_ret_month":4,"prob_clos_month":10,"max_ret_month":4,"max_clos_month":10,"ret_date_str":"20/04/2026","clos_date_str":"31/10/2026"},{"name":"FC Metz","domain":"fcmetz.com","referent":"Hubert Tuillier","type_mandat":"Sell-side M&A","lm_signee":"Oui","typologie":"Signé","stade":"Intérêt confirmé","complexite":"Élevée","retainer":0,"success":1300000,"coef_complexite":0.85,"coef_contractuel":1.0,"proba_brute":0.85,"rev_max":1300000,"rev_proba":1105000,"rev_sec":0,"sec_ret_month":null,"sec_clos_month":null,"prob_ret_month":null,"prob_clos_month":6,"max_ret_month":null,"max_clos_month":6,"ret_date_str":"TBD","clos_date_str":"30/06/2026"},{"name":"Hurricane Group","domain":"hurcn.com","referent":"Hubert Tuillier","type_mandat":"Sell-side M&A","lm_signee":"Oui","typologie":"Signé","stade":"Exclusivité / Due Diligence","complexite":"Élevée","retainer":15000,"success":250000,"coef_complexite":0.85,"coef_contractuel":1.0,"proba_brute":1.0,"rev_max":265000,"rev_proba":265000,"rev_sec":15000,"sec_ret_month":5,"sec_clos_month":null,"prob_ret_month":5,"prob_clos_month":5,"max_ret_month":5,"max_clos_month":5,"ret_date_str":"30/05/2026","clos_date_str":"30/05/2026"},{"name":"EA Guingamp","domain":"eaguingamp.com","referent":"Hubert Tuillier","type_mandat":"Sell-side M&A","lm_signee":"Non","typologie":"Verbal","stade":"Préparation (IM, BP)","complexite":"Élevée","retainer":15000,"success":250000,"coef_complexite":0.85,"coef_contractuel":0.0,"proba_brute":0.0,"rev_max":265000,"rev_proba":15000,"rev_sec":15000,"sec_ret_month":6,"sec_clos_month":null,"prob_ret_month":6,"prob_clos_month":6,"max_ret_month":6,"max_clos_month":6,"ret_date_str":"30/06/2026","clos_date_str":"30/06/2026"},{"name":"OSE (Ecotrail)","domain":"ose-event.com","referent":"Hubert Tuillier","type_mandat":"Buy-side M&A","lm_signee":"Oui","typologie":"Signé","stade":"LOI","complexite":"Moyenne","retainer":10000,"success":100000,"coef_complexite":0.95,"coef_contractuel":1.0,"proba_brute":1.0,"rev_max":110000,"rev_proba":110000,"rev_sec":10000,"sec_ret_month":null,"sec_clos_month":null,"prob_ret_month":null,"prob_clos_month":5,"max_ret_month":null,"max_clos_month":5,"ret_date_str":"TBD","clos_date_str":"30/05/2026"},{"name":"Rodez Foot","domain":"rodezaveyronfootball.com","referent":"Hubert Tuillier","type_mandat":"Sell-side M&A","lm_signee":"Non","typologie":"Verbal","stade":"Intérêt confirmé","complexite":"Élevée","retainer":0,"success":250000,"coef_complexite":0.85,"coef_contractuel":0.0,"proba_brute":0.0,"rev_max":250000,"rev_proba":0,"rev_sec":0,"sec_ret_month":null,"sec_clos_month":null,"prob_ret_month":null,"prob_clos_month":6,"max_ret_month":null,"max_clos_month":6,"ret_date_str":"TBD","clos_date_str":"30/06/2026"},{"name":"Auraé Impact","domain":"auraeimpact.com","referent":"Hubert Tuillier","type_mandat":"Buy-side M&A","lm_signee":"Oui","typologie":"Signé","stade":"Roadshow","complexite":"Élevée","retainer":30000,"success":150000,"coef_complexite":0.85,"coef_contractuel":1.0,"proba_brute":0.85,"rev_max":180000,"rev_proba":157500,"rev_sec":180000,"sec_ret_month":null,"sec_clos_month":null,"prob_ret_month":null,"prob_clos_month":null,"max_ret_month":null,"max_clos_month":null,"ret_date_str":"TBD","clos_date_str":"TBD"},{"name":"Golf Up","domain":"golfup.fr","referent":"Hubert Tuillier","type_mandat":"Sell-side M&A","lm_signee":"Oui","typologie":"Signé","stade":"Roadshow","complexite":"Très élevée","retainer":15000,"success":350000,"coef_complexite":0.0,"coef_contractuel":1.0,"proba_brute":0.0,"rev_max":365000,"rev_proba":15000,"rev_sec":15000,"sec_ret_month":6,"sec_clos_month":null,"prob_ret_month":6,"prob_clos_month":6,"max_ret_month":6,"max_clos_month":6,"ret_date_str":"30/06/2026","clos_date_str":"30/06/2026"},{"name":"Bomb Squad","domain":"bombsquad.games","referent":"Hubert Tuillier","type_mandat":"Sell-side M&A","lm_signee":"Oui","typologie":"Signé","stade":"Intérêt confirmé","complexite":"Moyenne","retainer":0,"success":200000,"coef_complexite":0.95,"coef_contractuel":1.0,"proba_brute":0.95,"rev_max":200000,"rev_proba":190000,"rev_sec":0,"sec_ret_month":null,"sec_clos_month":null,"prob_ret_month":null,"prob_clos_month":6,"max_ret_month":null,"max_clos_month":6,"ret_date_str":"TBD","clos_date_str":"30/06/2026"},{"name":"Nic Impex","domain":"nicimpex.com","referent":"Hubert Tuillier","type_mandat":"Buy-side M&A","lm_signee":"Oui","typologie":"Signé","stade":"Intérêt confirmé","complexite":"Moyenne","retainer":0,"success":90000,"coef_complexite":0.95,"coef_contractuel":1.0,"proba_brute":0.95,"rev_max":90000,"rev_proba":85500,"rev_sec":0,"sec_ret_month":null,"sec_clos_month":null,"prob_ret_month":null,"prob_clos_month":6,"max_ret_month":null,"max_clos_month":6,"ret_date_str":"TBD","clos_date_str":"30/06/2026"},{"name":"Montpellier Foot","domain":"mhscfoot.com","referent":"Hubert Tuillier","type_mandat":"Buy-side M&A","lm_signee":"Non","typologie":"Opportunité","stade":"Roadshow","complexite":"Moyenne","retainer":0,"success":290000,"coef_complexite":0.95,"coef_contractuel":0.0,"proba_brute":0.0,"rev_max":290000,"rev_proba":0,"rev_sec":0,"sec_ret_month":null,"sec_clos_month":null,"prob_ret_month":null,"prob_clos_month":6,"max_ret_month":null,"max_clos_month":6,"ret_date_str":"30/06/2026","clos_date_str":"30/06/2026"},{"name":"EVA Gaming","domain":"eva.gg","referent":"Hubert Tuillier","type_mandat":"Buy-side M&A","lm_signee":"Oui","typologie":"Signé","stade":"Closing","complexite":"Faible","retainer":0,"success":250000,"coef_complexite":1.0,"coef_contractuel":1.0,"proba_brute":1.0,"rev_max":250000,"rev_proba":250000,"rev_sec":250000,"sec_ret_month":null,"sec_clos_month":2,"prob_ret_month":null,"prob_clos_month":2,"max_ret_month":null,"max_clos_month":2,"ret_date_str":"28/02/2026","clos_date_str":"28/02/2026"},{"name":"Sodex","domain":"sodex.fr","referent":"Hubert Tuillier","type_mandat":"Sell-side M&A","lm_signee":"Oui","typologie":"Signé","stade":"Closing","complexite":"Faible","retainer":0,"success":150000,"coef_complexite":1.0,"coef_contractuel":1.0,"proba_brute":1.0,"rev_max":150000,"rev_proba":150000,"rev_sec":150000,"sec_ret_month":null,"sec_clos_month":3,"prob_ret_month":null,"prob_clos_month":3,"max_ret_month":null,"max_clos_month":3,"ret_date_str":"26/03/2026","clos_date_str":"26/03/2026"},{"name":"Folie Douce Val Thorens","domain":"lafoliedouce.com","referent":"Mark Wyatt","type_mandat":"Buy-side M&A","lm_signee":"Oui","typologie":"Signé","stade":"LOI","complexite":"Moyenne","retainer":25000,"success":350000,"coef_complexite":0.95,"coef_contractuel":1.0,"proba_brute":1.0,"rev_max":375000,"rev_proba":375000,"rev_sec":25000,"sec_ret_month":5,"sec_clos_month":null,"prob_ret_month":5,"prob_clos_month":6,"max_ret_month":5,"max_clos_month":6,"ret_date_str":"01/05/2026","clos_date_str":"30/06/2026"},{"name":"Cross Pharm","domain":"crosspharm.com","referent":"Frédéric Meyer","type_mandat":"Sell-side M&A","lm_signee":"Oui","typologie":"Signé","stade":"Intérêt confirmé","complexite":"Moyenne","retainer":0,"success":300000,"coef_complexite":0.95,"coef_contractuel":1.0,"proba_brute":0.95,"rev_max":300000,"rev_proba":285000,"rev_sec":0,"sec_ret_month":null,"sec_clos_month":null,"prob_ret_month":null,"prob_clos_month":7,"max_ret_month":null,"max_clos_month":7,"ret_date_str":"01/06/2026","clos_date_str":"31/07/2026"},{"name":"Pension Bee","domain":"pensionbee.com","referent":"Pierre Marie Blois","type_mandat":"Sell-side M&A","lm_signee":"Oui","typologie":"Signé","stade":"Closing","complexite":"Faible","retainer":15000,"success":500000,"coef_complexite":1.0,"coef_contractuel":1.0,"proba_brute":1.0,"rev_max":515000,"rev_proba":515000,"rev_sec":515000,"sec_ret_month":1,"sec_clos_month":4,"prob_ret_month":1,"prob_clos_month":4,"max_ret_month":1,"max_clos_month":4,"ret_date_str":"29/01/2026","clos_date_str":"30/04/2026"},{"name":"Imadol","domain":"imadol.com","referent":"Sandra Crochemore","type_mandat":"Buy-side M&A","lm_signee":"Non","typologie":"Opportunité","stade":"Préparation (IM, BP)","complexite":"Très élevée","retainer":30000,"success":275000,"coef_complexite":0.0,"coef_contractuel":0.0,"proba_brute":0.0,"rev_max":305000,"rev_proba":30000,"rev_sec":30000,"sec_ret_month":7,"sec_clos_month":null,"prob_ret_month":7,"prob_clos_month":8,"max_ret_month":7,"max_clos_month":8,"ret_date_str":"01/07/2026","clos_date_str":"31/08/2026"},{"name":"Largo","domain":"largo.ai","referent":"Emmanuel Clerc","type_mandat":"Sell-side M&A","lm_signee":"Non","typologie":"Verbal","stade":"Signing","complexite":"Élevée","retainer":10000,"success":180000,"coef_complexite":0.85,"coef_contractuel":0.0,"proba_brute":1.0,"rev_max":190000,"rev_proba":190000,"rev_sec":190000,"sec_ret_month":3,"sec_clos_month":5,"prob_ret_month":3,"prob_clos_month":5,"max_ret_month":3,"max_clos_month":5,"ret_date_str":"01/03/2026","clos_date_str":"31/05/2026"}];
+var MANDATS=[{"name": "Clermont Foot", "domain": "clermontfoot.com", "referent": "Hubert Tuillier", "type_mandat": "Sell-side M&A", "lm_signee": "Oui", "typologie": "Signé", "stade": "Intérêt confirmé", "complexite": "Moyenne", "retainer": 15000, "success": 250000, "coef_stade": 0.3, "coef_complexite": 0.85, "coef_contractuel": 1.0, "proba_brute": 0.255, "rev_max": 265000, "rev_proba": 78750, "rev_sec": 15000, "sec_ret_month": 3, "sec_clos_month": 7, "prob_ret_month": 3, "prob_clos_month": 7, "max_ret_month": 3, "max_clos_month": 7, "ret_date_str": "28/02/2026", "clos_date_str": "30/06/2026"}, {"name": "Ride Out", "domain": "n.a.", "referent": "Hubert Tuillier", "type_mandat": "Sell-side M&A", "lm_signee": "Oui", "typologie": "Signé", "stade": "Roadshow", "complexite": "Très élevée", "retainer": 15000, "success": 1200000, "coef_stade": 0.2, "coef_complexite": 0.0, "coef_contractuel": 1.0, "proba_brute": 0.0, "rev_max": 1215000, "rev_proba": 15000, "rev_sec": 15000, "sec_ret_month": 4, "sec_clos_month": 11, "prob_ret_month": 4, "prob_clos_month": 11, "max_ret_month": 4, "max_clos_month": 11, "ret_date_str": "30/03/2026", "clos_date_str": "31/10/2027"}, {"name": "GEG", "domain": "geg.asia", "referent": "Hubert Tuillier", "type_mandat": "Sell-side M&A", "lm_signee": "Oui", "typologie": "Signé", "stade": "Préparation (IM, BP)", "complexite": "Élevée", "retainer": 120000, "success": 1200000, "coef_stade": 0.15, "coef_complexite": 0.75, "coef_contractuel": 1.0, "proba_brute": 0.1125, "rev_max": 1320000, "rev_proba": 255000, "rev_sec": 120000, "sec_ret_month": 5, "sec_clos_month": 11, "prob_ret_month": 5, "prob_clos_month": 11, "max_ret_month": 5, "max_clos_month": 11, "ret_date_str": "20/04/2026", "clos_date_str": "31/10/2026"}, {"name": "FC Metz", "domain": "fcmetz.com", "referent": "Hubert Tuillier", "type_mandat": "Sell-side M&A", "lm_signee": "Oui", "typologie": "Signé", "stade": "Intérêt confirmé", "complexite": "Élevée", "retainer": 0, "success": 1300000, "coef_stade": 0.3, "coef_complexite": 0.75, "coef_contractuel": 1.0, "proba_brute": 0.225, "rev_max": 1300000, "rev_proba": 292500, "rev_sec": 0, "sec_ret_month": null, "sec_clos_month": 7, "prob_ret_month": null, "prob_clos_month": 7, "max_ret_month": null, "max_clos_month": 7, "ret_date_str": "TBD", "clos_date_str": "30/06/2026"}, {"name": "Hurricane Group", "domain": "hurcn.com", "referent": "Hubert Tuillier", "type_mandat": "Sell-side M&A", "lm_signee": "Oui", "typologie": "Signé", "stade": "Exclusivité / DD", "complexite": "Élevée", "retainer": 15000, "success": 250000, "coef_stade": 0.8, "coef_complexite": 0.75, "coef_contractuel": 1.0, "proba_brute": 0.6, "rev_max": 265000, "rev_proba": 165000, "rev_sec": 15000, "sec_ret_month": 6, "sec_clos_month": 6, "prob_ret_month": 6, "prob_clos_month": 6, "max_ret_month": 6, "max_clos_month": 6, "ret_date_str": "30/05/2026", "clos_date_str": "30/05/2026"}, {"name": "EA Guingamp", "domain": "eaguingamp.com", "referent": "Hubert Tuillier", "type_mandat": "Sell-side M&A", "lm_signee": "Non", "typologie": "Verbal", "stade": "Préparation (IM, BP)", "complexite": "Élevée", "retainer": 15000, "success": 250000, "coef_stade": 0.15, "coef_complexite": 0.75, "coef_contractuel": 0.0, "proba_brute": 0.0, "rev_max": 265000, "rev_proba": 15000, "rev_sec": 15000, "sec_ret_month": 7, "sec_clos_month": 7, "prob_ret_month": 7, "prob_clos_month": 7, "max_ret_month": 7, "max_clos_month": 7, "ret_date_str": "30/06/2026", "clos_date_str": "30/06/2026"}, {"name": "OSE (Ecotrail)", "domain": "ose-event.com", "referent": "Hubert Tuillier", "type_mandat": "Buy-side M&A", "lm_signee": "Oui", "typologie": "Signé", "stade": "LOI", "complexite": "Moyenne", "retainer": 10000, "success": 100000, "coef_stade": 0.5, "coef_complexite": 0.85, "coef_contractuel": 1.0, "proba_brute": 0.425, "rev_max": 110000, "rev_proba": 52500, "rev_sec": 10000, "sec_ret_month": null, "sec_clos_month": 6, "prob_ret_month": null, "prob_clos_month": 6, "max_ret_month": null, "max_clos_month": 6, "ret_date_str": "TBD", "clos_date_str": "30/05/2026"}, {"name": "Rodez Foot", "domain": "rodezaveyronfootball.com", "referent": "Hubert Tuillier", "type_mandat": "Sell-side M&A", "lm_signee": "Non", "typologie": "Verbal", "stade": "Intérêt confirmé", "complexite": "Élevée", "retainer": 0, "success": 250000, "coef_stade": 0.3, "coef_complexite": 0.75, "coef_contractuel": 0.0, "proba_brute": 0.0, "rev_max": 250000, "rev_proba": 0, "rev_sec": 0, "sec_ret_month": null, "sec_clos_month": 7, "prob_ret_month": null, "prob_clos_month": 7, "max_ret_month": null, "max_clos_month": 7, "ret_date_str": "TBD", "clos_date_str": "30/06/2026"}, {"name": "Auraé Impact", "domain": "auraeimpact.com", "referent": "Hubert Tuillier", "type_mandat": "Buy-side M&A", "lm_signee": "Oui", "typologie": "Signé", "stade": "Roadshow", "complexite": "Élevée", "retainer": 30000, "success": 150000, "coef_stade": 0.2, "coef_complexite": 0.75, "coef_contractuel": 1.0, "proba_brute": 0.15, "rev_max": 180000, "rev_proba": 52500, "rev_sec": 180000, "sec_ret_month": null, "sec_clos_month": null, "prob_ret_month": null, "prob_clos_month": null, "max_ret_month": null, "max_clos_month": null, "ret_date_str": "TBD", "clos_date_str": "TBD"}, {"name": "Golf Up", "domain": "golfup.fr", "referent": "Hubert Tuillier", "type_mandat": "Sell-side M&A", "lm_signee": "Oui", "typologie": "Signé", "stade": "Roadshow", "complexite": "Très élevée", "retainer": 15000, "success": 350000, "coef_stade": 0.2, "coef_complexite": 0.0, "coef_contractuel": 1.0, "proba_brute": 0.0, "rev_max": 365000, "rev_proba": 15000, "rev_sec": 15000, "sec_ret_month": 7, "sec_clos_month": 7, "prob_ret_month": 7, "prob_clos_month": 7, "max_ret_month": 7, "max_clos_month": 7, "ret_date_str": "30/06/2026", "clos_date_str": "30/06/2026"}, {"name": "Bomb Squad", "domain": "bombsquad.games", "referent": "Hubert Tuillier", "type_mandat": "Sell-side M&A", "lm_signee": "Oui", "typologie": "Signé", "stade": "Intérêt confirmé", "complexite": "Moyenne", "retainer": 0, "success": 200000, "coef_stade": 0.3, "coef_complexite": 0.85, "coef_contractuel": 1.0, "proba_brute": 0.255, "rev_max": 200000, "rev_proba": 51000, "rev_sec": 0, "sec_ret_month": null, "sec_clos_month": 7, "prob_ret_month": null, "prob_clos_month": 7, "max_ret_month": null, "max_clos_month": 7, "ret_date_str": "TBD", "clos_date_str": "30/06/2026"}, {"name": "Nic Impex", "domain": "nicimpex.com", "referent": "Hubert Tuillier", "type_mandat": "Buy-side M&A", "lm_signee": "Oui", "typologie": "Signé", "stade": "Intérêt confirmé", "complexite": "Moyenne", "retainer": 0, "success": 90000, "coef_stade": 0.3, "coef_complexite": 0.85, "coef_contractuel": 1.0, "proba_brute": 0.255, "rev_max": 90000, "rev_proba": 22950, "rev_sec": 0, "sec_ret_month": null, "sec_clos_month": 7, "prob_ret_month": null, "prob_clos_month": 7, "max_ret_month": null, "max_clos_month": 7, "ret_date_str": "TBD", "clos_date_str": "30/06/2026"}, {"name": "Montpellier Foot", "domain": "mhscfoot.com", "referent": "Hubert Tuillier", "type_mandat": "Buy-side M&A", "lm_signee": "Non", "typologie": "Opportunité", "stade": "", "complexite": "Moyenne", "retainer": 0, "success": 290000, "coef_stade": 0.0, "coef_complexite": 0.85, "coef_contractuel": 0.0, "proba_brute": 0.0, "rev_max": 290000, "rev_proba": 0, "rev_sec": 0, "sec_ret_month": 7, "sec_clos_month": 7, "prob_ret_month": 7, "prob_clos_month": 7, "max_ret_month": 7, "max_clos_month": 7, "ret_date_str": "30/06/2026", "clos_date_str": "30/06/2026"}, {"name": "EVA Gaming", "domain": "eva.gg", "referent": "Hubert Tuillier", "type_mandat": "Buy-side M&A", "lm_signee": "Oui", "typologie": "Signé", "stade": "Closing", "complexite": "Faible", "retainer": 0, "success": 250000, "coef_stade": 1.0, "coef_complexite": 1.0, "coef_contractuel": 1.0, "proba_brute": 1.0, "rev_max": 250000, "rev_proba": 250000, "rev_sec": 250000, "sec_ret_month": 3, "sec_clos_month": 3, "prob_ret_month": 3, "prob_clos_month": 3, "max_ret_month": 3, "max_clos_month": 3, "ret_date_str": "28/02/2026", "clos_date_str": "28/02/2026"}, {"name": "Sodex", "domain": "sodex.fr", "referent": "Hubert Tuillier", "type_mandat": "Sell-side M&A", "lm_signee": "Oui", "typologie": "Signé", "stade": "Closing", "complexite": "Faible", "retainer": 0, "success": 180000, "coef_stade": 1.0, "coef_complexite": 1.0, "coef_contractuel": 1.0, "proba_brute": 1.0, "rev_max": 180000, "rev_proba": 180000, "rev_sec": 180000, "sec_ret_month": 4, "sec_clos_month": 4, "prob_ret_month": 4, "prob_clos_month": 4, "max_ret_month": 4, "max_clos_month": 4, "ret_date_str": "26/03/2026", "clos_date_str": "26/03/2026"}];
 
 // REF_DATA : 12 slots, index 0=Nov 1=Déc 2=Jan ... 11=Oct
 // Données actuelles : tout en 2026. Nov/Déc 2025 = 0 pour l'instant.
-var REF_DATA={
-  "Hubert Tuillier":{
-    "maxM": [0,0,265000,165000,120000,365000,3010000,0,0,0,2400000,0],
-    "probaM":[0,0,265000,165000,120000,365000,1648000,0,0,0,1020000,0],
-    "secM":  [0,0,265000,165000,120000,15000,30000,0,0,0,0,0]
-  },
-  "Mark Wyatt":{
-    "maxM": [0,0,0,0,0,25000,350000,0,0,0,0,0],
-    "probaM":[0,0,0,0,0,25000,350000,0,0,0,0,0],
-    "secM":  [0,0,0,0,0,25000,0,0,0,0,0,0]
-  },
-  "Frédéric Meyer":{
-    "maxM": [0,0,0,0,0,0,0,300000,0,0,0,0],
-    "probaM":[0,0,0,0,0,0,0,285000,0,0,0,0],
-    "secM":  [0,0,0,0,0,0,0,0,0,0,0,0]
-  },
-  "Pierre Marie Blois":{
-    "maxM": [0,0,15000,0,0,500000,0,0,0,0,0,0],
-    "probaM":[0,0,15000,0,0,500000,0,0,0,0,0,0],
-    "secM":  [0,0,15000,0,0,500000,0,0,0,0,0,0]
-  },
-  "Sandra Crochemore":{
-    "maxM": [0,0,0,0,0,0,0,30000,275000,0,0,0],
-    "probaM":[0,0,0,0,0,0,0,30000,0,0,0,0],
-    "secM":  [0,0,0,0,0,0,0,30000,0,0,0,0]
-  },
-  "Emmanuel Clerc":{
-    "maxM": [0,0,0,0,10000,0,180000,0,0,0,0,0],
-    "probaM":[0,0,0,0,10000,0,180000,0,0,0,0,0],
-    "secM":  [0,0,0,0,10000,0,180000,0,0,0,0,0]
-  }
-};
+var REF_DATA={"Hubert Tuillier": {"maxM": [0,0,0,265000,165000,120000,365000,3010000,0,0,0,2400000], "probaM": [0,0,0,265000,165000,120000,232500,515400,0,0,0,153000], "secM": [0,0,0,265000,165000,120000,15000,30000,0,0,0,0]}};
 
 function buildMonthly(){
   var maxM=new Array(12).fill(0),probaM=new Array(12).fill(0),secM=new Array(12).fill(0);
@@ -301,11 +270,20 @@ document.addEventListener('DOMContentLoaded',function(){
 
 function getFiltered(){
   var maxM=new Array(12).fill(0),probaM=new Array(12).fill(0),secM=new Array(12).fill(0);
-  Object.keys(REF_DATA).forEach(function(r){
-    if(activeRefs.size>0&&!activeRefs.has(r))return;
-    REF_DATA[r].maxM.forEach(function(v,i){maxM[i]+=v});
-    REF_DATA[r].probaM.forEach(function(v,i){probaM[i]+=v});
-    REF_DATA[r].secM.forEach(function(v,i){secM[i]+=v});
+  MANDATS.forEach(function(m){
+    if(activeRefs.size>0&&!activeRefs.has(m.referent))return;
+    function add(idx,arr,val){if(idx!==null&&idx!==undefined&&val)arr[idx]+=val;}
+    // Max = retainer au mois ret + success au mois clos
+    add(m.max_ret_month,maxM,m.retainer);
+    add(m.max_clos_month,maxM,m.success);
+    // Proba = retainer + success*proba
+    add(m.prob_ret_month,probaM,m.retainer);
+    if(m.proba_brute>0)add(m.prob_clos_month,probaM,Math.round(m.success*m.proba_brute));
+    // Sec = rev_sec ventilé : retainer si rev_sec>=retainer, success si proba==1
+    if(m.rev_sec>0){
+      if(m.sec_ret_month!==null&&m.retainer>0)add(m.sec_ret_month,secM,m.retainer);
+      if(m.proba_brute>=1.0&&m.sec_clos_month!==null&&m.success>0)add(m.sec_clos_month,secM,m.success);
+    }
   });
   return{maxM:maxM,probaM:probaM,secM:secM};
 }
@@ -542,7 +520,7 @@ function updateChart(){
   mainChartInstance.data.datasets[0].data=fm.secM;
   mainChartInstance.data.datasets[1].data=fm.probaM;
   mainChartInstance.data.datasets[2].data=fm.maxM;
-  mainChartInstance.update();renderCumStrip(fm.secM);setTimeout(positionCumStrip,20);
+  mainChartInstance.update();renderCumStrip(fm.secM);setTimeout(positionCumStrip,20);renderPipeline();
 }
 
 function updateRefPills(){
@@ -623,19 +601,94 @@ function showMonthModal(mi){
 function showCompanyModal(name){
   var m=null;for(var i=0;i<MANDATS.length;i++)if(MANDATS[i].name===name){m=MANDATS[i];break;}if(!m)return;
   var ref=REFERENTS[m.referent]||{color:'#8A9FAB'};var dn=REAL_REFERENTS[m.referent]||m.referent;
-  var STEPS=[{k:'Signé / Onboarding',s:'Onboarding',c:'#263c47'},{k:'Préparation (IM, BP)',s:'Prépa',c:'#1b4f63'},{k:'Roadshow',s:'Roadshow',c:'#007499'},{k:'Intérêt confirmé',s:'Intérêt',c:'#0085CA'},{k:'LOI',s:'LOI',c:'#009ebc'},{k:'Exclusivité / Due Diligence',s:'Exclu/DD',c:'#00a3be'},{k:'Signing',s:'Signing',c:'#00c9a0'},{k:'Closing',s:'Closing',c:'#00e07e'}];
+  var STEPS=[{k:'Signé / Onboarding',s:'Onboarding',c:'#263c47'},{k:'Préparation (IM, BP)',s:'Prép.',c:'#1b4f63'},{k:'Roadshow',s:'Roadshow',c:'#007499'},{k:'Intérêt confirmé',s:'Intérêt confirmé',c:'#0085CA'},{k:'LOI',s:'LOI',c:'#009ebc'},{k:'Exclusivité / Due Diligence',s:'Exclu/DD',c:'#00a3be'},{k:'Signing',s:'Signing',c:'#00c9a0'},{k:'Closing',s:'Closing',c:'#00e07e'}];
   var ci=-1;STEPS.forEach(function(st,i){if(m.stade&&(m.stade===st.k||m.stade.indexOf(st.k.split('/')[0].trim())>=0||st.k.indexOf(m.stade.split('(')[0].trim())>=0))ci=i;});
   var spm={'Signé / Onboarding':0.1,'Préparation (IM, BP)':0.15,'Roadshow':0.2,'Intérêt confirmé':0.3,'LOI':0.5,'Exclusivité / Due Diligence':0.8,'Signing':0.9,'Closing':1.0};
-  var sp=spm[m.stade]||0;
+  var coefStade=m.coef_stade!==undefined?m.coef_stade:(spm[m.stade]||0);
+
+  // ── Header ──
   var h='<div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;padding-right:36px"><div class="cm-logo">'+logoHTML(m.domain,m.name,40)+'</div><div style="flex:1;min-width:0"><div style="font-size:18px;font-weight:700;color:var(--deep)">'+m.name+'</div><div style="font-size:11px;color:#8A9FAB;margin-top:2px">'+m.type_mandat+'</div></div><span style="font-size:10px;font-weight:600;padding:3px 10px;border-radius:20px;background:'+ref.color+'18;color:'+ref.color+';border:1px solid '+ref.color+'33;white-space:nowrap;flex-shrink:0">'+dn+'</span></div>';
+
+  // ── Barre de stade ──
   h+='<div style="margin-bottom:16px"><div style="display:flex;gap:3px">';
   STEPS.forEach(function(st,i){var isA=(i===ci),isP=(i<ci),op=isP||isA?'1':'0.2';h+='<div style="flex:1" title="'+st.k+'"><div style="height:5px;border-radius:2px;background:'+st.c+';opacity:'+op+'"></div><div style="font-size:7.5px;text-align:center;margin-top:3px;font-weight:'+(isA?'700':'400')+';color:'+(isA?st.c:isP?st.c:'#8A9FAB')+';opacity:'+(isA?'1':isP?'0.7':'0.5')+'">'+st.s+'</div></div>';});
   h+='</div></div>';
-  function r2(l1,v1,l2,v2){return'<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:8px"><div><div style="font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:#8A9FAB;margin-bottom:2px">'+l1+'</div><div style="font-size:12px;font-weight:500;color:var(--deep)">'+v1+'</div></div><div><div style="font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:#8A9FAB;margin-bottom:2px">'+l2+'</div><div style="font-size:12px;font-weight:500;color:var(--deep)">'+v2+'</div></div></div>';}
-  h+='<div style="background:#F7F9FB;border-radius:10px;padding:12px;margin-bottom:14px">'+r2('LM signée',m.lm_signee,'Engagement',m.typologie)+r2('Complexité',m.complexite,'Type',m.type_mandat)+'</div>';
-  h+='<div style="margin-bottom:14px"><div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#8A9FAB;margin-bottom:8px">Probabilité retenue</div><div style="background:#F7F9FB;border-radius:10px;padding:12px"><div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid var(--border)"><span style="font-size:11px;color:#8A9FAB">Stade ('+m.stade+')</span><span style="font-size:11px;font-weight:600;color:var(--deep)">'+Math.round(sp*100)+'%</span></div><div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid var(--border)"><span style="font-size:11px;color:#8A9FAB">Coef. complexité</span><span style="font-size:11px;font-weight:600;color:var(--deep)">x'+m.coef_complexite.toFixed(2)+'</span></div><div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid var(--border)"><span style="font-size:11px;color:#8A9FAB">Coef. contractuel</span><span style="font-size:11px;font-weight:600;color:var(--deep)">x'+m.coef_contractuel.toFixed(2)+'</span></div><div style="display:flex;justify-content:space-between;padding-top:8px;margin-top:4px;border-top:2px solid var(--deep)"><span style="font-size:12px;font-weight:700;color:var(--deep)">Probabilité retenue</span><span style="font-size:15px;font-weight:700;color:var(--deep)">'+Math.round(m.proba_brute*100)+'%</span></div></div></div>';
-  h+='<div style="margin-bottom:14px"><div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#8A9FAB;margin-bottom:8px">Revenus</div><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:8px"><div style="background:rgba(0,201,160,.08);border:1px solid rgba(0,201,160,.2);border-radius:8px;padding:9px 11px"><div style="font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:#00C9A0;margin-bottom:4px">Sécurisé</div><div style="font-size:14px;font-weight:700;color:#00C9A0">'+fmtK(m.rev_sec)+'</div></div><div style="background:rgba(45,190,201,.08);border:1px solid rgba(45,190,201,.2);border-radius:8px;padding:9px 11px"><div style="font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:#2DBEC9;margin-bottom:4px">Probabilisé</div><div style="font-size:14px;font-weight:700;color:#2DBEC9">'+fmtK(m.rev_proba)+'</div></div><div style="background:rgba(0,133,202,.08);border:1px solid rgba(0,133,202,.2);border-radius:8px;padding:9px 11px"><div style="font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:#0085CA;margin-bottom:4px">Max</div><div style="font-size:14px;font-weight:700;color:#0085CA">'+fmtK(m.rev_max)+'</div></div></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><div style="background:#F7F9FB;border-radius:8px;padding:9px 11px"><div style="font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:#8A9FAB;margin-bottom:4px">Success fee</div><div style="font-size:13px;font-weight:700;color:var(--deep)">'+fmtK(m.success)+'</div></div><div style="background:#F7F9FB;border-radius:8px;padding:9px 11px"><div style="font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:#8A9FAB;margin-bottom:4px">Retainer</div><div style="font-size:13px;font-weight:700;color:var(--deep)">'+fmtK(m.retainer)+'</div></div></div></div>';
-  h+='<div><div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#8A9FAB;margin-bottom:8px">Dates</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><div style="background:#F7F9FB;border-radius:8px;padding:8px 10px"><div style="font-size:8px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:#8A9FAB;margin-bottom:3px">Retainer estimé</div><div style="font-size:12px;font-weight:600;color:var(--deep)">'+m.ret_date_str+'</div></div><div style="background:#F7F9FB;border-radius:8px;padding:8px 10px"><div style="font-size:8px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:#8A9FAB;margin-bottom:3px">Closing estimé</div><div style="font-size:12px;font-weight:600;color:var(--deep)">'+m.clos_date_str+'</div></div></div></div>';
+
+  // ── Box grise : Stade contractuel + Complexité ──
+  function infoCell(label,val,valColor){
+    return'<div>'
+      +'<div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#8A9FAB;margin-bottom:3px">'+label+'</div>'
+      +'<div style="font-size:11px;font-weight:500;color:'+(valColor||'#6B7B86')+'">'+val+'</div>'
+      +'</div>';
+  }
+  var lmLabel=m.lm_signee==='Oui'?'LM signée':'LM non signée';
+  var lmColor=m.lm_signee==='Oui'?C_SEC:'#B91C1C';
+  var cmplxColors={'Faible':C_SEC,'Moyenne':'#C2530A','Élevée':'#B91C1C','Très élevée':'#B91C1C'};
+
+  h+='<div style="background:#F7F9FB;border-radius:12px;padding:14px;margin-bottom:14px;display:grid;grid-template-columns:1fr 1fr;gap:12px">';
+  h+=infoCell('Stade contractuel',lmLabel,lmColor);
+  h+=infoCell('Complexité',m.complexite,cmplxColors[m.complexite]||'var(--deep)');
+  h+='</div>';
+
+  // ── Probabilité retenue : pills style bulles ──
+  function pctPill(label,val,color){
+    var pct=Math.round(val*100);
+    return'<div style="display:flex;flex-direction:column;align-items:center;gap:4px;flex:1">'
+      +'<span style="background:'+color+'14;border:1px solid '+color+'55;border-radius:20px;padding:2px 12px;font-size:13px;font-weight:700;color:'+color+'">'+pct+'%</span>'
+      +'<span style="font-size:8px;font-weight:600;color:#8A9FAB;text-align:center;letter-spacing:.02em;line-height:1.3">'+label+'</span>'
+      +'</div>';
+  }
+
+  var probaFinal=Math.round(m.proba_brute*100);
+  h+='<div style="margin-bottom:14px">';
+  h+='<div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#8A9FAB;margin-bottom:10px">Probabilité retenue</div>';
+  h+='<div style="display:flex;align-items:flex-start;justify-content:center">';
+  h+=pctPill('Coeff. stade d\'avancement',coefStade,'#6366F1');
+  h+='<span style="font-size:16px;color:#CBD5E1;font-weight:300;margin-top:2px;flex-shrink:0;padding:0 2px">×</span>';
+  h+=pctPill('Coeff. complexité',m.coef_complexite,'#F59E0B');
+  h+='<span style="font-size:16px;color:#CBD5E1;font-weight:300;margin-top:2px;flex-shrink:0;padding:0 2px">×</span>';
+  h+=pctPill('Coeff. contractuel',m.coef_contractuel,'#10B981');
+  h+='<span style="font-size:16px;color:#CBD5E1;font-weight:300;margin-top:2px;flex-shrink:0;padding:0 2px">=</span>';
+  h+='<div style="display:flex;flex-direction:column;align-items:center;gap:4px;flex:1">'
+    +'<span style="background:rgba(28,43,51,.08);border:1px solid rgba(28,43,51,.3);border-radius:20px;padding:2px 12px;font-size:13px;font-weight:700;color:var(--deep)">'+probaFinal+'%</span>'
+    +'<span style="font-size:8px;font-weight:700;color:var(--deep);letter-spacing:.02em;text-align:center;line-height:1.3">Probabilité retenue</span>'
+    +'</div>';
+  h+='</div></div>';
+  h+='</div></div>';
+
+  // ── Revenus ──
+  h+='<div style="margin-bottom:14px"><div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#8A9FAB;margin-bottom:8px">Revenus</div>';
+  h+='<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:8px">';
+  function revCard(label,val,color){
+    return'<div style="background:'+color+'08;border:1px solid '+color+'30;border-radius:10px;padding:10px 12px;text-align:center">'
+      +'<div style="font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:'+color+';margin-bottom:4px">'+label+'</div>'
+      +'<div style="font-size:14px;font-weight:700;color:'+color+'">'+fmtK(val)+'</div>'
+      +'</div>';
+  }
+  h+=revCard('Max',m.rev_max,C_MAX)+revCard('Probabilisé',m.rev_proba,C_PROBA)+revCard('Sécurisé',m.rev_sec,C_SEC);
+  h+='</div>';
+  h+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">';
+  function feeCard(label,val){
+    return'<div style="background:rgba(28,43,51,.04);border:1px solid rgba(28,43,51,.1);border-radius:20px;padding:4px 12px;display:flex;align-items:center;justify-content:space-between;gap:8px">'
+      +'<span style="font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:#8A9FAB;white-space:nowrap">'+label+'</span>'
+      +'<span style="font-size:12px;font-weight:700;color:var(--deep)">'+fmtK(val)+'</span>'
+      +'</div>';
+  }
+  h+=feeCard('Success fee',m.success)+feeCard('Retainer',m.retainer);
+  h+='</div></div>';
+
+  // ── Dates ──
+  h+='<div><div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#8A9FAB;margin-bottom:8px">Dates</div>';
+  h+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">';
+  function dateCard(label,val){
+    return'<div style="background:rgba(28,43,51,.04);border:1px solid rgba(28,43,51,.1);border-radius:20px;padding:4px 12px;display:flex;align-items:center;justify-content:space-between;gap:8px">'
+      +'<span style="font-size:8px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:#8A9FAB;white-space:nowrap">'+label+'</span>'
+      +'<span style="font-size:12px;font-weight:600;color:var(--deep)">'+val+'</span>'
+      +'</div>';
+  }
+  h+=dateCard('Retainer estimé',m.ret_date_str)+dateCard('Closing estimé',m.clos_date_str);
+  h+='</div></div>';
+
   document.getElementById('mo-company-body').innerHTML=h;document.getElementById('mo-company').classList.add('open');
 }
 
@@ -651,23 +704,29 @@ function showCumModal(type,upToIdx,cumVal){
   var rows=[];
   MANDATS.forEach(function(m){
     if(activeRefs.size>0&&!activeRefs.has(m.referent))return;
-    var retIdx=m[c.retKey]?mToIdx(m[c.retKey]):null;
-    var closIdx=m[c.closKey]?mToIdx(m[c.closKey]):null;
+    var retIdx=m[c.retKey]!==null&&m[c.retKey]!==undefined?m[c.retKey]:null;
+    var closIdx=m[c.closKey]!==null&&m[c.closKey]!==undefined?m[c.closKey]:null;
+    // Retainer : pour sec, seulement si rev_sec > 0
     if(retIdx!==null&&retIdx<=upToIdx&&m.retainer>0){
-      rows.push({name:m.name,domain:m.domain,referent:m.referent,stade:m.stade,monthIdx:retIdx,amount:m.retainer,revtype:'Retainer'});
+      if(type!=='sec'||m.rev_sec>0)
+        rows.push({name:m.name,domain:m.domain,referent:m.referent,stade:m.stade,monthIdx:retIdx,amount:m.retainer,revtype:'Retainer'});
     }
+    // Success fee : pour sec seulement si proba==1
     if(closIdx!==null&&closIdx<=upToIdx&&m.success>0){
-      var amt=type==='proba'?m.success*m.proba_brute:m.success;
-      rows.push({name:m.name,domain:m.domain,referent:m.referent,stade:m.stade,monthIdx:closIdx,amount:amt,revtype:'Success fee'});
+      if(type==='sec'&&m.proba_brute>=1.0)
+        rows.push({name:m.name,domain:m.domain,referent:m.referent,stade:m.stade,monthIdx:closIdx,amount:m.success,revtype:'Success fee'});
+      else if(type==='proba'&&m.proba_brute>0)
+        rows.push({name:m.name,domain:m.domain,referent:m.referent,stade:m.stade,monthIdx:closIdx,amount:Math.round(m.success*m.proba_brute),revtype:'Success fee'});
+      else if(type==='max')
+        rows.push({name:m.name,domain:m.domain,referent:m.referent,stade:m.stade,monthIdx:closIdx,amount:m.success,revtype:'Success fee'});
     }
   });
   // Tri chronologique puis alpha
   rows.sort(function(a,b){return a.monthIdx-b.monthIdx||a.name.localeCompare(b.name,'fr');});
-  var filteredCum=rows.reduce(function(s,r){return s+r.amount;},0);
 
   var h='<div style="display:flex;align-items:center;justify-content:space-between;padding-right:36px;margin-bottom:16px">'+
     '<div style="font-size:18px;font-weight:700;color:'+c.color+'">'+c.label+'</div>'+
-    '<span style="font-size:13px;font-weight:700;padding:3px 12px;border-radius:20px;background:'+c.color+'15;color:'+c.color+';border:1px solid '+c.color+'40">'+fmtK(filteredCum)+'</span>'+
+    '<span style="font-size:13px;font-weight:700;padding:3px 12px;border-radius:20px;background:'+c.color+'15;color:'+c.color+';border:1px solid '+c.color+'40">'+fmtK(cumVal)+'</span>'+
     '</div>';
 
   h+='<div style="display:grid;grid-template-columns:1fr 60px 90px 80px;gap:10px;padding:0 0 4px;margin-bottom:0">'+
@@ -817,6 +876,7 @@ function showMandatsModal(filter){
 function renderPipeline(){
   var sm={};STAGES_ORDER.forEach(function(s){sm[s.k]=[];});
   MANDATS.forEach(function(m){
+    if(activeRefs.size>0&&!activeRefs.has(m.referent))return;
     var matched=null;STAGES_ORDER.forEach(function(s){if(m.stade&&!matched&&(m.stade===s.k||m.stade.indexOf(s.k.split('/')[0].trim())>=0||s.k.indexOf(m.stade.split('(')[0].trim())>=0))matched=s.k;});
     if(!matched)STAGES_ORDER.forEach(function(s){if(m.stade&&s.k.indexOf('Préparation')>=0&&m.stade.indexOf('Préparation')>=0)matched='Préparation (IM, BP)';if(m.stade&&s.k.indexOf('Exclusivité')>=0&&m.stade.indexOf('Exclusivité')>=0)matched='Exclusivité / Due Diligence';});
     if(matched&&sm[matched]!==undefined)sm[matched].push(m);
@@ -830,7 +890,7 @@ function renderPipeline(){
     if(!list.length)h+='<div style="font-size:10px;color:#8A9FAB;text-align:center;padding:12px 4px;opacity:.4;font-style:italic">-</div>';
     else list.forEach(function(m){
       var ref=REFERENTS[m.referent]||{color:'#8A9FAB'};
-      h+='<div class="logo-chip" data-mandat="'+m.name.replace(/"/g,'&quot;')+'"><div class="chip-logo">'+logoHTML(m.domain,m.name,22)+'</div><div class="chip-name">'+m.name+'</div><span style="width:5px;height:5px;border-radius:50%;background:'+ref.color+';flex-shrink:0"></span><span class="chip-proba">'+Math.round(m.proba_brute*100)+'%</span></div>';
+      h+='<div class="logo-chip" data-mandat="'+m.name.replace(/"/g,'&quot;')+'"><div class="chip-logo">'+logoHTML(m.domain,m.name,22)+'</div><div class="chip-name">'+m.name+'</div><span style="font-size:9px;font-weight:700;background:'+ref.color+'18;color:'+ref.color+';border:1px solid '+ref.color+'40;padding:1px 5px;border-radius:10px;flex-shrink:0">'+Math.round(m.proba_brute*100)+'%</span></div>';
     });
     h+='</div></div>';
   });
