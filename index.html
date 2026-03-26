@@ -259,7 +259,7 @@ function renderKPIs(){
   var pM=Math.round(totalMax/BUDGET*100),pP=Math.round(totalProba/BUDGET*100),pS=Math.round(totalSec/BUDGET*100);
   function bg(p){return p>=100?'badge-g':'badge-r'}
   document.getElementById('kpi-row').innerHTML=
-    '<div class="kpi kpi-clickable" onclick="showMandatsModal(&quot;all&quot;)" style="cursor:pointer"><div class="kpi-value" style="color:var(--deep)">'+MANDATS.length+'</div><div class="kpi-label">mandats en cours<div style="display:flex;gap:5px;justify-content:center;margin-top:4px"><div class="kpi-badge kpi-badge-clickable" style="background:#E6F1FB;color:#185FA5;border:1px solid #B5D4F4" onclick="event.stopPropagation();showMandatsModal(&quot;sell&quot;)">'+sellCount+' Sell-side</div><div class="kpi-badge kpi-badge-clickable" style="background:#EEEDFE;color:#534AB7;border:1px solid #CECBF6" onclick="event.stopPropagation();showMandatsModal(&quot;buy&quot;)">'+buyCount+' Buy-side</div></div></div></div>'+
+    '<div class="kpi kpi-clickable" onclick="showMandatsModal(\'all\')" style="cursor:pointer"><div class="kpi-value" style="color:var(--deep)">'+MANDATS.length+'</div><div class="kpi-label">mandats en cours<div style="display:flex;gap:5px;justify-content:center;margin-top:4px"><div class="kpi-badge kpi-badge-clickable" style="background:#E6F1FB;color:#185FA5;border:1px solid #B5D4F4" onclick="event.stopPropagation();showMandatsModal(\'sell\')">'+sellCount+' Sell-side</div><div class="kpi-badge kpi-badge-clickable" style="background:#EEEDFE;color:#534AB7;border:1px solid #CECBF6" onclick="event.stopPropagation();showMandatsModal(\'buy\')">'+buyCount+' Buy-side</div></div></div></div>'+
     '<div class="kpi"><div class="kpi-value" style="color:var(--deep)">'+fmtK(BUDGET)+'</div><div class="kpi-label">Objectif CA 2026</div></div>'+
     '<div class="kpi kpi-clickable" onclick="showRevenueModal(&quot;max&quot;)" style="border-color:'+C_MAX+'55"><div class="kpi-value" style="color:'+C_MAX+'">'+fmtK(Math.round(totalMax))+'</div><div class="kpi-label">Revenu max<br><span style="font-size:10px">(si tous les deals closent)</span></div><div id="kpi-badge-max" class="kpi-badge '+bg(pM)+'">'+pM+'% vs. budget</div></div>'+
     '<div class="kpi kpi-clickable" onclick="showRevenueModal(&quot;proba&quot;)" style="border-color:'+C_PROBA+'55"><div class="kpi-value" style="color:'+C_PROBA+'">'+fmtK(Math.round(totalProba))+'</div><div class="kpi-label">Revenu probabilisé</div><div id="kpi-badge-proba" class="kpi-badge '+bg(pP)+'">'+pP+'% vs. budget</div></div>'+
@@ -621,7 +621,7 @@ function showRevenueModal(type){
     '</div>';
 
   // Header
-  h+='<div style="display:grid;grid-template-columns:1fr 32px 110px 80px;gap:8px;padding:0 0 6px;border-bottom:1px solid rgba(28,43,51,.08);margin-bottom:2px">'+
+  h+='<div style="display:grid;grid-template-columns:1fr 60px 110px 80px;gap:10px;padding:0 0 6px;border-bottom:1px solid rgba(28,43,51,.08);margin-bottom:2px">'+
     '<span style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#8A9FAB">Mandat</span>'+
     '<span style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#8A9FAB">Référent</span>'+
     '<span style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#8A9FAB">Stade</span>'+
@@ -636,12 +636,15 @@ function showRevenueModal(type){
       return(m.stade===s.k||m.stade.indexOf(s.k.split('/')[0].trim())>=0||s.k.indexOf(m.stade.split('(')[0].trim())>=0)?s.color:acc;
     },'#8A9FAB');
 
-    h+='<div style="display:grid;grid-template-columns:1fr 32px 110px 80px;gap:8px;align-items:center;padding:7px 0;border-bottom:1px solid rgba(28,43,51,.04);cursor:pointer" onclick="document.getElementById(\'mo-revenue\').classList.remove(\'open\');showCompanyModal(\''+m.name.replace(/'/g,"\\'")+'\')">'+
+    var safeName=m.name.replace(/\\/g,'\\\\').replace(/"/g,'&quot;');
+    h+='<div style="display:grid;grid-template-columns:1fr 60px 110px 80px;gap:10px;align-items:center;padding:7px 0;border-bottom:1px solid rgba(28,43,51,.04);cursor:pointer" onclick="document.getElementById(&quot;mo-revenue&quot;).classList.remove(&quot;open&quot;);showCompanyModal(&quot;'+safeName+'&quot;)">'+
       '<div style="display:flex;align-items:center;gap:8px;min-width:0">'+
         '<div style="width:28px;height:20px;display:flex;align-items:center;justify-content:center;flex-shrink:0">'+logoHTML(m.domain,m.name,26)+'</div>'+
         '<span style="font-size:12px;font-weight:500;color:var(--deep);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+m.name+'</span>'+
       '</div>'+
-      '<span style="width:22px;height:22px;border-radius:50%;background:'+rc.color+';color:#fff;font-size:7px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0" title="'+m.referent+'">'+ini+'</span>'+
+      '<div style="display:flex;justify-content:center">'+
+        '<span style="width:24px;height:24px;border-radius:50%;background:'+rc.color+';color:#fff;font-size:7px;font-weight:700;display:inline-flex;align-items:center;justify-content:center" title="'+m.referent+'">'+ini+'</span>'+
+      '</div>'+
       '<span style="font-size:10px;font-weight:600;color:'+stadeColor+';background:'+stadeColor+'15;border-radius:20px;padding:2px 7px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:inline-block;max-width:100%">'+stadeShort+'</span>'+
       '<span style="font-size:12px;font-weight:700;color:'+c.color+';text-align:right;white-space:nowrap">'+fmtK(m[c.key])+'</span>'+
       '</div>';
@@ -667,7 +670,7 @@ function showMandatsModal(filter){
     +'</div>';
 
   // Header colonnes
-  h+='<div style="display:grid;grid-template-columns:1fr 32px 120px;gap:8px;padding:0 0 6px;border-bottom:1px solid rgba(28,43,51,.08);margin-bottom:2px">'
+  h+='<div style="display:grid;grid-template-columns:1fr 60px 120px;gap:10px;padding:0 0 6px;border-bottom:1px solid rgba(28,43,51,.08);margin-bottom:2px">'
     +'<span style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#8A9FAB">Mandat</span>'
     +'<span style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#8A9FAB">Référent</span>'
     +'<span style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#8A9FAB">Stade</span>'
@@ -680,13 +683,16 @@ function showMandatsModal(filter){
     var stadeColor=STAGES_ORDER.reduce(function(acc,s){
       return(m.stade===s.k||m.stade.indexOf(s.k.split('/')[0].trim())>=0||s.k.indexOf(m.stade.split('(')[0].trim())>=0)?s.color:acc;
     },'#8A9FAB');
+    var safeName=m.name.replace(/\\/g,'\\\\').replace(/"/g,'&quot;');
 
-    h+='<div style="display:grid;grid-template-columns:1fr 32px 120px;gap:8px;align-items:center;padding:7px 0;border-bottom:1px solid rgba(28,43,51,.04);cursor:pointer" onclick="document.getElementById(\'mo-mandats\').classList.remove(\'open\');showCompanyModal(\''+m.name.replace(/'/g,"\\'")+'\')">'+
+    h+='<div style="display:grid;grid-template-columns:1fr 60px 120px;gap:10px;align-items:center;padding:7px 0;border-bottom:1px solid rgba(28,43,51,.04);cursor:pointer" onclick="document.getElementById(&quot;mo-mandats&quot;).classList.remove(&quot;open&quot;);showCompanyModal(&quot;'+safeName+'&quot;)">'+
       '<div style="display:flex;align-items:center;gap:8px;min-width:0">'+
-      '<div style="width:28px;height:20px;display:flex;align-items:center;justify-content:center;flex-shrink:0">'+logoHTML(m.domain,m.name,26)+'</div>'+
-      '<span style="font-size:12px;font-weight:500;color:var(--deep);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+m.name+'</span>'+
+        '<div style="width:28px;height:20px;display:flex;align-items:center;justify-content:center;flex-shrink:0">'+logoHTML(m.domain,m.name,26)+'</div>'+
+        '<span style="font-size:12px;font-weight:500;color:var(--deep);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+m.name+'</span>'+
       '</div>'+
-      '<span style="width:22px;height:22px;border-radius:50%;background:'+rc.color+';color:#fff;font-size:7px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0" title="'+m.referent+'">'+ini+'</span>'+
+      '<div style="display:flex;justify-content:center">'+
+        '<span style="width:24px;height:24px;border-radius:50%;background:'+rc.color+';color:#fff;font-size:7px;font-weight:700;display:inline-flex;align-items:center;justify-content:center" title="'+m.referent+'">'+ini+'</span>'+
+      '</div>'+
       '<span style="font-size:10px;font-weight:600;color:'+stadeColor+';background:'+stadeColor+'15;border-radius:20px;padding:2px 8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:inline-block;max-width:100%">'+stadeShort+'</span>'+
       '</div>';
   });
