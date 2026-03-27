@@ -177,7 +177,7 @@ header{background:var(--deep);height:56px;padding:0 var(--pad);display:flex;alig
 
 var TK='pk_bYWEonUXSpa1_O-4n_OaKQ',BUDGET=5000000;
 var C_MAX='#0085CA',C_PROBA='#2DBEC9',C_SEC='#00C9A0',C_BIN='#7C3AED';
-var REFERENTS={'Hubert Tuillier':{color:'#185FA5'},'Mark Wyatt':{color:'#1D9E75'},'Frédéric Meyer':{color:'#D85A30'},'Pierre Marie Blois':{color:'#D4537E'},'Sandra Crochemore':{color:'#7F77DD'},'Emmanuel Clerc':{color:'#BA7517'}};
+var REFERENTS={'Hubert Tuillier':{color:'#185FA5'},'Mark Wyatt':{color:'#1D9E75'},'Frédéric Meyer':{color:'#0891B2'},'Pierre Marie Blois':{color:'#D4537E'},'Sandra Crochemore':{color:'#EA580C'},'Emmanuel Clerc':{color:'#CA8A04'}};
 var REAL_REFERENTS={'Hubert Tuillier':'Hubert Tuillier','Mark Wyatt':'Mark Wyatt','Frédéric Meyer':'Frédéric Meyer','Pierre Marie Blois':'Pierre Marie Blois','Sandra Crochemore':'Sandra Crochemore','Emmanuel Clerc':'Emmanuel Clerc'};
 var STAGES_ORDER=[{k:'On hold',color:'#9CA3AF'},{k:'Kicking-off',color:'#263c47'},{k:'Prep (IM, BP)',color:'#1b4f63'},{k:'Roadshow',color:'#007499'},{k:'Intérêt confirmé',color:'#0085CA'},{k:'LOI',color:'#009ebc'},{k:'Exclusivité / DD',color:'#00a3be'},{k:'Signing',color:'#00c9a0'},{k:'Closing',color:'#00e07e'}];
 // Année Nov → Oct : index 0=Nov, 1=Déc, 2=Jan, 3=Fév, ... 11=Oct
@@ -216,8 +216,8 @@ var MANDATS=[{"name": "Clermont Foot", "domain": "clermontfoot.com", "referent":
 var REF_DATA={"Hubert Tuillier": {"maxM": [0,0,0,265000,165000,120000,365000,3010000,0,0,0,2400000], "probaM": [0,0,0,265000,165000,120000,232500,515400,0,0,0,153000], "secM": [0,0,0,265000,165000,120000,15000,30000,0,0,0,0]}};
 
 function buildMonthly(){
-  var maxM=new Array(12).fill(0),probaM=new Array(12).fill(0),secM=new Array(12).fill(0);
-  var maxBM=Array.from({length:12},function(){return[]}),probaBM=Array.from({length:12},function(){return[]}),secBM=Array.from({length:12},function(){return[]});
+  var maxM=new Array(12).fill(0),probaM=new Array(12).fill(0),secM=new Array(12).fill(0),binM=new Array(12).fill(0);
+  var maxBM=Array.from({length:12},function(){return[]}),probaBM=Array.from({length:12},function(){return[]}),secBM=Array.from({length:12},function(){return[]}),binBM=Array.from({length:12},function(){return[]});
   MANDATS.forEach(function(m){
     var idxs=m.ret_month_idxs&&m.ret_month_idxs.length?m.ret_month_idxs:(m.max_ret_month!==null&&m.max_ret_month!==undefined?[m.max_ret_month]:[]);
     var mens=m.ret_mensuel||0;
@@ -226,6 +226,7 @@ function buildMonthly(){
       if(mens>0){maxM[i]+=mens;maxBM[i].push({name:m.name,domain:m.domain,referent:m.referent,amount:mens,revtype:'Retainer'});}
       if(mens>0){probaM[i]+=mens;probaBM[i].push({name:m.name,domain:m.domain,referent:m.referent,amount:mens,revtype:'Retainer'});}
       if(mens>0){secM[i]+=mens;secBM[i].push({name:m.name,domain:m.domain,referent:m.referent,amount:mens,revtype:'Retainer'});}
+      if(mens>0&&m.gut_feeling){binM[i]+=mens;binBM[i].push({name:m.name,domain:m.domain,referent:m.referent,amount:mens,revtype:'Retainer'});}
     });
     function pushClos(month,arr,bm,amount,revtype){
       if(month===null||month===undefined||!amount)return;
@@ -234,8 +235,9 @@ function buildMonthly(){
     pushClos(m.max_clos_month,maxM,maxBM,m.success,'Success fee');
     pushClos(m.prob_clos_month,probaM,probaBM,Math.round(m.success*m.proba_brute),'Success fee');
     pushClos(m.sec_clos_month,secM,secBM,m.success,'Success fee');
+    if(m.gut_feeling)pushClos(m.max_clos_month,binM,binBM,m.rev_bin,'Success fee');
   });
-  return{maxM:maxM,probaM:probaM,secM:secM,maxByMonth:maxBM,probaByMonth:probaBM,secByMonth:secBM};
+  return{maxM:maxM,probaM:probaM,secM:secM,binM:binM,maxByMonth:maxBM,probaByMonth:probaBM,secByMonth:secBM,binByMonth:binBM};
 }
 var D=buildMonthly();
 var totalMax=MANDATS.reduce(function(s,m){return s+m.rev_max},0);
@@ -256,7 +258,7 @@ function renderKPIs(){
     '<div class="kpi kpi-clickable" onclick="showRevenueModal(&quot;max&quot;)" style="border-color:'+C_MAX+'55"><div class="kpi-value" style="color:'+C_MAX+'">'+fmtK(Math.round(totalMax))+'</div><div class="kpi-label">Revenu max<br><span style="font-size:10px">(si tous les deals closent)</span></div><div id="kpi-badge-max" class="kpi-badge '+bg(pM)+'">'+pM+'% vs. budget</div></div>'+
     '<div class="kpi kpi-clickable" onclick="showRevenueModal(&quot;proba&quot;)" style="border-color:'+C_PROBA+'55"><div class="kpi-value" style="color:'+C_PROBA+'">'+fmtK(Math.round(totalProba))+'</div><div class="kpi-label">Revenu probabilisé</div><div id="kpi-badge-proba" class="kpi-badge '+bg(pP)+'">'+pP+'% vs. budget</div></div>'+
     '<div class="kpi kpi-clickable" onclick="showRevenueModal(&quot;sec&quot;)" style="border-color:'+C_SEC+'55"><div class="kpi-value" style="color:'+C_SEC+'">'+fmtK(Math.round(totalSec))+'</div><div class="kpi-label">Revenu sécurisé<br><span style="font-size:10px">(retainers + closings certains)</span></div><div id="kpi-badge-sec" class="kpi-badge '+bg(pS)+'">'+pS+'% vs. budget</div></div>'+
-    '<div class="kpi" style="border-color:#7C3AED55"><div class="kpi-value" style="color:#7C3AED">'+fmtK(Math.round(totalBin))+'</div><div class="kpi-label">Revenu vision binaire<br><span style="font-size:10px">(deal se fait : oui ou non ?)</span></div><div style="display:flex;gap:5px;justify-content:center;margin-top:4px"><div class="kpi-badge kpi-badge-clickable" style="background:#E8F8F0;color:#0B7A52;border:1px solid #A7E8CC" onclick="event.stopPropagation();showGutModal(1)">'+gutOuiCount+' oui</div><div class="kpi-badge kpi-badge-clickable" style="background:#FEF2F2;color:#B91C1C;border:1px solid #FCA5A5" onclick="event.stopPropagation();showGutModal(0)">'+gutNonCount+' non</div></div></div>';
+    '<div class="kpi kpi-clickable" onclick="showGutModal(\'all\')" style="border-color:#7C3AED55;cursor:pointer"><div class="kpi-value" style="color:#7C3AED">'+fmtK(Math.round(totalBin))+'</div><div class="kpi-label">Revenu vision binaire<br><span style="font-size:10px">(deal se fait : oui ou non ?)</span></div><div style="display:flex;gap:5px;justify-content:center;margin-top:4px"><div class="kpi-badge kpi-badge-clickable" style="background:#E8F8F0;color:#0B7A52;border:1px solid #A7E8CC" onclick="event.stopPropagation();showGutModal(1)">'+gutOuiCount+' oui</div><div class="kpi-badge kpi-badge-clickable" style="background:#FEF2F2;color:#B91C1C;border:1px solid #FCA5A5" onclick="event.stopPropagation();showGutModal(0)">'+gutNonCount+' non</div></div></div>';
 }
 
 var activeRefs=new Set(),mainChartInstance=null;
@@ -437,10 +439,20 @@ var ttDiv=null;
 function getTT(){if(!ttDiv){ttDiv=document.createElement('div');ttDiv.style.cssText='position:fixed;background:#fff;border:1px solid rgba(28,43,51,.1);border-radius:18px;padding:0;box-shadow:0 16px 48px rgba(28,43,51,.2);pointer-events:none;z-index:999;width:380px;opacity:0;transition:opacity .12s;font-family:DM Sans,sans-serif;overflow:hidden';document.body.appendChild(ttDiv);}return ttDiv;}
 
 function buildTT(mi,dsLabel){
-  var scMap={'Revenu sec':{label:'Revenu sécurisé',key:'secM',bk:'secByMonth',color:C_SEC,kpiTotal:totalSec},'Revenu proba':{label:'Revenu probabilisé',key:'probaM',bk:'probaByMonth',color:C_PROBA,kpiTotal:totalProba},'Revenu max':{label:'Revenu max',key:'maxM',bk:'maxByMonth',color:C_MAX,kpiTotal:totalMax}};
+  var scMap={'Revenu bin':{label:'Revenu binaire',key:'binM',bk:'binByMonth',color:'#A855F7',kpiTotal:totalBin},'Revenu sec':{label:'Revenu sécurisé',key:'secM',bk:'secByMonth',color:C_SEC,kpiTotal:totalSec},'Revenu proba':{label:'Revenu probabilisé',key:'probaM',bk:'probaByMonth',color:C_PROBA,kpiTotal:totalProba},'Revenu max':{label:'Revenu max',key:'maxM',bk:'maxByMonth',color:C_MAX,kpiTotal:totalMax}};
   var sc=scMap[dsLabel];if(!sc)return'';
   var total=0,refs=[];
-  Object.keys(REF_DATA).forEach(function(ref){if(activeRefs.size>0&&!activeRefs.has(ref))return;var v=REF_DATA[ref][sc.key][mi];if(v>0){total+=v;refs.push({ref:ref,v:v});}});
+  Object.keys(REF_DATA).forEach(function(ref){
+    if(activeRefs.size>0&&!activeRefs.has(ref))return;
+    var arr=sc.key==='binM'?null:REF_DATA[ref][sc.key];
+    var v=arr?arr[mi]:0;
+    // For binM use D.binByMonth
+    if(sc.key==='binM'){
+      var bm=D.binByMonth&&D.binByMonth[mi]?D.binByMonth[mi]:[];
+      v=bm.filter(function(it){return it.referent===ref;}).reduce(function(s,it){return s+it.amount;},0);
+    }
+    if(v>0){total+=v;refs.push({ref:ref,v:v});}
+  });
   if(!total)return'';
 
   refs.sort(function(a,b){return b.v-a.v;});
@@ -611,7 +623,7 @@ function updateRefPills(){
 function showMonthModal(mi){
   var monthName=MONTHS_FULL_LONG[mi];
   function getItems(bm){var it=bm[mi]||[];return activeRefs.size>0?it.filter(function(x){return activeRefs.has(x.referent)}):it;}
-  var maxI=getItems(D.maxByMonth),probaI=getItems(D.probaByMonth),secI=getItems(D.secByMonth);
+  var maxI=getItems(D.maxByMonth),probaI=getItems(D.probaByMonth),secI=getItems(D.secByMonth),binI=getItems(D.binByMonth||[]);
   function feeTag(t){var bg=t==='Retainer'?'#EFF6FF':'#F0FDF4',col=t==='Retainer'?'#1D4ED8':'#15803D',border=t==='Retainer'?'#BFDBFE':'#BBF7D0';return'<span style="font-size:9px;font-weight:600;padding:2px 8px;border-radius:12px;background:'+bg+';color:'+col+';border:1px solid '+border+'">'+t+'</span>';}
   function itemRow(item){
     var rc=REFERENTS[item.referent]||{color:'#8A9FAB'};var showRef=(activeRefs.size===0||activeRefs.size>1);
@@ -626,7 +638,7 @@ function showMonthModal(mi){
   var h='<div style="display:flex;align-items:baseline;justify-content:space-between;padding-right:36px;margin-bottom:4px"><div style="font-size:18px;font-weight:700;color:var(--deep)">'+monthName+' 2026</div>';
   if(activeRefs.size>0){activeRefs.forEach(function(ref){var rc=REFERENTS[ref]||{color:'#8A9FAB'};h+='<span style="font-size:10px;font-weight:600;padding:2px 8px;border-radius:20px;background:'+rc.color+'18;color:'+rc.color+';border:1px solid '+rc.color+'33">'+(REAL_REFERENTS[ref]||ref)+'</span>';});}
   h+='</div><div style="font-size:11px;color:#8A9FAB;margin-bottom:16px">Cliquez sur une entreprise pour le détail</div>';
-  h+=scenario('Revenu sécurisé',C_SEC,secI)+scenario('Revenu probabilisé',C_PROBA,probaI)+scenario('Revenu max',C_MAX,maxI);
+  h+=scenario('Revenu binaire','#A855F7',binI)+scenario('Revenu sécurisé',C_SEC,secI)+scenario('Revenu probabilisé',C_PROBA,probaI)+scenario('Revenu max',C_MAX,maxI);
   if(!h.includes('mo-item'))h+='<div style="text-align:center;padding:24px;color:#8A9FAB;font-size:12px">Aucun flux ce mois</div>';
   document.getElementById('mo-month-body').innerHTML=h;
   document.getElementById('mo-month').classList.add('open');
@@ -746,7 +758,8 @@ function showCumModal(type,upToIdx,cumVal){
   var cfg={
     max:{label:'Revenu max cumulé',color:C_MAX,retKey:'max_ret_month',closKey:'max_clos_month',amtFn:function(m){return m.rev_max;}},
     proba:{label:'Revenu probabilisé cumulé',color:C_PROBA,retKey:'prob_ret_month',closKey:'prob_clos_month',amtFn:function(m){return m.rev_proba;}},
-    sec:{label:'Revenu sécurisé cumulé',color:C_SEC,retKey:'sec_ret_month',closKey:'sec_clos_month',amtFn:function(m){return m.rev_sec;}}
+    sec:{label:'Revenu sécurisé cumulé',color:C_SEC,retKey:'sec_ret_month',closKey:'sec_clos_month',amtFn:function(m){return m.rev_sec;}},
+    bin:{label:'Revenu binaire cumulé',color:'#A855F7',retKey:'max_ret_month',closKey:'max_clos_month',amtFn:function(m){return m.rev_bin||0;}}
   };
   var c=cfg[type];
 
@@ -754,6 +767,7 @@ function showCumModal(type,upToIdx,cumVal){
   var rows=[];
   MANDATS.forEach(function(m){
     if(activeRefs.size>0&&!activeRefs.has(m.referent))return;
+    if(type==='bin'&&!m.gut_feeling)return;
     var closIdx=m[c.closKey]!==null&&m[c.closKey]!==undefined?m[c.closKey]:null;
     // Retainer : ventilé mois par mois
     var idxs=m.ret_month_idxs&&m.ret_month_idxs.length?m.ret_month_idxs:(m[c.retKey]!==null&&m[c.retKey]!==undefined?[m[c.retKey]]:[]);
@@ -763,13 +777,15 @@ function showCumModal(type,upToIdx,cumVal){
       if(type==='sec'&&!m.rev_sec)return;
       rows.push({name:m.name,domain:m.domain,referent:m.referent,stade:m.stade,monthIdx:ri,amount:mens,revtype:'Retainer'});
     });
-    // Success fee : pour sec seulement si proba==1
+    // Success fee
     if(closIdx!==null&&closIdx<=upToIdx&&m.success>0){
       if(type==='sec'&&m.proba_brute>=1.0)
         rows.push({name:m.name,domain:m.domain,referent:m.referent,stade:m.stade,monthIdx:closIdx,amount:m.success,revtype:'Success fee'});
       else if(type==='proba'&&m.proba_brute>0)
         rows.push({name:m.name,domain:m.domain,referent:m.referent,stade:m.stade,monthIdx:closIdx,amount:Math.round(m.success*m.proba_brute),revtype:'Success fee'});
       else if(type==='max')
+        rows.push({name:m.name,domain:m.domain,referent:m.referent,stade:m.stade,monthIdx:closIdx,amount:m.success,revtype:'Success fee'});
+      else if(type==='bin')
         rows.push({name:m.name,domain:m.domain,referent:m.referent,stade:m.stade,monthIdx:closIdx,amount:m.success,revtype:'Success fee'});
     }
   });
@@ -878,6 +894,73 @@ function showRevenueModal(type){
 }
 
 function showGutModal(gut){
+  if(gut==='all'){
+    // Show both sections: oui then non
+    var ouiList=MANDATS.filter(function(m){return m.gut_feeling===1||m.gut_feeling===true;}).sort(function(a,b){return a.name.localeCompare(b.name,'fr');});
+    var nonList=MANDATS.filter(function(m){return m.gut_feeling===0||m.gut_feeling===false;}).sort(function(a,b){return a.name.localeCompare(b.name,'fr');});
+    var totalOui=ouiList.reduce(function(s,m){return s+(m.rev_bin||0);},0);
+    var totalNon=nonList.reduce(function(s,m){return s+(m.rev_bin||0);},0);
+
+    function makeRows(list, isOui){
+      var h='';
+      var amtColor=isOui?'#7C3AED':'#B0BEC5';
+      var amtWeight=isOui?'600':'400';
+      list.forEach(function(m){
+        var rc=REFERENTS[m.referent]||{color:'#8A9FAB'};
+        var ini=m.referent.split(' ').map(function(w){return w[0]||'';}).join('').substring(0,3);
+        var stadeColor=STAGES_ORDER.reduce(function(acc,s){return m.stade&&m.stade===s.k?s.color:acc;},'#8A9FAB');
+        var safeName=m.name.replace(/\\/g,'\\\\').replace(/"/g,'&quot;');
+        var nameStyle=isOui?'color:var(--deep)':'color:#A0AEB8';
+        h+='<div style="display:grid;grid-template-columns:1fr 60px 120px 80px;gap:10px;align-items:center;padding:7px 0;border-bottom:1px solid rgba(28,43,51,.04);cursor:pointer" onclick="document.getElementById(&quot;mo-gut&quot;).classList.remove(&quot;open&quot;);showCompanyModal(&quot;'+safeName+'&quot;)">'
+          +'<div style="display:flex;align-items:center;gap:8px;min-width:0">'
+            +'<div style="width:28px;height:20px;display:flex;align-items:center;justify-content:center;flex-shrink:0;opacity:'+(isOui?'1':'0.5')+'">'+logoHTML(m.domain,m.name,26)+'</div>'
+            +'<span style="font-size:12px;font-weight:400;'+nameStyle+';overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+m.name+'</span>'
+          +'</div>'
+          +'<div style="display:flex;justify-content:center"><span style="width:22px;height:22px;border-radius:50%;background:'+rc.color+(isOui?'':'66')+';color:#fff;font-size:7px;font-weight:700;display:inline-flex;align-items:center;justify-content:center">'+ini+'</span></div>'
+          +'<span style="font-size:10px;font-weight:500;color:'+(isOui?stadeColor:'#B0BEC5')+';background:'+(isOui?stadeColor+'15':'#F1F5F9')+';border-radius:20px;padding:2px 8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:inline-block;max-width:100%">'+m.stade+'</span>'
+          +'<span style="font-size:12px;font-weight:400;color:'+(isOui?'#7C3AED':'#B0BEC5')+';text-align:right;opacity:'+(isOui?'1':'0.7')+'">'+(isOui?fmtK(m.rev_bin||0):fmtK(m.rev_max))+'</span>'
+          +'</div>';
+      });
+      return h;
+    }
+
+    var totalNonMax=nonList.reduce(function(s,m){return s+m.rev_max;},0);
+    var C_SIGNING='#00c9a0';
+    var h='<div style="padding-right:36px;margin-bottom:16px">'
+      +'<div style="font-size:18px;font-weight:700;color:var(--deep)">Revenu vision binaire</div>'
+      +'</div>';
+
+    var colHdr='<div style="display:grid;grid-template-columns:1fr 60px 120px 80px;gap:10px;padding:0 0 4px;margin-bottom:2px">'
+      +'<span style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#8A9FAB">Mandat</span>'
+      +'<span style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#8A9FAB">Référent</span>'
+      +'<span style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#8A9FAB">Stade</span>'
+      +'<span style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#8A9FAB;text-align:right">Rev. max binaire</span>'
+      +'</div>';
+
+    // Section oui
+    h+='<div style="background:#EDE9FE;border-radius:8px;margin:0 -8px 6px;padding:0 8px">'
+      +'<div style="display:grid;grid-template-columns:1fr 60px 120px 80px;gap:10px;align-items:center;padding:6px 0">'
+      +'<span style="font-size:11px;font-weight:600;color:#7C3AED">'+ouiList.length+' deals "oui"</span>'
+      +'<span></span><span></span>'
+      +'<span style="font-size:12px;font-weight:700;color:#7C3AED;text-align:right">'+fmtK(totalOui)+'</span>'
+      +'</div></div>';
+    h+=colHdr;
+    h+=makeRows(ouiList, true);
+
+    // Section non
+    h+='<div style="background:#FEF2F2;border-radius:8px;margin:14px -8px 6px;padding:0 8px">'
+      +'<div style="display:grid;grid-template-columns:1fr 60px 120px 80px;gap:10px;align-items:center;padding:6px 0">'
+      +'<span style="font-size:11px;font-weight:600;color:#E07070">'+nonList.length+' deals "non"</span>'
+      +'<span></span><span></span>'
+      +'<span style="font-size:12px;font-weight:600;color:#E07070;text-align:right">'+fmtK(totalNonMax)+'</span>'
+      +'</div></div>';
+    h+=makeRows(nonList, false);
+
+    document.getElementById('mo-gut-body').innerHTML=h;
+    document.getElementById('mo-gut').classList.add('open');
+    return;
+  }
+
   var list=MANDATS.filter(function(m){
     var g=m.gut_feeling===1||m.gut_feeling===true;
     return gut?g:!g;
@@ -1039,10 +1122,12 @@ function renderReferentLegend(){
 
     // Pill légende pipeline (bulle % style + initiales)
     if(pl){
+      var refMandats=MANDATS.filter(function(m){return m.referent===name;});
+      var avgProba=refMandats.length?Math.round(refMandats.reduce(function(s,m){return s+m.proba_brute;},0)/refMandats.length*100):0;
       var plItem=document.createElement('div');
       plItem.style.cssText='display:inline-flex;align-items:center;gap:5px;font-size:10px;font-weight:600;color:#6B7B86';
       plItem.title=dn;
-      plItem.innerHTML='<span style="font-size:9px;font-weight:700;background:'+r.color+'18;color:'+r.color+';border:1px solid '+r.color+'40;padding:1px 7px;border-radius:10px;white-space:nowrap">'+ini+'</span>';
+      plItem.innerHTML='<span style="font-size:9px;font-weight:700;background:'+r.color+'18;color:'+r.color+';border:1px solid '+r.color+'40;padding:1px 7px;border-radius:10px;white-space:nowrap">% '+ini+'</span>';
       pl.appendChild(plItem);
     }
     var pill=document.createElement('div');
