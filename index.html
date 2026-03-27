@@ -635,19 +635,19 @@ function showCompanyModal(name){
   function infoCell(label,val,valColor){
     return'<div>'
       +'<div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#8A9FAB;margin-bottom:3px">'+label+'</div>'
-      +'<div style="font-size:11px;font-weight:500;color:'+(valColor||'#6B7B86')+'">'+val+'</div>'
+      +'<div style="font-size:10px;font-weight:400;color:'+(valColor||'#8A9FAB')+'">'+val+'</div>'
       +'</div>';
   }
   var lmLabel=m.lm_signee==='Oui'?'LM signée':'LM non signée';
-  var lmColor=m.lm_signee==='Oui'?C_SEC:'#B91C1C';
-  var cmplxColors={'Faible':C_SEC,'Moyenne':'#C2530A','Élevée':'#B91C1C','Très élevée':'#B91C1C'};
-  var nbpColor=m.nbp==='Oui'?{bg:'#E8F8F0',col:'#0B7A52',brd:'#A7E8CC',icon:'✓'}:{bg:'#FEF2F2',col:'#B91C1C',brd:'#FCA5A5',icon:'✕'};
+  var lmColor=m.lm_signee==='Oui'?C_SEC:'#E07070';
+  var cmplxColors={'Faible':C_SEC,'Moyenne':'#D4800A','Élevée':'#E07070','Très élevée':'#E07070'};
+  var nbpColor=m.nbp==='Oui'?{col:C_SEC,icon:'✓'}:{col:'#E07070',icon:'✕'};
 
   h+='<div style="background:#F7F9FB;border-radius:12px;padding:14px;margin-bottom:14px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">';
   h+=infoCell('Stade contractuel',lmLabel,lmColor);
-  h+=infoCell('Complexité',m.complexite,cmplxColors[m.complexite]||'var(--deep)');
-  h+='<div><div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#8A9FAB;margin-bottom:4px">NBP</div>'
-    +'<span style="font-size:11px;font-weight:600;color:'+nbpColor.col+'">'+nbpColor.icon+' '+(m.nbp==='Oui'?'Approuvé':'Non fait')+'</span>'
+  h+=infoCell('Complexité',m.complexite,cmplxColors[m.complexite]||'#8A9FAB');
+  h+='<div><div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#8A9FAB;margin-bottom:3px">NBP</div>'
+    +'<span style="font-size:10px;font-weight:400;color:'+nbpColor.col+'">'+nbpColor.icon+' '+(m.nbp==='Oui'?'Approuvé':'Non fait')+'</span>'
     +'</div>';
   h+='</div>';
 
@@ -655,8 +655,8 @@ function showCompanyModal(name){
   function pctPill(label,val,color){
     var pct=Math.round(val*100);
     return'<div style="display:flex;flex-direction:column;align-items:center;gap:4px;flex:1">'
-      +'<span style="background:'+color+'14;border:1px solid '+color+'55;border-radius:20px;padding:2px 12px;font-size:13px;font-weight:700;color:'+color+'">'+pct+'%</span>'
-      +'<span style="font-size:8px;font-weight:600;color:#8A9FAB;text-align:center;letter-spacing:.02em;line-height:1.3">'+label+'</span>'
+      +'<span style="background:#F1F5F9;border-radius:20px;padding:2px 12px;font-size:13px;font-weight:600;color:#4B6070">'+pct+'%</span>'
+      +'<span style="font-size:8px;font-weight:500;color:#A0B0BB;text-align:center;line-height:1.3">'+label+'</span>'
       +'</div>';
   }
 
@@ -664,13 +664,13 @@ function showCompanyModal(name){
   h+='<div style="margin-bottom:14px">';
   h+='<div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#8A9FAB;margin-bottom:10px">Probabilité retenue</div>';
   h+='<div style="display:flex;align-items:flex-start;justify-content:center">';
-  h+=pctPill('Proba A&M',m.proba_am||0,'#6366F1');
-  h+='<span style="font-size:16px;color:#CBD5E1;font-weight:300;margin-top:2px;flex-shrink:0;padding:0 2px">×</span>';
-  h+=pctPill('Proba deal',m.proba_deal||0,'#F59E0B');
-  h+='<span style="font-size:16px;color:#CBD5E1;font-weight:300;margin-top:2px;flex-shrink:0;padding:0 2px">=</span>';
+  h+=pctPill('Proba A&M',m.proba_am||0,'');
+  h+='<span style="font-size:16px;color:#D0DCE4;font-weight:300;margin-top:2px;flex-shrink:0;padding:0 2px">×</span>';
+  h+=pctPill('Proba deal',m.proba_deal||0,'');
+  h+='<span style="font-size:16px;color:#D0DCE4;font-weight:300;margin-top:2px;flex-shrink:0;padding:0 2px">=</span>';
   h+='<div style="display:flex;flex-direction:column;align-items:center;gap:4px;flex:1">'
-    +'<span style="background:rgba(28,43,51,.08);border:1px solid rgba(28,43,51,.3);border-radius:20px;padding:2px 12px;font-size:13px;font-weight:700;color:var(--deep)">'+probaFinal+'%</span>'
-    +'<span style="font-size:8px;font-weight:700;color:var(--deep);letter-spacing:.02em;text-align:center;line-height:1.3">Probabilité retenue</span>'
+    +'<span style="background:#E8F4FF;border-radius:20px;padding:2px 12px;font-size:13px;font-weight:700;color:#0085CA">'+probaFinal+'%</span>'
+    +'<span style="font-size:8px;font-weight:500;color:#A0B0BB;text-align:center;line-height:1.3">Probabilité retenue</span>'
     +'</div>';
   h+='</div></div>';
 
@@ -683,7 +683,7 @@ function showCompanyModal(name){
       +'<div style="font-size:14px;font-weight:700;color:'+color+'">'+fmtK(val)+'</div>'
       +'</div>';
   }
-  h+=revCard('Max',m.rev_max,C_MAX)+revCard('Probabilisé',m.rev_proba,C_PROBA)+revCard('Sécurisé',m.rev_sec,C_SEC);
+  h+=revCard('Max = Binaire',m.rev_bin||0,'#A855F7')+revCard('Probabilisé',m.rev_proba,C_PROBA)+revCard('Sécurisé',m.rev_sec,C_SEC);
   h+='</div>';
   h+='<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:8px">';
   function feeCard(label,val){
@@ -694,22 +694,24 @@ function showCompanyModal(name){
   }
   h+=feeCard('Success fee',m.success)+feeCard('Retainer',m.retainer)+feeCard('Discrétionnaire',m.discretionnaire||0);
   h+='</div>';
-  var gutIcon=m.gut_feeling?'✓':'✕';
-  var gutCol=m.gut_feeling?C_SEC:'#B91C1C';
-  var gutBg=m.gut_feeling?'rgba(0,201,160,.06)':'rgba(185,28,28,.04)';
-  var gutBrd=m.gut_feeling?'rgba(0,201,160,.25)':'rgba(185,28,28,.15)';
-  h+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">';
-  h+='<div style="background:'+gutBg+';border:1px solid '+gutBrd+';border-radius:20px;padding:4px 12px;display:flex;align-items:center;justify-content:space-between">'
+  // Gut feeling pleine largeur
+  var gutCol=m.gut_feeling?C_SEC:'#E07070';
+  var gutBg=m.gut_feeling?'rgba(0,201,160,.05)':'rgba(224,112,112,.05)';
+  var gutBrd=m.gut_feeling?'rgba(0,201,160,.2)':'rgba(224,112,112,.2)';
+  h+='<div style="background:'+gutBg+';border:1px solid '+gutBrd+';border-radius:20px;padding:5px 14px;display:flex;align-items:center;justify-content:space-between;width:100%;box-sizing:border-box">'
     +'<span style="font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:#8A9FAB">Gut feeling</span>'
-    +'<span style="font-size:12px;font-weight:700;color:'+gutCol+'">'+gutIcon+' '+(m.gut_feeling?'Deal confirmé':'Incertain')+'</span>'
+    +'<span style="font-size:12px;color:'+gutCol+'">'+(m.gut_feeling?'Le deal se fait':'Le deal ne se fait pas')+'</span>'
     +'</div>';
-  h+='<div style="background:rgba(28,43,51,.04);border:1px solid rgba(28,43,51,.1);border-radius:20px;padding:4px 12px;display:flex;align-items:center;justify-content:space-between">'
-    +'<span style="font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:#8A9FAB">Rev. binaire</span>'
-    +'<span style="font-size:12px;font-weight:700;color:var(--deep)">'+fmtK(m.rev_bin||0)+'</span>'
-    +'</div>';
-  h+='</div></div>';
+  h+='</div>';
 
   // ── Dates ──
+  var MOIS_COURT=['Jan','Fév','Mar','Avr','Mai','Jun','Jul','Aoû','Sep','Oct','Nov','Déc'];
+  function fmtDateShort(str){
+    if(!str||str==='TBD')return 'TBD';
+    var p=str.split('/');
+    if(p.length===3){var mo=parseInt(p[1],10);return MOIS_COURT[mo-1]+'-'+p[2].slice(-2);}
+    return str;
+  }
   h+='<div><div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#8A9FAB;margin-bottom:8px">Dates</div>';
   h+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">';
   function dateCard(label,val){
@@ -718,7 +720,7 @@ function showCompanyModal(name){
       +'<span style="font-size:12px;font-weight:600;color:var(--deep)">'+val+'</span>'
       +'</div>';
   }
-  h+=dateCard('Retainer estimé',m.ret_date_str)+dateCard('Closing estimé',m.clos_date_str);
+  h+=dateCard('Retainer estimé',fmtDateShort(m.ret_date_str))+dateCard('Closing estimé',fmtDateShort(m.clos_date_str));
   h+='</div></div>';
 
   document.getElementById('mo-company-body').innerHTML=h;document.getElementById('mo-company').classList.add('open');
