@@ -643,10 +643,10 @@ function showCompanyModal(name){
   var cmplxColors={'Faible':C_SEC,'Moyenne':'#D4800A','Élevée':'#E07070','Très élevée':'#E07070'};
   var nbpColor=m.nbp==='Oui'?{col:C_SEC,icon:'✓'}:{col:'#E07070',icon:'✕'};
 
-  h+='<div style="background:#F7F9FB;border-radius:12px;padding:14px;margin-bottom:14px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">';
+  h+='<div style="background:#F7F9FB;border-radius:12px;padding:14px 16px;margin-bottom:14px;display:grid;grid-template-columns:repeat(3,1fr);gap:0">';
   h+=infoCell('Stade contractuel',lmLabel,lmColor);
-  h+=infoCell('Complexité',m.complexite,cmplxColors[m.complexite]||'#8A9FAB');
-  h+=infoCell('NBP',nbpColor.icon+' '+(m.nbp==='Oui'?'Approuvé':'Non fait'),nbpColor.col);
+  h+='<div style="border-left:1px solid #E8EDF0;padding-left:16px">'+infoCell('Complexité',m.complexite,cmplxColors[m.complexite]||'#8A9FAB')+'</div>';
+  h+='<div style="border-left:1px solid #E8EDF0;padding-left:16px">'+infoCell('NBP',nbpColor.icon+' '+(m.nbp==='Oui'?'Approuvé':'Non fait'),nbpColor.col)+'</div>';
   h+='</div>';
 
   // ── Probabilité : Proba A&M × Proba deal ──
