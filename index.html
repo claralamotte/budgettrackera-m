@@ -233,7 +233,7 @@ function buildMonthly(){
     pushClos(m.max_clos_month,maxM,maxBM,m.success,'Success fee');
     pushClos(m.prob_clos_month,probaM,probaBM,Math.round(m.success*m.proba_brute),'Success fee');
     if(m.proba_brute>=1.0)pushClos(m.sec_clos_month,secM,secBM,m.success,'Success fee');
-    if(m.gut_feeling)pushClos(m.max_clos_month,binM,binBM,m.rev_bin,'Success fee');
+    if(m.gut_feeling)pushClos(m.max_clos_month,binM,binBM,m.success,'Success fee');
   });
   return{maxM:maxM,probaM:probaM,secM:secM,binM:binM,maxByMonth:maxBM,probaByMonth:probaBM,secByMonth:secBM,binByMonth:binBM};
 }
