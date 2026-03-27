@@ -489,7 +489,7 @@ function buildTT(mi,dsLabel){
   refs.forEach(function(rl){
     var rc=REFERENTS[rl.ref]||{color:'#8A9FAB'};
     var ini=rl.ref.split(' ').map(function(w){return w[0]}).join('').substring(0,3);
-    var items=(D[sc.bk]&&D[sc.bk][mi]||[]).filter(function(it){return it.referent===rl.ref&&it.amount>0});
+    var items=(D[sc.bk]&&D[sc.bk][mi]||[]).filter(function(it){return it.referent===rl.ref&&it.amount>0}).sort(function(a,b){return a.name.localeCompare(b.name,'fr');});
     var dn=REAL_REFERENTS[rl.ref]||rl.ref;
     var showRefTotal=(refs.length>1);
     h+='<div style="padding:8px 0;border-bottom:1px solid rgba(28,43,51,.05)">'
