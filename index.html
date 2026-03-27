@@ -634,7 +634,7 @@ function showCompanyModal(name){
   // ── Box grise : Stade contractuel + Complexité ──
   function infoCell(label,val,valColor){
     return'<div>'
-      +'<div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#8A9FAB;margin-bottom:3px">'+label+'</div>'
+      +'<div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#8A9FAB;margin-bottom:10px">'+label+'</div>'
       +'<div style="font-size:10px;font-weight:400;color:'+(valColor||'#8A9FAB')+'">'+val+'</div>'
       +'</div>';
   }
@@ -646,9 +646,7 @@ function showCompanyModal(name){
   h+='<div style="background:#F7F9FB;border-radius:12px;padding:14px;margin-bottom:14px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">';
   h+=infoCell('Stade contractuel',lmLabel,lmColor);
   h+=infoCell('Complexité',m.complexite,cmplxColors[m.complexite]||'#8A9FAB');
-  h+='<div><div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#8A9FAB;margin-bottom:3px">NBP</div>'
-    +'<span style="font-size:10px;font-weight:400;color:'+nbpColor.col+'">'+nbpColor.icon+' '+(m.nbp==='Oui'?'Approuvé':'Non fait')+'</span>'
-    +'</div>';
+  h+=infoCell('NBP',nbpColor.icon+' '+(m.nbp==='Oui'?'Approuvé':'Non fait'),nbpColor.col);
   h+='</div>';
 
   // ── Probabilité : Proba A&M × Proba deal ──
