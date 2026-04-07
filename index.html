@@ -123,10 +123,10 @@ function buildMonthly(){
 }
 var D=buildMonthly();
 function inRange(m){return (m.ret_month_idxs&&m.ret_month_idxs.length>0)||m.max_clos_month!==null||m.sec_clos_month!==null||m.prob_clos_month!==null;}
-var totalMax=MANDATS.filter(inRange).reduce(function(s,m){return s+m.rev_max},0);
-var totalProba=MANDATS.filter(inRange).reduce(function(s,m){return s+m.rev_proba},0);
-var totalSec=MANDATS.filter(inRange).reduce(function(s,m){return s+m.rev_sec},0);
-var totalBin=MANDATS.filter(inRange).reduce(function(s,m){return s+m.rev_bin},0);
+var totalMax=D.maxM.reduce(function(s,v){return s+v},0);
+var totalProba=D.probaM.reduce(function(s,v){return s+v},0);
+var totalSec=D.secM.reduce(function(s,v){return s+v},0);
+var totalBin=D.binM.reduce(function(s,v){return s+v},0);
 var sellMACount=MANDATS.filter(function(m){return m.type_mandat==='Sell-side M&A'}).length;
 var buyMACount=MANDATS.filter(function(m){return m.type_mandat==='Buy-side M&A'}).length;
 var sellSPCount=MANDATS.filter(function(m){return m.type_mandat==='Sell-side Sponso'}).length;
